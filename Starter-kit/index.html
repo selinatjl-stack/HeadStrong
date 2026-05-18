@@ -1,1 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HeadStrong — Built for the way your child's brain actually works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400;1,6..72,500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    /* paper / ink */
+    --paper:        #f3e9d2;
+    --paper-2:      #ede1c4;
+    --paper-3:      #e7d8b3;
+    --paper-card:   #fbf3df;
+    --ink:          #1c2238;
+    --ink-2:        #2c324a;
+    --soft:         #5b6378;
+    --faint:        #8c8771;
+    --rule:         rgba(28,34,56,0.14);
+    --rule-soft:    rgba(28,34,56,0.07);
+
+    /* umbrella + arms */
+    --hs:           #b87534;  /* warm gold-rust */
+    --hs-soft:      rgba(184,117,52,0.10);
+    --ntk:          #b94a35;  /* terracotta */
+    --ntk-soft:     #f3d8cc;
+    --wd:           #5a4a9c;  /* deep violet */
+    --wd-soft:      #ddd5ef;
+    --w:            #5e6e22;  /* olive */
+    --w-soft:       #dbe1be;
+
+    --serif: 'Newsreader', Georgia, serif;
+    --sans:  'Geist', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Paper grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.05  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.35'/></svg>");
+    mix-blend-mode: multiply;
+    opacity: 0.4;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(184,117,52,0.10), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(94,110,34,0.07), transparent 50%);
+  }
+  main, nav, footer { position: relative; z-index: 1; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 80;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(243,233,210,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .logo {
+    display: flex; align-items: baseline; gap: 8px;
+    font-family: var(--serif); font-size: 22px; font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  .logo-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--hs); transform: translateY(-2px);
+    box-shadow: 0 0 0 4px rgba(184,117,52,0.12);
+  }
+  .logo em { font-style: italic; color: var(--hs); font-weight: 400; }
+  .logo-mark { font-weight: 500; }
+
+  .nav-links { display: flex; gap: 28px; align-items: center; list-style: none; }
+  .nav-links a {
+    font-size: 13px; color: var(--soft); text-decoration: none;
+    letter-spacing: 0.01em; transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    padding: 9px 16px; border: 1px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink) !important;
+    font-weight: 500; font-size: 12.5px !important;
+    background: transparent; transition: background .2s, color .2s;
+  }
+  .nav-cta:hover { background: var(--ink); color: var(--paper) !important; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 60px 40px 80px;
+    max-width: 1180px; margin: 0 auto;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 64px;
+    align-items: end;
+  }
+  .marker-row {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--sans);
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+    margin-bottom: 28px;
+  }
+  .marker-row .dash { width: 38px; height: 1px; background: var(--faint); }
+  .marker-row .star {
+    width: 14px; height: 14px; color: var(--hs);
+  }
+
+  h1.display {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(54px, 7.5vw, 108px);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  h1.display em {
+    font-style: italic; font-weight: 400;
+    color: var(--hs);
+  }
+  h1.display .underline-hand {
+    display: inline-block; position: relative;
+  }
+  h1.display .underline-hand::after {
+    content: '';
+    position: absolute; left: -2%; right: -3%; bottom: -2px;
+    height: 14px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 14' preserveAspectRatio='none'><path d='M2 9 C 80 2, 160 12, 240 6 S 380 4, 398 8' stroke='%23b87534' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+    opacity: 0.85;
+  }
+
+  .hero-sub {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.42;
+    color: var(--ink-2);
+    max-width: 580px;
+    margin-top: 28px;
+    font-weight: 300;
+  }
+  .hero-sub em { font-style: italic; }
+
+  .hero-aside {
+    border-left: 1px solid var(--rule);
+    padding: 6px 0 6px 22px;
+    align-self: end;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hero-aside::before {
+    content: '¶';
+    position: absolute; left: -8px; top: -2px;
+    font-family: var(--serif); font-style: italic;
+    color: var(--hs); font-size: 22px;
+    background: var(--paper); padding: 0 4px;
+  }
+  .hero-aside p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    font-weight: 300;
+  }
+  .hero-aside p strong { color: var(--hs); font-style: normal; font-weight: 500; }
+  .hero-aside .who {
+    margin-top: 14px;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ---------- routing question ---------- */
+  .route {
+    padding: 100px 40px 60px;
+    max-width: 1180px; margin: 0 auto;
+  }
+  .route-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 32px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+  }
+  .route-head h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(28px, 3.4vw, 42px);
+    line-height: 1.1; letter-spacing: -0.015em;
+    color: var(--ink); max-width: 720px;
+  }
+  .route-head h2 em { font-style: italic; }
+  .route-head .meta {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--faint); white-space: nowrap;
+  }
+
+  .routes {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .route-card {
+    position: relative;
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 26px 24px 22px;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 16px;
+    min-height: 280px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow: 0 1px 0 rgba(28,34,56,0.04);
+  }
+  .route-card:hover {
+    transform: translateY(-3px) rotate(-0.15deg);
+    box-shadow: 0 18px 38px -22px rgba(28,34,56,0.25);
+  }
+  .route-card .tag {
+    position: absolute; top: -10px; left: 18px;
+    padding: 4px 10px;
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .route-card.ntk .tag { color: var(--ntk); border-color: var(--ntk); }
+  .route-card.wd  .tag { color: var(--wd);  border-color: var(--wd); }
+  .route-card.w   .tag { color: var(--w);   border-color: var(--w); }
+
+  .route-q {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 22px; line-height: 1.28; color: var(--ink);
+    flex: 1; padding-top: 6px;
+  }
+  .route-meta { display: flex; flex-direction: column; gap: 12px; }
+  .route-mini {
+    font-size: 13.5px; color: var(--soft); line-height: 1.55;
+  }
+  .route-go {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .route-card.ntk .route-go { color: var(--ntk); }
+  .route-card.wd  .route-go { color: var(--wd); }
+  .route-card.w   .route-go { color: var(--w); }
+  .route-go svg { transition: transform .2s; }
+  .route-card:hover .route-go svg { transform: translateX(4px); }
+
+  .route-note {
+    margin-top: 26px;
+    font-size: 13px; color: var(--soft); font-style: italic; font-family: var(--serif);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .route-note .arrow-d {
+    font-size: 16px; color: var(--hs);
+  }
+
+  /* ---------- about / method ---------- */
+  .about {
+    padding: 110px 40px 100px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .about-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--hs); font-weight: 500;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 22px;
+  }
+  .section-eyebrow .num {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 28px; letter-spacing: 0; text-transform: none;
+    color: var(--hs); line-height: 1;
+  }
+  .about h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(34px, 4.2vw, 56px);
+    line-height: 1.04; letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .about h2 em { font-style: italic; color: var(--hs); }
+  .about p {
+    font-size: 16px; line-height: 1.7; color: var(--ink-2);
+    margin-bottom: 16px; max-width: 540px;
+  }
+  .about p em { font-style: italic; }
+
+  .about-right {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 32px 30px;
+    position: relative;
+  }
+  .about-right::before {
+    content: 'METHOD';
+    position: absolute; top: -10px; left: 24px;
+    padding: 4px 12px;
+    background: var(--paper-2);
+    font-size: 10.5px; letter-spacing: 0.2em; color: var(--faint);
+  }
+  .method-row {
+    display: flex; gap: 14px; align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .method-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .method-row:first-child { padding-top: 6px; }
+  .method-num {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    color: var(--hs); font-size: 18px; min-width: 28px;
+  }
+  .method-text {
+    font-size: 15px; line-height: 1.55; color: var(--ink-2);
+  }
+  .method-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- ARMS / chapters ---------- */
+  .arms {
+    padding: 120px 40px 90px;
+    max-width: 1180px; margin: 0 auto;
+  }
+  .arms-header {
+    display: flex; justify-content: space-between; align-items: end;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 28px; margin-bottom: 50px;
+    gap: 40px; flex-wrap: wrap;
+  }
+  .arms-header h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(36px, 4.6vw, 60px);
+    line-height: 1.02; letter-spacing: -0.02em;
+  }
+  .arms-header h2 em { font-style: italic; color: var(--hs); }
+  .arms-key {
+    font-family: var(--sans); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint);
+    text-align: right;
+  }
+  .arms-key .v { display: block; font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink); letter-spacing: 0; text-transform: none; margin-top: 4px; }
+
+  .chapter {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) 320px;
+    gap: 32px;
+    padding: 44px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .chapter:last-child { border-bottom: none; }
+
+  .chapter-num {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 84px; line-height: 0.85;
+    color: var(--ink);
+  }
+  .chapter.ntk .chapter-num { color: var(--ntk); }
+  .chapter.wd  .chapter-num { color: var(--wd); }
+  .chapter.w   .chapter-num { color: var(--w); }
+  .chapter-num small {
+    display: block;
+    font-family: var(--sans); font-style: normal; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--faint); margin-top: 10px;
+  }
+
+  .chapter-body h3 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.05; letter-spacing: -0.015em;
+    margin-bottom: 6px;
+  }
+  .chapter-body h3 em { font-style: italic; }
+  .chapter.ntk .chapter-body h3 em { color: var(--ntk); }
+  .chapter.wd  .chapter-body h3 em { color: var(--wd); }
+  .chapter.w   .chapter-body h3 em { color: var(--w); }
+  .chapter-meta {
+    display: flex; gap: 14px;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .chapter-meta .pill {
+    padding: 3px 9px; border-radius: 999px;
+    border: 1px solid var(--rule); color: var(--soft);
+  }
+  .chapter.ntk .chapter-meta .pill.armc { color: var(--ntk); border-color: rgba(185,74,53,0.4); }
+  .chapter.wd  .chapter-meta .pill.armc { color: var(--wd);  border-color: rgba(90,74,156,0.4); }
+  .chapter.w   .chapter-meta .pill.armc { color: var(--w);   border-color: rgba(94,110,34,0.4); }
+  .chapter-lede {
+    font-size: 16.5px; line-height: 1.7; color: var(--ink-2);
+    max-width: 600px; margin-bottom: 22px;
+  }
+  .chapter-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 13.5px; font-weight: 500;
+    text-decoration: none;
+    background: var(--ink); color: var(--paper);
+    transition: transform .15s, background .2s;
+  }
+  .chapter-cta:hover { transform: translateY(-1px); }
+  .chapter.ntk .chapter-cta { background: var(--ntk); }
+  .chapter.wd  .chapter-cta { background: var(--wd); }
+  .chapter-cta svg { transition: transform .2s; }
+  .chapter-cta:hover svg { transform: translateX(3px); }
+  .chapter-soon {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px; border: 1px dashed var(--w);
+    font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--w); font-weight: 500;
+  }
+  .chapter-soon::before {
+    content:''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--w); animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.8); }
+  }
+
+  .chapter-side {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 18px 20px;
+  }
+  .chapter-side h4 {
+    font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .chapter-side ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .chapter-side li {
+    font-size: 14px; line-height: 1.5; color: var(--ink-2);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .chapter-side li::before {
+    content: '✦'; font-size: 11px; color: var(--hs); flex-shrink: 0; margin-top: 3px;
+  }
+  .chapter.ntk .chapter-side li::before { color: var(--ntk); }
+  .chapter.wd  .chapter-side li::before { color: var(--wd); }
+  .chapter.w   .chapter-side li::before { color: var(--w); }
+
+  /* ---------- starter kit ---------- */
+  .starter {
+    padding: 100px 40px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .starter-inner {
+    max-width: 980px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 360px;
+    gap: 60px; align-items: center;
+  }
+  .starter h2 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02; letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .starter h2 em { font-style: italic; color: var(--hs); }
+  .starter-body {
+    font-size: 16px; line-height: 1.7; color: var(--ink-2);
+    margin-bottom: 28px; max-width: 520px;
+  }
+  .starter-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 28px;
+    background: var(--hs); color: var(--paper);
+    border-radius: 999px;
+    text-decoration: none; font-weight: 500; font-size: 15px;
+    box-shadow: 0 12px 30px -12px rgba(184,117,52,0.55);
+    transition: transform .15s, box-shadow .2s;
+  }
+  .starter-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(184,117,52,0.6); }
+  .starter-meta {
+    margin-top: 16px;
+    font-size: 12.5px; color: var(--faint);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .starter-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .starter-meta span::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--hs);
+  }
+
+  /* booklet stack */
+  .booklet {
+    position: relative;
+    height: 320px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page {
+    position: absolute;
+    width: 220px; height: 290px;
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px 8px 8px 4px;
+    padding: 22px 18px;
+    box-shadow: 0 12px 30px -16px rgba(28,34,56,0.3);
+    transition: transform .35s cubic-bezier(.2,.7,.3,1);
+  }
+  .page-1 { transform: translateX(-100px) rotate(-7deg); z-index: 1; }
+  .page-2 { transform: translateX(-40px) rotate(-3deg); z-index: 2; }
+  .page-3 { transform: translateX(20px) rotate(1deg); z-index: 3; }
+  .page-4 { transform: translateX(70px) rotate(5deg); z-index: 4; }
+  .booklet:hover .page-1 { transform: translateX(-160px) rotate(-12deg); }
+  .booklet:hover .page-4 { transform: translateX(130px) rotate(10deg); }
+  .page-num {
+    font-family: var(--serif); font-style: italic;
+    font-size: 11px; color: var(--faint); margin-bottom: 12px;
+  }
+  .page-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: 18px; line-height: 1.2; color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .page-title em { font-style: italic; }
+  .page-lines {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .page-line { height: 4px; background: var(--rule-soft); border-radius: 2px; }
+  .page-line.short { width: 60%; }
+  .page-1 { border-left: 4px solid var(--ntk); }
+  .page-2 { border-left: 4px solid var(--wd); }
+  .page-3 { border-left: 4px solid var(--hs); }
+  .page-4 { border-left: 4px solid var(--w); }
+
+  /* ---------- founder ---------- */
+  .founder {
+    padding: 110px 40px;
+    max-width: 1080px; margin: 0 auto;
+  }
+  .founder-inner {
+    display: grid; grid-template-columns: 1fr 220px;
+    gap: 64px; align-items: end;
+  }
+  .founder blockquote {
+    font-family: var(--serif); font-weight: 300; font-style: italic;
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.32; color: var(--ink);
+    position: relative;
+  }
+  .founder blockquote::before {
+    content: '"';
+    position: absolute;
+    left: -38px; top: -28px;
+    font-size: 130px; font-style: italic;
+    color: var(--hs); opacity: 0.5;
+    font-weight: 400; line-height: 1;
+  }
+  .founder blockquote strong {
+    font-style: normal; font-weight: 500; color: var(--hs);
+  }
+  .founder-by {
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .founder-by .name {
+    font-family: var(--serif); font-size: 18px; font-style: italic;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .founder-by .role {
+    font-size: 12px; color: var(--soft); letter-spacing: 0.06em;
+  }
+  .founder-by .where {
+    margin-top: 12px;
+    font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ---------- science bar ---------- */
+  .science {
+    padding: 32px 40px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .science-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
+    justify-content: center;
+    font-size: 12px; color: var(--soft);
+  }
+  .science-inner > span {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .science-inner > span::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--hs); opacity: 0.7;
+  }
+  .science-label {
+    font-family: var(--serif); font-style: italic; font-size: 14px !important; color: var(--ink) !important;
+  }
+  .science-label::before { display: none !important; }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 50px 40px 30px;
+    background: var(--paper-3);
+    border-top: 1px solid var(--rule);
+  }
+  .footer-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .footer-col h5 {
+    font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .footer-col a {
+    display: block;
+    font-size: 14px; color: var(--ink-2);
+    text-decoration: none; margin-bottom: 8px;
+    transition: color .15s;
+  }
+  .footer-col a:hover { color: var(--hs); }
+  .footer-brand .logo { font-size: 26px; margin-bottom: 12px; }
+  .footer-brand p {
+    font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.5;
+    color: var(--ink-2); max-width: 280px;
+  }
+  .footer-note {
+    max-width: 1180px; margin: 24px auto 0;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-size: 11.5px; color: var(--faint);
+  }
+
+  /* reveal / fade-up animations intentionally disabled */
+  .reveal, .fu { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+  @media (max-width: 960px) {
+    nav { padding: 14px 22px; }
+    .nav-links li:not(:last-child) { display: none; }
+    .hero { padding: 40px 22px 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-aside { border-left: none; border-top: 1px solid var(--rule); padding: 16px 0 0; }
+    .hero-aside::before { left: -2px; top: -14px; }
+    .route { padding: 60px 22px 40px; }
+    .routes { grid-template-columns: 1fr; }
+    .about { padding: 72px 22px; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .arms { padding: 72px 22px 60px; }
+    .chapter { grid-template-columns: 70px 1fr; }
+    .chapter-side { grid-column: 1 / -1; }
+    .chapter-num { font-size: 58px; }
+    .starter { padding: 64px 22px; }
+    .starter-inner { grid-template-columns: 1fr; gap: 40px; }
+    .booklet { height: 240px; }
+    .founder { padding: 72px 22px; }
+    .founder-inner { grid-template-columns: 1fr; gap: 28px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo" style="text-decoration:none; color:inherit;">
+    <span class="logo-dot"></span>
+    <span><span class="logo-mark">Head</span><em>strong</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">The approach</a></li>
+    <li><a href="#arms">Three arms</a></li>
+    <li><a href="#founder">Founder</a></li>
+    <li><a href="#starter" class="nav-cta">Free Starter Kit</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="marker-row fu d1">
+        <span class="dash"></span>
+        <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.5H19l-4.6 3.4L16.2 16 12 12.6 7.8 16l1.8-5.1L5 7.5h5.2z"/></svg>
+        <span>For parents · Ages 7–12 · Singapore</span>
+        <span class="dash"></span>
+      </div>
+      <h1 class="display fu d2">
+        The child is<br />
+        <em>not</em> the <span class="underline-hand">problem.</span>
+      </h1>
+      <p class="hero-sub fu d3">
+        Resources for parents who already suspect the homework battle, the meltdown at 9pm, and the school report that doesn't match the child at home aren't about attitude <em>- and that their child does not need to be fixed.<em>
+      </p>
+    </div>
+
+    <aside class="hero-aside fu d4">
+      <p>Every part of HeadStrong builds <strong>one resilient child</strong> — not tough, capable. Grounded in developmental psychology, neuroscience, and Universal Design for Learning.</p>
+      <div class="who">A note from the founder</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ROUTING -->
+<section class="route">
+  <div class="route-head">
+    <h2>Three front doors.<br /><em>Walk through the one</em> that sounds like your week.</h2>
+    <div class="meta">Choose one →</div>
+  </div>
+
+  <div class="routes">
+
+    <a href="not-the-kid/index.html" class="route-card ntk reveal">
+      <span class="tag">Not The Kid</span>
+      <p class="route-q">"Homework is a war zone, and nothing I've tried is working."</p>
+      <div class="route-meta">
+        <p class="route-mini">Daily strategies for refusal, motivation collapse, and behaviour that doesn't shift with more praise or more pressure.</p>
+        <span class="route-go">Coming soon
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="wired-differently/strengths.html" class="route-card wd reveal">
+      <span class="tag">Wired Differently</span>
+      <p class="route-q">"I think my child is wired differently — and I don't have the words yet."</p>
+      <div class="route-meta">
+        <p class="route-mini">Scripts for the moments that knock you sideways, plus a slow build of the skills underneath. With or without a diagnosis.</p>
+        <span class="route-go">Start there
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="wired/index.html" class="route-card w reveal">
+      <span class="tag">Wired Workshops</span>
+      <p class="route-q">"I want my child ready for the world that's actually coming."</p>
+      <div class="route-meta">
+        <p class="route-mini">Hands-on workshops for children 7–12. Creativity, critical thinking, resilience — and how to learn in the age of AI.</p>
+        <span class="route-go">Opening 2026
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+  </div>
+
+  <p class="route-note"><span class="arrow-d">↓</span> Not sure? The free Starter Kit further down will route you.</p>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="section-eyebrow"><span class="num">i.</span> What HeadStrong is</div>
+      <h2>We start a layer <em>deeper</em> than the behaviour.</h2>
+      <p>Most resources for parents treat behaviour as the problem to solve. HeadStrong starts with what's driving the behaviour — the nervous system, the wiring, the gap between what school sees and what's actually happening at home.</p>
+      <p>The science does the heavy lifting underneath. The language stays warm. You won't find a behaviour chart anywhere on this site.</p>
+      <p>One through-line connects everything: <em>resilience is a skill, not a personality trait.</em> It develops through the right kind of challenge, with adults who can frame difficulty without removing it. That's what we're building — in you, and in them.</p>
+    </div>
+
+    <div class="about-right reveal">
+      <div class="method-row"><span class="method-num">i.</span><p class="method-text"><strong>Developmental psychology</strong> — what's typical for the age, and what isn't.</p></div>
+      <div class="method-row"><span class="method-num">ii.</span><p class="method-text"><strong>The neuroscience of learning</strong> — focused and diffuse modes, working memory, the nervous system at the desk.</p></div>
+      <div class="method-row"><span class="method-num">iii.</span><p class="method-text"><strong>Universal Design for Learning</strong> — built for every brain in the room, not just the ones the curriculum was built for.</p></div>
+      <div class="method-row"><span class="method-num">iv.</span><p class="method-text"><strong>Resilience research</strong> — Dweck, Yeager and Masten on the right kind of struggle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARMS / chapters -->
+<section class="arms" id="arms">
+  <div class="arms-header reveal">
+    <h2>Three arms.<br /><em>One through-line.</em></h2>
+    <div class="arms-key">Pick the one that sounds like<br />your this-week<span class="v">(or all three)</span></div>
+  </div>
+
+  <article class="chapter ntk reveal">
+    <div class="chapter-num">I.<small>Not The Kid</small></div>
+    <div class="chapter-body">
+      <h3>Homework. Behaviour. <em>Not getting better.</em></h3>
+      <div class="chapter-meta">
+        <span class="pill armc">For parents</span>
+        <span class="pill">Ages 7–12</span>
+        <span class="pill">Coming Soon</span>
+      </div>
+      <p class="chapter-lede">
+        Most homework battles are not attitude battles. They're nervous-system battles. We give you a three-day structured observation to find the real pattern, a six-pattern framework to name it, and daily strategies you can run in under five minutes — without becoming the homework police.
+      </p>
+      <a href="not-the-kid/index.html" class="chapter-cta">
+        Coming Soon
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <aside class="chapter-side">
+      <h4>What's inside</h4>
+      <ul>
+        <li>3-day structured observation</li>
+        <li>6-pattern diagnostic framework</li>
+        <li>Daily strategies under 5 minutes</li>
+        <li>The science underneath — optional</li>
+      </ul>
+    </aside>
+  </article>
+
+  <article class="chapter wd reveal">
+    <div class="chapter-num">II.<small>Wired Differently</small></div>
+    <div class="chapter-body">
+      <h3>Neurodiversity. <em>Without the labels.</em></h3>
+      <div class="chapter-meta">
+        <span class="pill armc">For parents</span>
+        <span class="pill">Ages 7–12</span>
+        <span class="pill">Live</span>
+      </div>
+      <p class="chapter-lede">
+        For the parent Googling at midnight who already senses something more is going on. Eleven Moment Cards for what to say when the floor falls out. A Skills Guide for the slower build over months. Non-clinical, strengths-first, made for Singapore.
+      </p>
+      <a href="wired-differently/moments.html" class="chapter-cta">
+        Go to Wired Differently
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <aside class="chapter-side">
+      <h4>What's inside</h4>
+      <ul>
+        <li>11 Moment Cards — crisis scripts</li>
+        <li>Skills Guide — 9 skills to build</li>
+        <li>Strengths Map — what they're built for</li>
+        <li>School advocacy — what to ask</li>
+      </ul>
+    </aside>
+  </article>
+
+  <article class="chapter w reveal">
+    <div class="chapter-num">III.<small>Wired Workshops</small></div>
+    <div class="chapter-body">
+      <h3>For the <em>children themselves.</em></h3>
+      <div class="chapter-meta">
+        <span class="pill armc">For children</span>
+        <span class="pill">Ages 7–12</span>
+        <span class="pill">Starting soon</span>
+      </div>
+      <p class="chapter-lede">
+        Hands-on workshops that teach children how their brains actually learn — and what to do with that in a world where AI handles the easy parts. Creativity, critical thinking, resilience. No tests. Just learning through fun.
+      </p>
+      <span class="chapter-soon">Starting June 2026 — Singapore</span>
+    </div>
+    <aside class="chapter-side">
+      <h4>What's inside</h4>
+      <ul>
+        <li>Focused & diffuse thinking</li>
+        <li>Original thinking with AI, not from it</li>
+        <li>Frustration as a signal, not failure</li>
+        <li>Built to UDL standards</li>
+      </ul>
+    </aside>
+  </article>
+</section>
+
+<!-- STARTER -->
+<section class="starter" id="starter">
+  <div class="starter-inner">
+    <div class="reveal">
+      <div class="section-eyebrow"><span class="num">ii.</span> Free · Delivered by email</div>
+      <h2>The <em>Starter Kit.</em><br />Five pages. One quiet hour.</h2>
+      <p class="starter-body">
+        One insight per pillar, including the one parents tell us hits hardest: <em>frustration is not a problem to eliminate — it's evidence the brain is working.</em> Plus a routing page so you can find your front door without wading through three product lines first.
+      </p>
+      <a href="https://headstrongsg.kit.com/starterkit" class="starter-btn">
+        Download the Starter Kit - Free
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M5 13l7 7 7-7"/></svg>
+      </a>
+      <div class="starter-meta">
+        <span>No payment</span>
+        <span>By email</span>
+        <span>SG &amp; beyond</span>
+      </div>
+    </div>
+
+    <div class="booklet reveal" aria-hidden="true">
+      <div class="page page-1">
+        <div class="page-num">i.</div>
+        <div class="page-title">Brain &amp; <em>learning</em></div>
+        <div class="page-lines"><div class="page-line"></div><div class="page-line"></div><div class="page-line short"></div></div>
+      </div>
+      <div class="page page-2">
+        <div class="page-num">ii.</div>
+        <div class="page-title">The <em>neurodiverse</em> lens</div>
+        <div class="page-lines"><div class="page-line"></div><div class="page-line"></div><div class="page-line short"></div></div>
+      </div>
+      <div class="page page-3">
+        <div class="page-num">iii.</div>
+        <div class="page-title"><em>Resilience</em> &amp; mental performance</div>
+        <div class="page-lines"><div class="page-line"></div><div class="page-line"></div><div class="page-line short"></div></div>
+      </div>
+      <div class="page page-4">
+        <div class="page-num">iv.</div>
+        <div class="page-title">Thinking in the <em>AI era</em></div>
+        <div class="page-lines"><div class="page-line"></div><div class="page-line"></div><div class="page-line short"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder" id="founder">
+  <div class="founder-inner">
+    <blockquote class="reveal">
+      After two decades in teaching psychology, I kept watching the same pattern. The parents who change their child's trajectory are the ones who <strong>understand what's actually driving the behaviour.</strong> The ones who don't keep trying harder at the wrong thing.
+    </blockquote>
+    <div class="founder-by reveal">
+      <div class="name">The founder</div>
+      <div class="role">Founder, HeadStrong</div>
+      <div class="where">Singapore · est. 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENCE -->
+<div class="science">
+  <div class="science-inner">
+    <span class="science-label">Grounded in —</span>
+    <span>Developmental psychology</span>
+    <span>Neuroscience of learning</span>
+    <span>Universal Design for Learning</span>
+    <span>Dweck &amp; Yeager on growth</span>
+    <span>Masten on resilience</span>
+    <span>Oakley's focused/diffuse</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo" style="font-size:24px;">
+        <span class="logo-dot"></span>
+        <span><span class="logo-mark">Head</span><em>strong</em></span>
+      </div>
+      <p>Built on neuroscience, designed for the parent at the kitchen table at 9pm.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Arms</h5>
+      <a href="not-the-kid/index.html">Not The Kid</a>
+      <a href="wired-differently/strengths.html">Wired Differently</a>
+      <a href="wired/index.html">Wired Workshops</a>
+    </div>
+    <div class="footer-col">
+      <h5>Start</h5>
+      <a href="#starter">Free Starter Kit</a>
+      <a href="#about">The approach</a>
+      <a href="#founder">Founder</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="#"><span class="__cf_email__" data-cfemail="29414c45454669414c484d5a5d5b46474e075a4e">[email&#160;protected]</span></a>
+      <a href="#">Newsletter</a>
+      <a href="#">Press</a>
+    </div>
+  </div>
+  <div class="footer-note">
+    <span>© 2025 HeadStrong · Singapore</span>
+    <span>Built for parents and children · Ages 7–12</span>
+  </div>
+</footer>
+
+</main>
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

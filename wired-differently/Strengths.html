@@ -160,7 +160,7 @@ details.about[open] summary::after { content: '–'; }
 .about-body p:last-child { margin-bottom: 0; }
 
 /* ── Carousel chrome ─────────────────────────────────────────── */
-.carousel-shell { position: relative; z-index: 2; padding: 0 0 64px; }
+.carousel-shell { position: relative; z-index: 2; padding: 0 0 64px; overflow: hidden; }
 .carousel-header {
   max-width: 980px; margin: 0 auto 8px; padding: 0 28px;
   display: flex; align-items: end; justify-content: flex-start; gap: 24px;
@@ -485,7 +485,7 @@ details.brain[open] summary::after { content: '–'; }
 
   <div class="brand">Wired Differently</div>
 
-  <h1>Your child is not<br><em>broken.</em></h1>
+  <h1>Your child is not<br><em>behind.</em></h1>
 
   <p class="cover-lede">A guide for parents who already know their child is <em>something</em> — they just cannot quite put their finger on what.</p>
 
@@ -563,7 +563,7 @@ details.brain[open] summary::after { content: '–'; }
             <p class="section-body">Here is the thing about brains. They are not all running the same software.</p>
             <p class="section-body">Most school systems, most classrooms, and most homework tables are designed for a particular kind of brain. One that sits still for forty minutes, transitions between tasks on cue, and processes verbal instructions the first time. A lot of children have that brain.</p>
             <p class="section-body">Some do not.</p>
-            <p class="section-body">And the children who do not, are not broken versions of the ones who do. They are running something different. Different processing speeds in different contexts. Different responses to sensory input. Different relationships with attention, structure, emotion, and time.</p>
+            <p class="section-body">And the children who do not are not broken versions of the ones who do. They are running something different. Different processing speeds in different contexts. Different responses to sensory input. Different relationships with attention, structure, emotion, and time.</p>
           </div>
 
           <div class="section">
@@ -576,7 +576,7 @@ details.brain[open] summary::after { content: '–'; }
             <summary>Why this works <span>the science, briefly</span></summary>
             <div class="brain-body">
               <p>The concept of neurodiversity describes natural variation in how human brains are structured and function. Rather than framing differences in attention, processing, sensory experience, or social cognition as deficits, this model recognises them as variations in cognitive style. The same neurological traits that create challenges in conventional classroom settings have been associated with genuine cognitive strengths, including divergent thinking, pattern recognition, and sustained focus under conditions of intrinsic motivation.</p>
-              <p>None of this means challenges disappear, it just means they are not the whole picture.</p>
+              <p>None of this means challenges disappear. It means they are not the whole picture.</p>
             </div>
           </details>
 
@@ -612,12 +612,12 @@ details.brain[open] summary::after { content: '–'; }
               <div class="strength-block">
                 <div class="strength-name">Thinking <em>Outside the Box</em></div>
                 <div class="strength-body">The child who gives the unexpected answer. Who approaches the problem from a direction nobody considered. Who asks "but why does it have to work that way?" in a tone that is genuinely curious, not deliberately difficult. Children whose brains are wired differently often generate more unusual and varied ideas on open-ended problems. The same quality that makes conventional tasks feel oddly slow can make creative challenges feel completely alive.</div>
-                <div class="strength-aside">Unfortunately, this is not always celebrated in classrooms built around single correct answers. That is the classroom's problem.</div>
+                <div class="strength-aside">Not always celebrated in classrooms built around single correct answers. That is the classroom's problem.</div>
               </div>
 
               <div class="strength-block">
                 <div class="strength-name"><em>Hyper-focus</em></div>
-                <div class="strength-body">You have probably seen this one and found it maddening at the wrong moment. Your child cannot start on the Maths homework — but they spent four hours finishing something else with a level of detail that surprised you. That is the same brain. The attention is not broken. <em>It is selective<em>. When the conditions are right and the interest is genuine, these children can go very deep. That capacity is rare. The design challenge we faced as parents is not eliminating it - it is learning what switches it on.</div>
+                <div class="strength-body">You have probably seen this one and found it maddening at the wrong moment. Your child cannot start the maths homework — but they spent four hours finishing something else with a level of detail that surprised you. That is the same brain. The attention is not broken. It is selective. When the conditions are right and the interest is genuine, these children can go very deep. That capacity is rare. The design challenge is not eliminating it. It is learning what switches it on.</div>
               </div>
 
               <div class="strength-block">
@@ -645,7 +645,7 @@ details.brain[open] summary::after { content: '–'; }
 
               <div class="strength-block">
                 <div class="strength-name">Thinking in <em>Systems</em></div>
-                <div class="strength-body">Some children whose brains work differently have a powerful ability to hold complex rules in their heads. They track how things connect, what the rules are, and — with considerable enthusiasm — when the rules are being applied inconsistently. The same quality applied to systems, structures, and problems that reward this kind of thinking is a considerable advantage. <em>It just needs the right arena.<em></div>
+                <div class="strength-body">Some children whose brains work differently have a powerful ability to hold complex rules in their heads. They track how things connect, what the rules are, and — with considerable enthusiasm — when the rules are being applied inconsistently. The same quality applied to systems, structures, and problems that reward this kind of thinking is a considerable advantage. It just needs the right arena.</div>
               </div>
 
             </div>
@@ -680,8 +680,7 @@ details.brain[open] summary::after { content: '–'; }
             <div class="section-label">What This Guide Is Not Saying</div>
             <p class="section-body">Strengths do not cancel out hard days.</p>
             <p class="section-body">Your child can have a genuine capacity for creative thinking and still not be able to start the homework. They can feel things deeply and also completely fall apart at a transition. They can be unusually persistent about things they care about and utterly unmovable about things they do not.</p>
-            <p class="section-body">This guide is not asking you to pretend the hard parts are not real. They are real. There are tools here for those moments too. What we are asking is that the hard parts do not become the whole story. Because they are not. 
-			<p class="section-body">And your child knows which version of the story you believe.</p>
+            <p class="section-body">This guide is not asking you to pretend the hard parts are not real. They are real. There are tools here for those moments too. What we are asking is that the hard parts do not become the whole story. Because they are not. And your child knows which version of the story you believe.</p>
           </div>
 
           <div class="section">
@@ -737,7 +736,7 @@ details.brain[open] summary::after { content: '–'; }
             <p class="section-body">Where you start depends on where you are right now.</p>
 
             <div class="route-grid" style="grid-template-columns: repeat(2, 1fr);">
-              <a class="route-card" href="scenarios.html">
+              <a class="route-card" href="moments.html">
                 <div class="route-tag">Something just happened</div>
                 <div class="route-heading">The Moment Cards</div>
                 <div class="route-desc">The homework exploded tonight. Or the teacher called. Or the same thing happened again. Short, practical scripts for the situations that come up most. No preamble required.</div>
@@ -786,7 +785,7 @@ details.brain[open] summary::after { content: '–'; }
     <p>Not a project. Not a problem to solve before the next school year. Not someone who needs to be fixed before they can be appreciated.</p>
     <p>They need to be known. You already know them better than anyone.</p>
     <div class="you-got-this">You've got this.</div>
-    <a class="cta-btn" href="scenarios.html">Start with the Moment Cards →</a>
+    <a class="cta-btn" href="moments.html">Start with the Moment Cards →</a>
     <p class="footer-note">Wired Differently is a parent resource, not a clinical tool, and does not constitute medical or psychological advice. If you are concerned about your child's development or wellbeing, please speak to a qualified professional.<br><br>Wired Differently &nbsp;|&nbsp; Singapore &nbsp;|&nbsp; 2026</p>
   </div>
 </section>

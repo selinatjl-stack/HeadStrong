@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wired Differently — Strengths</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Design system tokens ────────────────────────────────────── */
+:root {
+  --bone:       #EDE5D6;
+  --bone-deep:  #DDD2BD;
+  --paper:      #FBF7EB;
+  --paper-warm: #F4ECD8;
+  --ink:        #2A2229;
+  --ink-soft:   #564B53;
+  --ink-faint:  #8D8088;
+  --rule:       #D9D0BD;
+  --rule-line:  #D9C9A8;
+  --rust:       #C2613D;
+  --rust-deep:  #963F22;
+  --rust-light: #F3DACD;
+  --sage:       #7E9379;
+  --sage-light: #DCE3D5;
+  --warning:    #B17A3A;
+  --warning-bg: #F4E6CF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bone);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 16px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .22  0 0 0 0 .18  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: .5; mix-blend-mode: multiply;
+}
+
+/* ── Brand motif ─────────────────────────────────────────────── */
+.brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--rust-deep); margin-bottom: 28px;
+}
+.brand::before {
+  content: ''; display: inline-block;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1.5px solid var(--rust-deep);
+  background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
+}
+
+/* ── Cover ───────────────────────────────────────────────────── */
+.cover {
+  position: relative; z-index: 2;
+  min-height: 100vh; padding: 80px 48px 80px;
+  max-width: 1240px; margin: 0 auto;
+}
+.cover h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(56px, 8vw, 100px);
+  font-weight: 300; line-height: 1.02;
+  letter-spacing: -.02em; color: var(--ink); margin-bottom: 28px;
+}
+.cover h1 em { font-style: italic; color: var(--rust-deep); font-weight: 400; }
+.cover-lede {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-weight: 300; font-size: 24px; line-height: 1.5;
+  color: var(--ink-soft); margin-bottom: 18px; max-width: 540px;
+}
+.cover-handwritten {
+  font-family: 'Kalam', cursive; font-weight: 400;
+  font-size: 22px; color: var(--rust); line-height: 1.35;
+  transform: rotate(-1deg); display: inline-block;
+  max-width: 420px; margin-bottom: 48px;
+}
+
+/* Cover parent truth */
+.cover-pt {
+  margin: 0 0 48px; padding: 16px 0 18px;
+  border-top: 2px solid var(--rust);
+  border-bottom: 1px solid rgba(194,97,61,.3);
+  max-width: 540px;
+}
+.cover-pt-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 8px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.cover-pt-label::before {
+  content: ''; width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid var(--rust);
+  background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
+}
+.cover-pt p {
+  font-family: 'Kalam', cursive; font-weight: 400;
+  font-size: 24px; line-height: 1.4; color: var(--ink);
+}
+
+/* Index */
+.index-section { margin-top: 52px; }
+.index-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--ink-faint); margin-bottom: 14px;
+}
+.index-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px;
+}
+.index-item {
+  appearance: none; border: 0; background: transparent;
+  text-decoration: none;
+  display: flex; align-items: baseline; gap: 14px;
+  font-family: 'IBM Plex Sans', sans-serif; font-size: 15px;
+  color: var(--ink); text-align: left; cursor: pointer;
+  padding: 9px 0; border-bottom: 1px solid rgba(42,34,41,.08);
+  transition: color .15s, padding .15s;
+}
+.index-item:hover { color: var(--rust-deep); padding-left: 4px; }
+.index-num {
+  font-family: 'Kalam', cursive; font-size: 18px;
+  font-weight: 700; color: var(--rust); min-width: 26px;
+}
+
+/* About expander */
+details.about {
+  margin-top: 36px; border-top: 1px solid rgba(42,34,41,.14); padding-top: 22px;
+}
+details.about summary {
+  list-style: none; cursor: pointer;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--ink-soft); display: flex; align-items: center; padding: 4px 0;
+}
+details.about summary::-webkit-details-marker { display: none; }
+details.about summary::after {
+  content: '+'; margin-left: auto;
+  font-family: 'Crimson Pro', serif; font-size: 22px;
+  color: var(--rust); font-weight: 300;
+}
+details.about[open] summary::after { content: '–'; }
+.about-body { padding: 18px 0 8px; max-width: 540px; }
+.about-body p {
+  font-family: 'Crimson Pro', serif; font-size: 18px;
+  line-height: 1.65; color: var(--ink-soft);
+  margin-bottom: 12px; font-weight: 300;
+}
+.about-body p:last-child { margin-bottom: 0; }
+
+/* ── Carousel chrome ─────────────────────────────────────────── */
+.carousel-shell { position: relative; z-index: 2; padding: 0 0 64px; }
+.carousel-header {
+  max-width: 980px; margin: 0 auto 8px; padding: 0 28px;
+  display: flex; align-items: end; justify-content: flex-start; gap: 24px;
+}
+.carousel-header .hand {
+  font-family: 'Kalam', cursive; font-weight: 400;
+  font-size: 20px; color: var(--rust-deep);
+  line-height: 1.3; max-width: 360px; transform: rotate(-.6deg);
+}
+
+.side-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  z-index: 50; opacity: 0; visibility: hidden;
+  transition: opacity .25s, visibility .25s; pointer-events: none;
+}
+.side-nav.visible { opacity: 1; visibility: visible; }
+.side-nav.visible .nav-btn { pointer-events: auto; }
+.side-nav.prev { left: max(20px, calc((100vw - 820px) / 2 - 72px)); }
+.side-nav.next { right: max(20px, calc((100vw - 820px) / 2 - 72px)); }
+
+.nav-btn {
+  width: 48px; height: 48px; border-radius: 8px;
+  border: 1.5px solid var(--ink); background: var(--paper);
+  color: var(--ink); font-family: 'Crimson Pro', serif;
+  font-size: 22px; cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.nav-btn:hover { background: var(--ink); color: var(--paper); }
+
+.slides {
+  display: flex; gap: 0; overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 24px 0 40px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.slides::-webkit-scrollbar { display: none; }
+.slide {
+  flex: 0 0 100vw; scroll-snap-align: center; scroll-snap-stop: always;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 10px 28px 30px;
+}
+
+/* ── Index card ──────────────────────────────────────────────── */
+.card {
+  position: relative; width: min(820px, 100%);
+  background: var(--paper); border-radius: 6px; overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 4px 10px rgba(42,34,41,.08),
+    0 20px 36px rgba(42,34,41,.10);
+}
+.card::before {
+  content: ''; position: absolute; top: 0; bottom: 0;
+  left: 56px; width: 1px; background: var(--rust); opacity: .55;
+}
+.card-grain {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .22  0 0 0 .2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: .35; mix-blend-mode: multiply;
+}
+.card-header {
+  padding: 36px 56px 32px 80px; position: relative;
+  background-image:
+    linear-gradient(to bottom, transparent calc(100% - 22px), rgba(217,201,168,.7) calc(100% - 22px), rgba(217,201,168,.7) calc(100% - 21px), transparent calc(100% - 21px)),
+    linear-gradient(to bottom, transparent calc(100% - 8px), rgba(217,201,168,.45) calc(100% - 8px), rgba(217,201,168,.45) calc(100% - 7px), transparent calc(100% - 7px));
+}
+.card-body { padding: 28px 56px 48px 80px; }
+.card-stamp {
+  font-family: 'Kalam', cursive; font-weight: 700;
+  color: var(--rust); font-size: 26px; line-height: 1;
+  margin-bottom: 4px; transform: rotate(-1.5deg); display: inline-block;
+}
+.card-stamp::before { content: 'No. '; font-weight: 400; font-size: 20px; color: var(--rust-deep); margin-right: 2px; }
+.card-brand {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--ink-faint); margin-bottom: 8px;
+}
+.card-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(40px, 5vw, 56px); font-weight: 300;
+  line-height: 1.02; letter-spacing: -.015em; color: var(--ink);
+}
+.card-title em { font-style: italic; color: var(--rust-deep); font-weight: 400; }
+
+/* ── Parent Truth ────────────────────────────────────────────── */
+.parent-truth {
+  margin: 0 0 32px; padding: 16px 0 18px;
+  border-top: 2px solid var(--rust);
+  border-bottom: 1px solid rgba(194,97,61,.3);
+}
+.parent-truth-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 8px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.parent-truth-label::before {
+  content: ''; width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid var(--rust);
+  background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
+}
+.parent-truth p {
+  font-family: 'Kalam', cursive; font-weight: 400;
+  font-size: 24px; line-height: 1.4; color: var(--ink);
+}
+
+/* ── Sections ────────────────────────────────────────────────── */
+.section { margin-bottom: 28px; }
+.section + .section {
+  border-top: 1px dashed rgba(217,201,168,.95);
+  padding-top: 28px; margin-top: 4px;
+}
+.section-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--rust-deep); margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: ''; flex: 0 0 10px; width: 10px; height: 10px;
+  border-radius: 50%; border: 1.5px solid var(--rust);
+  background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
+}
+.section-body {
+  font-size: 16px; line-height: 1.75;
+  color: var(--ink-soft); margin-bottom: 12px;
+}
+.section-body:last-child { margin-bottom: 0; }
+.section-body em { color: var(--ink); font-style: italic; }
+.section-body p { margin-bottom: 10px; }
+.section-body p:last-child { margin-bottom: 0; }
+
+/* ── Strength entries ────────────────────────────────────────── */
+.strength-list { margin-top: 2px; }
+.strength-block {
+  padding: 16px 0;
+  border-top: 1px dashed rgba(217,201,168,.95);
+}
+.strength-block:first-child { border-top: none; padding-top: 4px; }
+.strength-name {
+  font-family: 'Crimson Pro', serif; font-size: 21px;
+  font-weight: 400; color: var(--ink); margin-bottom: 6px; line-height: 1.2;
+}
+.strength-name em { font-style: italic; color: var(--rust-deep); }
+.strength-body {
+  font-size: 15.5px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 4px;
+}
+.strength-aside {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 16px; color: var(--ink-faint); line-height: 1.5;
+}
+
+/* ── Try tonight ─────────────────────────────────────────────── */
+.try-tonight {
+  background: var(--rust-light); padding: 18px 22px;
+  border-radius: 4px; position: relative; margin-top: 24px;
+}
+.try-tonight::before {
+  content: ''; position: absolute; inset: -1px;
+  border: 1px dashed var(--rust); border-radius: 5px;
+  opacity: .5; pointer-events: none;
+}
+.try-tonight-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 8px;
+}
+.try-tonight p { font-size: 16px; line-height: 1.72; color: var(--ink); margin-bottom: 10px; }
+.try-tonight p:last-child { margin-bottom: 0; }
+
+/* ── Honest callout ──────────────────────────────────────────── */
+.honest-box {
+  background: var(--warning-bg); padding: 20px 24px; border-radius: 4px;
+}
+.honest-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--warning); margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.honest-label::before {
+  content: ''; width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid var(--warning);
+  background: radial-gradient(circle, var(--warning) 30%, transparent 32%);
+}
+.honest-box p { font-size: 15.5px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 10px; }
+.honest-box p:last-child { margin-bottom: 0; }
+
+/* ── Route cards ─────────────────────────────────────────────── */
+.route-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-bottom: 0;
+}
+.route-card {
+  background: var(--paper-warm); border-radius: 4px;
+  padding: 16px 16px 18px; cursor: pointer;
+  border: 1px solid var(--rule); text-decoration: none; display: block;
+  transition: box-shadow .15s, transform .12s;
+}
+.route-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(42,34,41,.11); }
+.route-tag {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 6px;
+}
+.route-heading {
+  font-family: 'Crimson Pro', serif; font-size: 18px;
+  font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 7px;
+}
+.route-desc { font-size: 13px; color: var(--ink-faint); line-height: 1.6; }
+
+/* ── Brain science expander ──────────────────────────────────── */
+details.brain {
+  margin: 24px 0 0; padding-top: 18px;
+  border-top: 1px solid rgba(42,34,41,.12);
+}
+details.brain summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft);
+}
+details.brain summary::-webkit-details-marker { display: none; }
+details.brain summary span {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 14px; font-weight: 400;
+  letter-spacing: 0; text-transform: none;
+  color: var(--ink-faint); margin-left: 4px;
+}
+details.brain summary::after {
+  content: '+'; margin-left: auto;
+  font-family: 'Crimson Pro', serif; font-size: 22px;
+  color: var(--rust); font-weight: 300;
+}
+details.brain[open] summary::after { content: '–'; }
+.brain-body { padding: 16px 0 4px; font-size: 15px; line-height: 1.72; color: var(--ink-soft); }
+.brain-body p { margin-bottom: 10px; }
+.brain-body p:last-child { margin-bottom: 0; }
+
+/* ── Jump dots ───────────────────────────────────────────────── */
+.jump-row {
+  position: relative; z-index: 2; max-width: 720px; margin: 0 auto;
+  padding: 0 28px 60px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; align-items: center;
+}
+.jump-dot {
+  appearance: none; border: 1px solid rgba(42,34,41,.18);
+  background: var(--paper); color: var(--ink-soft);
+  width: 36px; height: 36px; border-radius: 8px;
+  font-family: 'Kalam', cursive; font-weight: 700; font-size: 16px;
+  cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.jump-dot:hover { color: var(--rust); border-color: var(--rust); }
+.jump-dot.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ── Closing ─────────────────────────────────────────────────── */
+.closing { position: relative; z-index: 2; padding: 60px 28px 100px; }
+.closing-inner {
+  max-width: 620px; margin: 0 auto; background: var(--paper);
+  border-radius: 6px; padding: 56px 56px 48px 80px;
+  box-shadow: 0 4px 10px rgba(42,34,41,.08), 0 24px 40px rgba(42,34,41,.12);
+  position: relative; overflow: hidden;
+}
+.closing-inner::before {
+  content: ''; position: absolute; top: 0; bottom: 0;
+  left: 56px; width: 1px; background: var(--rust); opacity: .55;
+}
+.closing-inner > * { position: relative; }
+.closing h2 {
+  font-family: 'Crimson Pro', serif; font-size: 42px;
+  font-weight: 300; line-height: 1.05; color: var(--ink); margin-bottom: 22px;
+}
+.closing h2 em { font-style: italic; color: var(--rust-deep); }
+.closing p { font-size: 16px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 16px; }
+.you-got-this {
+  font-family: 'Kalam', cursive; font-weight: 700;
+  font-size: 32px; color: var(--rust);
+  transform: rotate(-1.5deg); display: inline-block; margin: 8px 0 24px;
+}
+.cta-btn {
+  display: inline-block; background: var(--ink); color: var(--paper);
+  font-family: 'IBM Plex Sans', sans-serif; font-size: 12px;
+  font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  padding: 14px 24px; border-radius: 6px; text-decoration: none;
+  transition: background .12s;
+}
+.cta-btn:hover { background: var(--rust-deep); }
+.footer-note {
+  font-size: 13px; color: var(--ink-faint); margin-top: 32px;
+  padding-top: 22px; border-top: 1px dashed rgba(42,34,41,.2); line-height: 1.7;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 880px) {
+  .side-nav { display: none; }
+  .cover { padding: 56px 24px 60px; }
+  .index-grid { grid-template-columns: 1fr; }
+  .slide { padding: 10px 16px 30px; }
+  .card-header, .card-body { padding-left: 56px; padding-right: 24px; }
+  .route-grid { grid-template-columns: 1fr; }
+  .closing-inner { padding-left: 56px; padding-right: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     COVER
+══════════════════════════════ -->
+<section class="cover">
+
+  <div class="brand">Wired Differently</div>
+
+  <h1>Your child is not<br><em>broken.</em></h1>
+
+  <p class="cover-lede">A guide for parents who already know their child is <em>something</em> — they just cannot quite put their finger on what.</p>
+
+  <p class="cover-handwritten">Start here. The rest will make more sense.</p>
+
+  <div class="cover-pt">
+    <div class="cover-pt-label">Parent Truth</div>
+    <p>You have spent a long time focused on what is hard. This page does something different.</p>
+  </div>
+
+  <div class="index-section">
+    <div class="index-label">What is in this guide</div>
+    <div class="index-grid">
+      <a class="index-item cover-jump" href="#slide-0" data-target="0">
+        <span class="index-num">01</span><span>What "Wired Differently" Actually Means</span>
+      </a>
+      <a class="index-item cover-jump" href="#slide-1" data-target="1">
+        <span class="index-num">02</span><span>Seven Things Worth Noticing</span>
+      </a>
+      <a class="index-item cover-jump" href="#slide-2" data-target="2">
+        <span class="index-num">03</span><span>Holding Both Things</span>
+      </a>
+      <a class="index-item cover-jump" href="#slide-3" data-target="3">
+        <span class="index-num">04</span><span>Where to Go Next</span>
+      </a>
+    </div>
+  </div>
+
+  <details class="about">
+    <summary>About this guide</summary>
+    <div class="about-body">
+      <p>Most resources about children whose brains work differently start with a list of symptoms. Things to watch for. Red flags. Warning signs.</p>
+      <p>This guide does not do that.</p>
+      <p>Not because the challenges are not real. They are. But because a child who only ever hears about what is hard for them eventually starts to believe that hard is what they are.</p>
+      <p>The research on resilience is consistent: children who know their own strengths are more likely to seek help when they need it, push through difficulty, maintain a sense of identity under pressure, and recover from setbacks. Strengths-awareness is not a soft skill. It is a protective factor.</p>
+      <p>Everything in this guide is built on that idea. The hard moments are here too. But this is where we start.</p>
+    </div>
+  </details>
+
+</section>
+
+<!-- Side nav arrows -->
+<div class="side-nav prev"><button class="nav-btn" id="prevSlide" aria-label="Previous card">‹</button></div>
+<div class="side-nav next"><button class="nav-btn" id="nextSlide" aria-label="Next card">›</button></div>
+
+<!-- ══════════════════════════════
+     CAROUSEL
+══════════════════════════════ -->
+<main class="carousel-shell" aria-label="Wired Differently guide">
+
+  <div class="carousel-header">
+    <p class="hand">Swipe or use the arrows to move through the guide.</p>
+  </div>
+
+  <section class="slides" id="slides">
+
+    <!-- ═══ CARD 01: What Wired Differently Means ═══ -->
+    <div class="slide" id="slide-0">
+      <article class="card">
+        <div class="card-grain"></div>
+        <div class="card-header">
+          <div class="card-stamp">01</div>
+          <div class="card-brand">Wired Differently</div>
+          <h2 class="card-title">What "Wired<br><em>Differently"</em><br>Actually Means</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="parent-truth">
+            <div class="parent-truth-label">Parent Truth</div>
+            <p>Your child is not a broken version of the child who sits quietly and finishes first.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">The Real Picture</div>
+            <p class="section-body">Here is the thing about brains. They are not all running the same software.</p>
+            <p class="section-body">Most school systems, most classrooms, and most homework tables are designed for a particular kind of brain. One that sits still for forty minutes, transitions between tasks on cue, and processes verbal instructions the first time. A lot of children have that brain.</p>
+            <p class="section-body">Some do not.</p>
+            <p class="section-body">And the children who do not, are not broken versions of the ones who do. They are running something different. Different processing speeds in different contexts. Different responses to sensory input. Different relationships with attention, structure, emotion, and time.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">Why This Matters</div>
+            <p class="section-body">What looks like a weakness in one environment is often the same trait that becomes an asset in another. The child who cannot sit through a worksheet may be the one who notices everything, connects ideas nobody else connected, or stays locked on a problem long after everyone else has moved on.</p>
+            <p class="section-body">None of that makes the worksheet less annoying. But it changes the story.</p>
+          </div>
+
+          <details class="brain">
+            <summary>Why this works <span>the science, briefly</span></summary>
+            <div class="brain-body">
+              <p>The concept of neurodiversity describes natural variation in how human brains are structured and function. Rather than framing differences in attention, processing, sensory experience, or social cognition as deficits, this model recognises them as variations in cognitive style. The same neurological traits that create challenges in conventional classroom settings have been associated with genuine cognitive strengths, including divergent thinking, pattern recognition, and sustained focus under conditions of intrinsic motivation.</p>
+              <p>None of this means challenges disappear, it just means they are not the whole picture.</p>
+            </div>
+          </details>
+
+        </div>
+      </article>
+    </div>
+
+    <!-- ═══ CARD 02: Seven Things Worth Noticing ═══ -->
+    <div class="slide" id="slide-1">
+      <article class="card">
+        <div class="card-grain"></div>
+        <div class="card-header">
+          <div class="card-stamp">02</div>
+          <div class="card-brand">Wired Differently — Strengths</div>
+          <h2 class="card-title">Seven Things<br>Worth <em>Noticing</em></h2>
+        </div>
+        <div class="card-body">
+
+          <div class="parent-truth">
+            <div class="parent-truth-label">Parent Truth</div>
+            <p>These are not consolation prizes. Some of them will sound very familiar.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">A Note Before You Read</div>
+            <p class="section-body">Not every child will have all of these. Many will have more than one. Read them as possibilities, not a checklist.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">The Strengths</div>
+            <div class="strength-list">
+
+              <div class="strength-block">
+                <div class="strength-name">Thinking <em>Outside the Box</em></div>
+                <div class="strength-body">The child who gives the unexpected answer. Who approaches the problem from a direction nobody considered. Who asks "but why does it have to work that way?" in a tone that is genuinely curious, not deliberately difficult. Children whose brains are wired differently often generate more unusual and varied ideas on open-ended problems. The same quality that makes conventional tasks feel oddly slow can make creative challenges feel completely alive.</div>
+                <div class="strength-aside">Unfortunately, this is not always celebrated in classrooms built around single correct answers. That is the classroom's problem.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name"><em>Hyper-focus</em></div>
+                <div class="strength-body">You have probably seen this one and found it maddening at the wrong moment. Your child cannot start on the Maths homework — but they spent four hours finishing something else with a level of detail that surprised you. That is the same brain. The attention is not broken. <em>It is selective<em>. When the conditions are right and the interest is genuine, these children can go very deep. That capacity is rare. The design challenge we faced as parents is not eliminating it - it is learning what switches it on.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name">Connecting <em>Unexpected Things</em></div>
+                <div class="strength-body">Some children whose brains work differently are particularly good at seeing how things relate to each other. Patterns across contexts. Similarities between things that look nothing alike on the surface. It is a thinking style, not a school subject. It tends to show up when a child explains their reasoning out loud and you realise they got somewhere genuinely interesting by a route nobody else took.</div>
+                <div class="strength-aside">It can look like being distracted. It is worth checking before you assume.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name">Feeling Things <em>Fully</em></div>
+                <div class="strength-body">Some children feel emotions with considerable intensity. Their empathy is not polite and measured. It is visceral. They notice when someone in the room is upset before anyone else has said a word. The child who melts down completely is often the same child who, ten minutes later, is genuinely worried about whether you are okay. Living with high emotional sensitivity is hard. It is also, in the right conditions, a remarkable thing.</div>
+                <div class="strength-aside">People who feel things fully tend to be the ones who notice injustice and stick by their friends.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name">Persistence on the <em>Right Problem</em></div>
+                <div class="strength-body">Different from compliance. This is the child who, when genuinely interested, does not stop. Who comes back to a problem the next day without being asked. Who argues because they genuinely believe they are right and find the idea of just going along with it slightly bewildering. That tenacity is often invisible in school settings because the tasks are not self-chosen. It shows up in hobbies, projects, and long conversations instead.</div>
+                <div class="strength-aside">The child who will not let something go is also the child who will not let the important things go either.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name">Noticing What <em>Others Miss</em></div>
+                <div class="strength-body">The processing style that makes the world feel too loud in one setting can make a child extraordinarily attuned in another. Detail. Sound. Atmosphere. These children often describe exactly what something looked or felt like with a precision that stops you mid-sentence. The same volume knob, turned in a different room.</div>
+              </div>
+
+              <div class="strength-block">
+                <div class="strength-name">Thinking in <em>Systems</em></div>
+                <div class="strength-body">Some children whose brains work differently have a powerful ability to hold complex rules in their heads. They track how things connect, what the rules are, and — with considerable enthusiasm — when the rules are being applied inconsistently. The same quality applied to systems, structures, and problems that reward this kind of thinking is a considerable advantage. <em>It just needs the right arena.<em></div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="try-tonight">
+            <div class="try-tonight-label">One Small Thing Tonight</div>
+            <p>Name one of these strengths to your child tonight. Be specific. Not "you're so creative" — something real: "I noticed how long you stayed on that problem today. That is something."</p>
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+    <!-- ═══ CARD 03: Holding Both Things ═══ -->
+    <div class="slide" id="slide-2">
+      <article class="card">
+        <div class="card-grain"></div>
+        <div class="card-header">
+          <div class="card-stamp">03</div>
+          <div class="card-brand">Wired Differently — The Honest Bit</div>
+          <h2 class="card-title">Holding<br><em>Both Things</em></h2>
+        </div>
+        <div class="card-body">
+
+          <div class="parent-truth">
+            <div class="parent-truth-label">Parent Truth</div>
+            <p>You can acknowledge your child's genuine strengths and still have a very hard Tuesday.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">What This Guide Is Not Saying</div>
+            <p class="section-body">Strengths do not cancel out hard days.</p>
+            <p class="section-body">Your child can have a genuine capacity for creative thinking and still not be able to start the homework. They can feel things deeply and also completely fall apart at a transition. They can be unusually persistent about things they care about and utterly unmovable about things they do not.</p>
+            <p class="section-body">This guide is not asking you to pretend the hard parts are not real. They are real. There are tools here for those moments too. What we are asking is that the hard parts do not become the whole story. Because they are not. 
+			<p class="section-body">And your child knows which version of the story you believe.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">Worth Saying Clearly</div>
+            <div class="honest-box">
+              <div class="honest-label">The thing about "but they're so bright"</div>
+              <p>"But they are so bright" is not a compliment when it is used to dismiss. Bright and struggling are not opposites. Many children whose brains are wired differently are both at once, every single day. That combination deserves to be taken seriously — not used as evidence that nothing is wrong.</p>
+              <p>If you have heard a version of that sentence and wanted to flip a table: that response was reasonable.</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-label">What the Research Actually Shows</div>
+            <p class="section-body">Resilience research consistently shows that children who have a clear sense of their own strengths cope better with difficulty — not because the difficulty gets smaller, but because their identity does not collapse around it. A child who knows what they are good at has somewhere to stand when a hard day tries to tell them they are nothing.</p>
+            <p class="section-body">Naming strengths is not optimism. It is accuracy. And it is one of the few things you can do tonight that costs nothing and matters.</p>
+          </div>
+
+          <details class="brain">
+            <summary>Why this works <span>the science, briefly</span></summary>
+            <div class="brain-body">
+              <p>Resilience frameworks in developmental psychology — including Ann Masten's work on ordinary resilience in children — consistently identify strengths-awareness, supportive relationships, and a stable sense of identity as key protective factors. For children whose brains are wired differently, who are at elevated risk of anxiety and low self-esteem not because of their neurotype but because of repeated mismatch experiences, this protective framing is particularly significant.</p>
+              <p>Carol Dweck's work on growth mindset adds a related layer: children who understand that their capacities can develop through effort are more likely to persist, seek help, and interpret setbacks as information rather than verdict. Building a broader, more accurate story about who they are is where that starts.</p>
+            </div>
+          </details>
+
+          <div class="try-tonight">
+            <div class="try-tonight-label">One Small Thing Tonight</div>
+            <p>After a hard moment today, separate the behaviour from the child. Say: "What happened was difficult. And you are not a bad kid. We are going to sort this out." That is the whole move. Accountability without identity verdict.</p>
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+    <!-- ═══ CARD 04: Where to Go Next ═══ -->
+    <div class="slide" id="slide-3">
+      <article class="card">
+        <div class="card-grain"></div>
+        <div class="card-header">
+          <div class="card-stamp">04</div>
+          <div class="card-brand">Wired Differently — Navigation</div>
+          <h2 class="card-title">Where to<br><em>Go Next</em></h2>
+        </div>
+        <div class="card-body">
+
+          <div class="parent-truth">
+            <div class="parent-truth-label">Parent Truth</div>
+            <p>You do not have to read this in order. Start wherever the pain is.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-label">The Two Parts of This Guide</div>
+            <p class="section-body">Where you start depends on where you are right now.</p>
+
+            <div class="route-grid" style="grid-template-columns: repeat(2, 1fr);">
+              <a class="route-card" href="scenarios.html">
+                <div class="route-tag">Something just happened</div>
+                <div class="route-heading">The Moment Cards</div>
+                <div class="route-desc">The homework exploded tonight. Or the teacher called. Or the same thing happened again. Short, practical scripts for the situations that come up most. No preamble required.</div>
+              </a>
+              <a class="route-card" href="skills_guide.html">
+                <div class="route-tag">I want to build something lasting</div>
+                <div class="route-heading">The Skills Guide</div>
+                <div class="route-desc">Not scripts — practices. Ten skills, one small step each, built for real life with a child whose brain works differently. These take longer to embed and they last.</div>
+              </a>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-label">If You Need More</div>
+            <p class="section-body">The Resources page collects the SG-specific support, organisations, and reading worth knowing about — curated, not exhaustive.</p>
+            <p class="section-body">And if you suspect your child may benefit from a formal assessment, your paediatrician or a developmental psychologist is the right next step. This guide is not a screening tool. What it can do is give you better language for the conversations ahead.</p>
+          </div>
+
+          <div class="try-tonight">
+            <div class="try-tonight-label">Not Sure Where to Start?</div>
+            <p>Go to the Moment Cards. Pick the scenario that happened most recently. Read the "What's Happening" section. That is enough for tonight.</p>
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+  </section>
+
+  <!-- Jump dots -->
+  <div class="jump-row" aria-label="Navigate to card">
+    <button class="jump-dot active" data-target="0">1</button>
+    <button class="jump-dot" data-target="1">2</button>
+    <button class="jump-dot" data-target="2">3</button>
+    <button class="jump-dot" data-target="3">4</button>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════
+     CLOSING
+══════════════════════════════ -->
+<section class="closing">
+  <div class="closing-inner">
+    <h2>The child in front<br>of you is <em>enough.</em></h2>
+    <p>Not a project. Not a problem to solve before the next school year. Not someone who needs to be fixed before they can be appreciated.</p>
+    <p>They need to be known. You already know them better than anyone.</p>
+    <div class="you-got-this">You've got this.</div>
+    <a class="cta-btn" href="scenarios.html">Start with the Moment Cards →</a>
+    <p class="footer-note">Wired Differently is a parent resource, not a clinical tool, and does not constitute medical or psychological advice. If you are concerned about your child's development or wellbeing, please speak to a qualified professional.<br><br>Wired Differently &nbsp;|&nbsp; Singapore &nbsp;|&nbsp; 2026</p>
+  </div>
+</section>
+
+<script>
+  const slidesEl   = document.getElementById('slides');
+  const slides     = Array.from(document.querySelectorAll('.slide'));
+  const dots       = Array.from(document.querySelectorAll('.jump-dot'));
+  const coverJumps = Array.from(document.querySelectorAll('.cover-jump'));
+  const sideNavs   = document.querySelectorAll('.side-nav');
+  const cover      = document.querySelector('.cover');
+  const closing    = document.querySelector('.closing');
+  let current = 0, isScrolling = false;
+
+  function goToSlide(index, opts = {}) {
+    index = Math.max(0, Math.min(index, slides.length - 1));
+    current = index;
+    isScrolling = true;
+    slidesEl.scrollTo({ left: slides[current].offsetLeft, behavior: 'smooth' });
+    if (opts.scrollToTop) {
+      const top = window.scrollY + slides[current].getBoundingClientRect().top - 24;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    if (opts.updateHash !== false) history.replaceState(null, '', '#slide-' + current);
+    setTimeout(() => { isScrolling = false; }, 600);
+  }
+
+  function updateArrows() {
+    if (!cover || !closing) return;
+    const y = window.scrollY;
+    const show =
+      y + 60 > cover.offsetTop + cover.offsetHeight &&
+      y + window.innerHeight < closing.offsetTop + 60;
+    sideNavs.forEach(n => n.classList.toggle('visible', show));
+  }
+
+  document.getElementById('prevSlide').onclick = () => goToSlide(current - 1, { scrollToTop: true });
+  document.getElementById('nextSlide').onclick = () => goToSlide(current + 1, { scrollToTop: true });
+
+  dots.forEach(d => d.addEventListener('click', e => {
+    e.preventDefault();
+    goToSlide(Number(d.dataset.target), { scrollToTop: true });
+  }));
+
+  coverJumps.forEach(btn => btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector('.carousel-shell').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => goToSlide(Number(btn.dataset.target)), 250);
+  }));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goToSlide(current + 1, { scrollToTop: true });
+    if (e.key === 'ArrowLeft')  goToSlide(current - 1, { scrollToTop: true });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        current = slides.indexOf(entry.target);
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+    });
+  }, { root: slidesEl, threshold: 0.55 });
+
+  slides.forEach(s => observer.observe(s));
+
+  function openHashSlide() {
+    const match = window.location.hash.match(/^#slide-(\d+)$/);
+    if (!match) return;
+    const idx = Number(match[1]);
+    if (!Number.isNaN(idx)) {
+      document.querySelector('.carousel-shell').scrollIntoView({ behavior: 'auto' });
+      setTimeout(() => goToSlide(idx, { updateHash: false }), 50);
+    }
+  }
+
+  updateArrows();
+  addEventListener('scroll', updateArrows, { passive: true });
+  addEventListener('resize', updateArrows);
+  window.addEventListener('hashchange', openHashSlide);
+  openHashSlide();
+</script>
+</body>
+</html>

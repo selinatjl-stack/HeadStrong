@@ -327,25 +327,6 @@ details.brain[open] summary::after { content: '–'; }
 .brain-body p { margin-bottom: 10px; }
 .brain-body p:last-child { margin-bottom: 0; }
 
-/* ── Jump dots ───────────────────────────────────────────────── */
-.jump-row {
-  position: relative; z-index: 2; max-width: 720px; margin: 0 auto;
-  padding: 0 28px 60px;
-  display: flex; flex-wrap: wrap; gap: 8px;
-  justify-content: center; align-items: center;
-}
-.jump-dot {
-  appearance: none; border: 1px solid rgba(42,34,41,.18);
-  background: var(--paper); color: var(--ink-soft);
-  width: 36px; height: 36px; border-radius: 8px;
-  font-family: 'Kalam', cursive; font-weight: 700; font-size: 16px;
-  cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; justify-content: center;
-  transition: all .15s;
-}
-.jump-dot:hover { color: var(--rust); border-color: var(--rust); }
-.jump-dot.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-
 /* ── Closing ─────────────────────────────────────────────────── */
 .closing { position: relative; z-index: 2; padding: 60px 28px 100px; }
 .closing-inner {
@@ -383,99 +364,27 @@ details.brain[open] summary::after { content: '–'; }
   padding-top: 22px; border-top: 1px dashed rgba(42,34,41,.2); line-height: 1.7;
 }
 
-/* ── Skills Guide preview block ─────────────────────────────── */
-.sg-preview {
-  position: relative; z-index: 2;
-  padding: 0 28px 0;
+/* ── Mobile dots ─────────────────────────────────────────────── */
+.mobile-dots {
+  display: none; justify-content: center; gap: 8px;
+  padding: 4px 28px 0; max-width: 980px; margin: 0 auto;
 }
-.sg-preview-inner {
-  max-width: 620px; margin: 0 auto;
-  padding: 48px 56px 48px 80px;
-  background: var(--paper);
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(42,34,41,.08), 0 24px 40px rgba(42,34,41,.12);
-  position: relative; overflow: hidden;
-}
-.sg-preview-inner::before {
-  content: ''; position: absolute; top: 0; bottom: 0;
-  left: 56px; width: 1px; background: var(--rust); opacity: .55;
-}
-.sg-preview-inner > * { position: relative; }
-.sg-preview-kicker {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 9px; font-weight: 600;
-  letter-spacing: .26em; text-transform: uppercase;
-  color: var(--ink-faint);
-  display: inline-flex; align-items: center; gap: 8px;
-  margin-bottom: 16px;
-}
-.sg-preview-kicker::before {
-  content: '';
+.mdot {
   width: 8px; height: 8px; border-radius: 50%;
-  border: 1.5px solid var(--rust-deep);
-  background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
-  flex-shrink: 0;
+  background: var(--bone-deep); border: none; cursor: pointer;
+  padding: 0; transition: background .15s, transform .15s;
 }
-.sg-preview-inner h2 {
-  font-family: 'Crimson Pro', serif;
-  font-size: 36px; font-weight: 300;
-  line-height: 1.05; color: var(--ink);
-  margin-bottom: 12px;
-}
-.sg-preview-inner h2 em { font-style: italic; color: var(--rust-deep); font-weight: 400; }
-.sg-preview-lede {
-  font-size: 15px; line-height: 1.7; color: var(--ink-soft);
-  margin-bottom: 28px;
-}
-.sg-preview-parts {
-  display: flex; flex-direction: column; gap: 0;
-  margin-bottom: 32px;
-  border-top: 1px solid rgba(42,34,41,.08);
-}
-.sg-preview-part {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(42,34,41,.08);
-  align-items: start;
-}
-.sg-preview-part-num {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 9px; font-weight: 600;
-  letter-spacing: .2em; text-transform: uppercase;
-  padding-top: 3px;
-}
-.sg-preview-part-num.p1 { color: var(--sage); }
-.sg-preview-part-num.p2 { color: var(--rust); }
-.sg-preview-part-num.p3 { color: var(--warning); }
-.sg-preview-part-title {
-  font-family: 'Crimson Pro', serif;
-  font-size: 17px; font-weight: 500;
-  line-height: 1.2; color: var(--ink);
-  margin-bottom: 3px;
-}
-.sg-preview-part-desc {
-  font-size: 12px; color: var(--ink-faint); line-height: 1.5;
-}
-.sg-preview-cta {
-  display: inline-block; background: var(--ink); color: var(--paper);
-  font-family: 'IBM Plex Sans', sans-serif; font-size: 12px;
-  font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-  padding: 14px 24px; border-radius: 6px; text-decoration: none;
-  transition: background .12s;
-}
-.sg-preview-cta:hover { background: var(--rust-deep); }
+.mdot.active { background: var(--rust); transform: scale(1.25); }
 
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 880px) {
   .page-header { padding: 20px 24px 0; }
   .side-nav { display: none; }
+  .mobile-dots { display: flex; }
   .slide { padding: 10px 16px 30px; }
   .card-header, .card-body { padding-left: 56px; padding-right: 24px; }
   .route-grid { grid-template-columns: 1fr; }
   .closing-inner { padding-left: 56px; padding-right: 24px; }
-  .sg-preview-inner { padding-left: 56px; padding-right: 24px; }
 }
 </style>
 </head>
@@ -501,6 +410,8 @@ details.brain[open] summary::after { content: '–'; }
   <div class="carousel-header">
     <p class="hand">Swipe or use the arrows to move through the guide.</p>
   </div>
+
+  <div class="mobile-dots" id="mobileDots" aria-label="Card navigation"></div>
 
   <section class="slides" id="slides">
 
@@ -728,60 +639,8 @@ details.brain[open] summary::after { content: '–'; }
 
   </section>
 
-  <!-- Jump dots -->
-  <div class="jump-row" aria-label="Navigate to card">
-    <button class="jump-dot active" data-target="0">1</button>
-    <button class="jump-dot" data-target="1">2</button>
-    <button class="jump-dot" data-target="2">3</button>
-    <button class="jump-dot" data-target="3">4</button>
-  </div>
 
 </main>
-
-<!-- ══════════════════════════════
-     SKILLS GUIDE PREVIEW
-══════════════════════════════ -->
-<section class="sg-preview">
-  <div class="sg-preview-inner">
-
-    <p class="sg-preview-kicker">HeadStrong / Not The Kid</p>
-
-    <h2>The Skills Guide<br><em>for Parents</em></h2>
-
-    <p class="sg-preview-lede">Understanding your child is the start. The Skills Guide is what comes next. Seventeen skills across three parts, practical, grounded in developmental science, built for real life.</p>
-
-    <div class="sg-preview-parts">
-
-      <div class="sg-preview-part">
-        <span class="sg-preview-part-num p1">Part One</span>
-        <div>
-          <p class="sg-preview-part-title">Understanding What You're Actually Seeing</p>
-          <p class="sg-preview-part-desc">Three skills. Depletion, shame, and emotional intensity — what they look like and why they happen. Before strategies come explanations.</p>
-        </div>
-      </div>
-
-      <div class="sg-preview-part">
-        <span class="sg-preview-part-num p2">Part Two</span>
-        <div>
-          <p class="sg-preview-part-title">The Home Environment</p>
-          <p class="sg-preview-part-desc">Five skills. Movement, attention, transitions, unstructured time, and sleep. The conditions that make everything else possible.</p>
-        </div>
-      </div>
-
-      <div class="sg-preview-part">
-        <span class="sg-preview-part-num p3">Part Three</span>
-        <div>
-          <p class="sg-preview-part-title">Skills to Build Together</p>
-          <p class="sg-preview-part-desc">Nine skills. Things you and your child practise — in small steps, over time. Not quick fixes. The kind that last.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <a class="sg-preview-cta" href="skills_guide.html">Go to the Skills Guide →</a>
-
-  </div>
-</section>
 
 <!-- ══════════════════════════════
      CLOSING
@@ -800,10 +659,28 @@ details.brain[open] summary::after { content: '–'; }
 <script>
   const slidesEl  = document.getElementById('slides');
   const slides    = Array.from(document.querySelectorAll('.slide'));
-  const dots      = Array.from(document.querySelectorAll('.jump-dot'));
   const sideNavs  = document.querySelectorAll('.side-nav');
   const closing   = document.querySelector('.closing');
+  const dotsEl    = document.getElementById('mobileDots');
   let current = 0, isScrolling = false;
+
+  // Build mobile dots
+  if (dotsEl) {
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'mdot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to card ' + (i + 1));
+      d.dataset.target = i;
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function updateDots() {
+    if (!dotsEl) return;
+    dotsEl.querySelectorAll('.mdot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
 
   function goToSlide(index, opts = {}) {
     index = Math.max(0, Math.min(index, slides.length - 1));
@@ -814,8 +691,8 @@ details.brain[open] summary::after { content: '–'; }
       const top = window.scrollY + slides[current].getBoundingClientRect().top - 24;
       window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     }
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
     if (opts.updateHash !== false) history.replaceState(null, '', '#slide-' + current);
+    updateDots();
     setTimeout(() => { isScrolling = false; }, 600);
   }
 
@@ -832,10 +709,14 @@ details.brain[open] summary::after { content: '–'; }
   document.getElementById('prevSlide').onclick = () => goToSlide(current - 1, { scrollToTop: true });
   document.getElementById('nextSlide').onclick = () => goToSlide(current + 1, { scrollToTop: true });
 
-  dots.forEach(d => d.addEventListener('click', e => {
-    e.preventDefault();
-    goToSlide(Number(d.dataset.target), { scrollToTop: true });
-  }));
+  if (dotsEl) {
+    dotsEl.addEventListener('click', e => {
+      const d = e.target.closest('.mdot');
+      if (!d) return;
+      e.preventDefault();
+      goToSlide(Number(d.dataset.target), { scrollToTop: true });
+    });
+  }
 
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') goToSlide(current + 1, { scrollToTop: true });
@@ -846,7 +727,7 @@ details.brain[open] summary::after { content: '–'; }
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         current = slides.indexOf(entry.target);
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        updateDots();
       }
     });
   }, { root: slidesEl, threshold: 0.55 });
@@ -859,16 +740,15 @@ details.brain[open] summary::after { content: '–'; }
     if (!match) return;
     const idx = Number(match[1]);
     if (Number.isNaN(idx)) return;
-    // Scroll carousel into view first, then jump to slide
     document.querySelector('.carousel-shell').scrollIntoView({ behavior: 'auto' });
     setTimeout(() => goToSlide(idx, { updateHash: false }), 80);
   }
 
   updateArrows();
+  updateDots();
   addEventListener('scroll', updateArrows, { passive: true });
   addEventListener('resize', updateArrows);
   window.addEventListener('hashchange', openHashSlide);
-  // Run on load — handles direct URL with hash
   window.addEventListener('load', openHashSlide);
   openHashSlide();
 </script>

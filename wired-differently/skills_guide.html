@@ -3,1454 +3,1545 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skills Guide — HeadStrong</title>
+<title>Skills Guide — HeadStrong / Not The Kid</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="not-the-kid.css">
 <style>
-  :root {
-    --bone:        #EDE5D6;
-    --bone-deep:   #DDD2BD;
-    --paper:       #FBF7EB;
-    --paper-warm:  #F4ECD8;
-    --ink:         #2A2229;
-    --ink-soft:    #564B53;
-    --ink-faint:   #8D8088;
-    --rule:        #D9D0BD;
-    --rule-line:   #D9C9A8;     /* the ruled lines on a card */
-    --rust:        #C2613D;
-    --rust-deep:   #963F22;
-    --rust-light:  #F3DACD;
-    --sage:        #7E9379;
-    --sage-light:  #DCE3D5;
-    --warning:     #B17A3A;
-    --warning-bg:  #F4E6CF;
-  }
+/* ── Phase 3: Skill body content components ── */
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bone);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
+/* Section label — small caps header between content blocks */
+.sg-section-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 32px 0 12px;
+  display: block;
+}
 
-  /* Subtle grain on the bone background */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .22  0 0 0 0 .18  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    opacity: .5;
-    mix-blend-mode: multiply;
-  }
+/* Body paragraphs — minimum 16px, comfortable reading size */
+.sg-skill-body p {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
 
-  /* ============= COVER ============= */
-  .cover {
-    position: relative; z-index: 2;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 60px;
-    padding: 80px 64px 80px;
-    max-width: 1240px;
-    margin: 0 auto;
-  }
-  .cover-left { max-width: 540px; }
-  .brand {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--rust-deep);
-    margin-bottom: 28px;
-  }
-  .brand::before {
-    content: '';
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    border: 1.5px solid var(--rust-deep);
-    background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
-  }
+/* Parent Truth — warm neutral tint, consistent across all chapters,
+   deliberately different from the chapter-accent Try Tonight blocks */
+.sg-skill-body .parent-truth {
+  background: var(--paper-warm);
+  border-radius: 6px;
+  padding: 20px 24px;
+  border-top: 2px solid var(--rust);
+  border-bottom: none;
+  margin: 0 0 32px;
+}
 
-  .cover h1 {
-    font-family: 'Crimson Pro', serif;
-    font-size: clamp(56px, 8vw, 100px);
-    font-weight: 300;
-    line-height: 1.02;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 28px;
-  }
-  .cover h1 em { font-style: italic; color: var(--rust-deep); font-weight: 400; }
+/* Chapter accent applies only to the top border, not the fill */
+[data-chapter="1"] .sg-skill-body .parent-truth { border-top-color: var(--ch1-accent); }
+[data-chapter="2"] .sg-skill-body .parent-truth { border-top-color: var(--ch2-accent); }
+[data-chapter="3"] .sg-skill-body .parent-truth { border-top-color: var(--ch3-accent); }
 
-  .cover-lede {
-    font-family: 'Crimson Pro', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 1.5;
-    color: var(--ink-soft);
-    margin-bottom: 40px;
-    max-width: 500px;
-  }
-  .cover-handwritten {
-    font-family: 'Kalam', cursive;
-    font-weight: 400;
-    font-size: 22px;
-    color: var(--rust);
-    line-height: 1.35;
-    transform: rotate(-1deg);
-    max-width: 420px;
-    margin-bottom: 8px;
-  }
-  .cover-arrow {
-    font-family: 'Kalam', cursive;
-    color: var(--rust);
-    font-size: 28px;
-    margin-left: 8px;
-    display: inline-block;
-    transform: rotate(8deg) translateY(4px);
-  }
+/* Try tonight block */
+.sg-try-tonight {
+  background: var(--rust-light);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin: 28px 0;
+}
 
-  /* Cover right: index card stack preview */
-  .cover-right {
-    position: relative;
-    height: 540px;
-    max-width: 480px;
-    justify-self: center;
-  }
-  .index-card-stack {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  .index-card-preview {
-    position: absolute;
-    width: 360px;
-    height: 240px;
-    background: var(--paper);
-    border-radius: 6px;
-    padding: 22px 26px;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.7) inset,
-      0 8px 18px rgba(42,34,41,.10),
-      0 24px 40px rgba(42,34,41,.10);
-    background-image: linear-gradient(to bottom, transparent 64px, var(--rule-line) 64px, var(--rule-line) 65px, transparent 65px),
-      repeating-linear-gradient(to bottom, transparent 0px, transparent 26px, var(--rule-line) 26px, var(--rule-line) 27px);
-    background-size: 100% 100%, 100% 27px;
-    background-position: 0 0, 0 64px;
-  }
-  .index-card-preview .num {
-    font-family: 'Kalam', cursive;
-    color: var(--rust);
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 2px;
-  }
-  .index-card-preview .ttl {
-    font-family: 'Crimson Pro', serif;
-    font-size: 28px;
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.1;
-    margin-bottom: 10px;
-  }
-  .index-card-preview .ttl em { font-style: italic; color: var(--rust-deep); }
-  .index-card-preview .lbl {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 4px;
-  }
-  .index-card-preview .qt {
-    font-family: 'Kalam', cursive;
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1.35;
-  }
-  .cp-1 { top: 0;    left: 0;   transform: rotate(-3.5deg); }
-  .cp-2 { top: 50px; left: 70px; transform: rotate(2deg); z-index: 2; }
-  .cp-3 { top: 240px; left: 30px; transform: rotate(-2deg); z-index: 3; }
-  /* paper pin */
-  .cover-pin {
-    position: absolute;
-    top: 38px; left: 230px;
-    width: 14px; height: 14px;
-    background: radial-gradient(circle at 35% 30%, #e07c5a, var(--rust-deep) 75%);
-    border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0,0,0,.3), inset 1px 1px 2px rgba(255,255,255,.4);
-    z-index: 10;
-  }
+.sg-try-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 10px !important;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--rust) !important;
+  margin: 0 0 10px !important;
+}
 
-  /* Skill index list under the hero text on small screens; on big screens it shows after */
-  .skill-index {
-    margin-top: 48px;
-    padding-top: 28px;
-    border-top: 1px solid rgba(42,34,41,.14);
-  }
-  .skill-index-title {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .26em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 14px;
-  }
-  .index-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 28px;
-  }
-  .index-item {
-    appearance: none; border: 0; background: transparent;
-    text-decoration: none;
-    display: flex; align-items: baseline; gap: 14px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 15px;
-    color: var(--ink);
-    text-align: left;
-    cursor: pointer;
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(42,34,41,.08);
-    transition: color .15s, padding .15s;
-  }
-  .index-item:hover { color: var(--rust-deep); padding-left: 4px; }
-  .index-num {
-    font-family: 'Kalam', cursive;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--rust);
-    min-width: 26px;
-  }
+.sg-try-tonight p:last-child {
+  margin-bottom: 0 !important;
+  color: var(--ink) !important;
+}
 
-  details.about {
-    margin-top: 36px;
-    border-top: 1px solid rgba(42,34,41,.14);
-    padding-top: 22px;
-  }
-  details.about summary {
-    list-style: none;
-    cursor: pointer;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .26em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    display: flex; align-items: center;
-    padding: 4px 0;
-  }
-  details.about summary::-webkit-details-marker { display: none; }
-  details.about summary::after {
-    content: '+';
-    margin-left: auto;
-    font-family: 'Crimson Pro', serif;
-    font-size: 22px;
-    color: var(--rust);
-    font-weight: 300;
-  }
-  details.about[open] summary::after { content: '–'; }
-  .about-body { padding: 18px 0 8px; max-width: 540px; }
-  .about-body p {
-    font-family: 'Crimson Pro', serif;
-    font-size: 18px;
-    line-height: 1.65;
-    color: var(--ink-soft);
-    margin-bottom: 12px;
-    font-weight: 300;
-  }
-  .about-body p:last-child { margin-bottom: 0; }
-  .about-body .micro {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-style: italic;
-    font-size: 13px;
-    color: var(--ink-faint);
-    margin-top: 16px;
-  }
+[data-chapter="1"] .sg-try-tonight { background: var(--ch1-accent-bg); }
+[data-chapter="1"] .sg-try-label { color: var(--ch1-accent) !important; }
+[data-chapter="2"] .sg-try-tonight { background: var(--ch2-accent-bg); }
+[data-chapter="2"] .sg-try-label { color: var(--ch2-accent) !important; }
+[data-chapter="3"] .sg-try-tonight { background: var(--ch3-accent-bg); }
+[data-chapter="3"] .sg-try-label { color: var(--ch3-accent) !important; }
 
-  /* ============= CAROUSEL ============= */
-  .carousel-shell {
-    position: relative; z-index: 2;
-    padding: 0 0 64px;
-  }
-  .carousel-header {
-    max-width: 980px; margin: 0 auto 8px;
-    padding: 0 28px;
-    display: flex; align-items: end; justify-content: flex-start;
-    gap: 24px;
-  }
-  .carousel-header .hand {
-    font-family: 'Kalam', cursive;
-    font-weight: 400;
-    font-size: 20px;
-    color: var(--rust-deep);
-    line-height: 1.3;
-    max-width: 360px;
-    transform: rotate(-.6deg);
-  }
+/* Brain science expandable */
+.sg-brain {
+  margin: 28px 0 8px;
+  border-top: 1px dashed var(--rule);
+  padding-top: 20px;
+}
 
-  /* Side-floating prev/next — sit beside the card, vertically centred
-     on the viewport so they're reachable however far you've scrolled.
-     Visible only while the carousel section is on screen. */
-  .side-nav {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 50;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .25s, visibility .25s;
-    pointer-events: none;
-  }
-  .side-nav.visible {
-    opacity: 1;
-    visibility: visible;
-  }
-  .side-nav.visible .nav-btn { pointer-events: auto; }
-  .side-nav.prev { left: max(20px, calc((100vw - 820px) / 2 - 72px)); }
-  .side-nav.next { right: max(20px, calc((100vw - 820px) / 2 - 72px)); }
+.sg-brain-trigger {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--ink-faint);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .carousel-controls { display: flex; gap: 8px; flex-shrink: 0; }
-  .nav-btn {
-    width: 48px; height: 48px;
-    border-radius: 8px;
-    border: 1.5px solid var(--ink);
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Crimson Pro', serif;
-    font-size: 22px;
-    cursor: pointer;
-    transition: background .12s, color .12s;
-  }
-  .nav-btn:hover { background: var(--ink); color: var(--paper); }
+.sg-brain-trigger::before {
+  content: '+';
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background .12s, color .12s;
+}
 
-  .slides {
-    display: flex; gap: 0;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 24px 0 40px;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .slides::-webkit-scrollbar { display: none; }
-  .slide {
-    flex: 0 0 100vw;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-    display: flex; align-items: flex-start; justify-content: center;
-    padding: 10px 28px 30px;
-  }
+.sg-brain[open] .sg-brain-trigger::before {
+  content: '−';
+  background: var(--ink-faint);
+  color: var(--paper);
+  border-color: var(--ink-faint);
+}
 
-  /* The index card */
-  .card {
-    position: relative;
-    width: min(820px, 100%);
-    background: var(--paper);
-    border-radius: 6px;
-    padding: 0;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.7) inset,
-      0 4px 10px rgba(42,34,41,.08),
-      0 20px 36px rgba(42,34,41,.10);
-    overflow: hidden;
-  }
-  /* Red margin line + horizontal ruled lines (real index card look) */
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 56px;
-    width: 1px;
-    background: var(--rust);
-    opacity: .55;
-  }
-  .card-grain {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .22  0 0 0 .2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    opacity: .35;
-    mix-blend-mode: multiply;
-  }
+.sg-brain-body {
+  padding: 18px 0 4px;
+}
 
-  .card-header {
-    padding: 36px 56px 32px 80px;
-    position: relative;
-    /* Two faint ruled lines under the title area only — enough to read as
-       an index card, never colliding with body text. */
-    background-image:
-      linear-gradient(to bottom, transparent calc(100% - 22px), rgba(217,201,168,.7) calc(100% - 22px), rgba(217,201,168,.7) calc(100% - 21px), transparent calc(100% - 21px)),
-      linear-gradient(to bottom, transparent calc(100% - 8px),  rgba(217,201,168,.45) calc(100% - 8px),  rgba(217,201,168,.45) calc(100% - 7px),  transparent calc(100% - 7px));
-  }
-  .card-stamp {
-    font-family: 'Kalam', cursive;
-    font-weight: 700;
-    color: var(--rust);
-    font-size: 26px;
-    line-height: 1;
-    margin-bottom: 4px;
-    transform: rotate(-1.5deg);
-    display: inline-block;
-  }
-  .card-stamp::before {
-    content: 'No. ';
-    font-weight: 400;
-    font-size: 20px;
-    color: var(--rust-deep);
-    margin-right: 2px;
-  }
-  .card-brand {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 8px;
-  }
-  .card-title {
-    font-family: 'Crimson Pro', serif;
-    font-size: clamp(40px, 5vw, 56px);
-    font-weight: 300;
-    line-height: 1.02;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-  }
-  .card-title em { font-style: italic; color: var(--rust-deep); font-weight: 400; }
+/* Brain science body — 16px minimum, slightly muted but fully readable */
+.sg-brain-body p {
+  font-size: 16px !important;
+  color: var(--ink-soft) !important;
+  line-height: 1.65;
+  margin: 0 0 14px !important;
+}
 
-  .card-body {
-    padding: 28px 56px 48px 80px;
-    /* No body rules — text is left clear. The red margin line + paper +
-       handwritten "No." carry the index-card feel. */
-  }
+.sg-brain-body p:last-child { margin-bottom: 0 !important; }
 
-  /* ============= PARENT TRUTH (first) ============= */
-  .parent-truth {
-    position: relative;
-    margin: 0 0 32px;
-    padding: 16px 0 18px;
-    border-top: 2px solid var(--rust);
-    border-bottom: 1px solid rgba(194,97,61,.3);
-  }
-  .parent-truth-label {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 8px;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .parent-truth-label::before {
-    content: '';
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    border: 1.5px solid var(--rust);
-    background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
-  }
-  .parent-truth p {
-    font-family: 'Kalam', cursive;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
+@media (max-width: 680px) {
+  .sg-try-tonight { padding: 16px 18px; }
+  .sg-skill-body .parent-truth { padding: 16px 18px; }
+}
 
-  /* ============= SECTIONS ============= */
-  .section { margin-bottom: 28px; }
-  /* Faint dashed ruled divider between sections — sits in the gap, never
-     crosses text. Skipped after the Parent Truth (which has its own rule). */
-  .section + .section,
-  .pre-step + .section,
-  .section + .pre-step {
-    border-top: 1px dashed rgba(217,201,168,.95);
-    padding-top: 28px;
-    margin-top: 4px;
-  }
-  .section-label {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--rust-deep);
-    margin-bottom: 10px;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  /* Motif: small circle with center dot — used as marker */
-  .section-label::before {
-    content: '';
-    flex: 0 0 10px;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    border: 1.5px solid var(--rust);
-    background: radial-gradient(circle, var(--rust) 30%, transparent 32%);
-  }
+/* ── Cover: reduce gap between routing box and Part One ── */
+.sg-cover { padding-bottom: 32px; }
 
-  .section-body {
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--ink-soft);
-    margin-bottom: 12px;
-  }
-  .section-body:last-child { margin-bottom: 0; }
-  .section-body em { color: var(--ink); font-style: italic; }
+/* ── CTA action row: two buttons side by side ── */
+.sg-chapter-cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
 
-  /* Try this tonight */
-  .try-tonight {
-    background: var(--rust-light);
-    padding: 18px 22px;
-    border-radius: 4px;
-    position: relative;
-  }
-  .try-tonight::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px; right: -1px; bottom: -1px;
-    border: 1px dashed var(--rust);
-    border-radius: 5px;
-    pointer-events: none;
-    opacity: .5;
-  }
-  .try-tonight p {
-    font-size: 16px;
-    line-height: 1.72;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
-  .try-tonight p:last-child { margin-bottom: 0; }
-
-  /* Steps */
-  .steps {
-    list-style: none;
-    counter-reset: step;
-    padding: 0;
-  }
-  .steps li {
-    counter-increment: step;
-    position: relative;
-    padding-left: 38px;
-    margin-bottom: 12px;
-    color: var(--ink-soft);
-    line-height: 1.7;
-    font-size: 15.5px;
-  }
-  .steps li::before {
-    content: counter(step);
-    position: absolute;
-    left: 0; top: -2px;
-    font-family: 'Kalam', cursive;
-    color: var(--rust);
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 1.3;
-  }
-  .steps li:last-child { margin-bottom: 0; }
-
-  /* Not this */
-  .not-this {
-    background: var(--warning-bg);
-    padding: 14px 22px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .not-this::before {
-    content: '✕';
-    position: absolute;
-    top: 14px; left: -6px;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--warning);
-    color: var(--paper);
-    font-size: 11px;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .not-this-label {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--warning);
-    margin-bottom: 6px;
-    padding-left: 22px;
-  }
-  .not-this p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-    padding-left: 22px;
-  }
-
-  /* Scripts */
-  .scripts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .script {
-    background: var(--sage-light);
-    border-radius: 4px;
-    padding: 16px 18px;
-  }
-  .script-tone {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 8px;
-  }
-  .script p {
-    font-family: 'Crimson Pro', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.42;
-    color: var(--ink);
-  }
-
-  /* Before You Intervene */
-  .pre-step {
-    background: #FBF7EB;
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    padding: 22px 26px;
-    margin-bottom: 28px;
-    position: relative;
-  }
-  .pre-step-title {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .26em; text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 12px;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .pre-step-title::before {
-    content: '';
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    border: 1.5px solid var(--sage);
-    background: radial-gradient(circle, var(--sage) 30%, transparent 32%);
-  }
-  .pre-step p {
-    font-size: 15.5px;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
-  }
-  .pre-step ol { padding-left: 22px; margin: 6px 0 12px; }
-  .pre-step li { color: var(--ink-soft); margin-bottom: 4px; line-height: 1.6; }
-
-  /* Brain details */
-  details.brain {
-    margin: 24px 0 0;
-    padding-top: 18px;
-    border-top: 1px solid rgba(42,34,41,.12);
-  }
-  details.brain summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex; align-items: center; gap: 12px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: .24em; text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  details.brain summary::-webkit-details-marker { display: none; }
-  details.brain summary span {
-    font-family: 'Crimson Pro', serif;
-    font-style: italic;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0; text-transform: none;
-    color: var(--ink-faint);
-    margin-left: 4px;
-  }
-  details.brain summary::after {
-    content: '+';
-    margin-left: auto;
-    font-family: 'Crimson Pro', serif;
-    font-size: 22px;
-    color: var(--rust);
-    font-weight: 300;
-  }
-  details.brain[open] summary::after { content: '–'; }
-  .brain-body {
-    padding: 16px 0 4px;
-    font-size: 15px;
-    line-height: 1.72;
-    color: var(--ink-soft);
-  }
-  .brain-body p { margin-bottom: 10px; }
-  .brain-body p:last-child { margin-bottom: 0; }
-  .signpost {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px dashed rgba(42,34,41,.18);
-    font-size: 14px;
-    color: var(--ink-faint);
-    font-style: italic;
-  }
-  .signpost strong { color: var(--ink-soft); font-style: normal; }
-
-  /* Jump row */
-  .jump-row {
-    position: relative; z-index: 2;
-    max-width: 720px; margin: 0 auto;
-    padding: 0 28px 60px;
-    display: flex; flex-wrap: wrap; gap: 8px;
-    justify-content: center;
-    align-items: center;
-  }
-  .jump-dot {
-    appearance: none; border: 1px solid rgba(42,34,41,.18);
-    background: var(--paper);
-    color: var(--ink-soft);
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    font-family: 'Kalam', cursive;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: all .15s;
-  }
-  .jump-dot:hover { color: var(--rust); border-color: var(--rust); }
-  .jump-dot.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-
-  /* Closing */
-  .closing {
-    position: relative; z-index: 2;
-    padding: 60px 28px 100px;
-  }
-  .closing-inner {
-    max-width: 620px; margin: 0 auto;
-    background: var(--paper);
-    border-radius: 6px;
-    padding: 56px 56px 48px 80px;
-    box-shadow:
-      0 4px 10px rgba(42,34,41,.08),
-      0 24px 40px rgba(42,34,41,.12);
-    position: relative;
-    overflow: hidden;
-  }
-  .closing-inner::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 56px;
-    width: 1px;
-    background: var(--rust);
-    opacity: .55;
-  }
-  .closing-inner > * { position: relative; }
-  .closing h2 {
-    font-family: 'Crimson Pro', serif;
-    font-size: 42px;
-    font-weight: 300;
-    line-height: 1.05;
-    color: var(--ink);
-    margin-bottom: 22px;
-  }
-  .closing h2 em { font-style: italic; color: var(--rust-deep); }
-  .closing p {
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--ink-soft);
-    margin-bottom: 16px;
-  }
-  .closing .you-got-this {
-    font-family: 'Kalam', cursive;
-    font-weight: 700;
-    font-size: 32px;
-    color: var(--rust);
-    transform: rotate(-1.5deg);
-    display: inline-block;
-    margin: 8px 0 24px;
-  }
-  .cta-btn {
-    display: inline-block;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    padding: 14px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background .12s;
-  }
-  .cta-btn:hover { background: var(--rust-deep); }
-  .closing .footer-note {
-    font-size: 13px;
-    color: var(--ink-faint);
-    margin-top: 32px;
-    padding-top: 22px;
-    border-top: 1px dashed rgba(42,34,41,.2);
-    line-height: 1.7;
-  }
-
-  @media (max-width: 880px) {
-    .side-nav { display: none; }     /* fall back to dots / swipe on mobile */
-    .cover {
-      grid-template-columns: 1fr;
-      padding: 56px 24px 60px;
-    }
-    .cover-right { display: none; }
-    .index-grid { grid-template-columns: 1fr; }
-    .slide { padding: 10px 16px 30px; }
-    .card-header, .card-body { padding-left: 56px; padding-right: 24px; }
-    .scripts { grid-template-columns: 1fr; }
-    .closing-inner { padding-left: 56px; padding-right: 24px; }
-  }
+/* ── Rail nav: larger chapter label text ── */
+.sg-rail-item-label { font-size: 20px; }
+.sg-rail-item-num   { font-size: 11px; }
 </style>
 </head>
 <body>
 
-<section class="cover">
-  <div class="cover-left">
-    <div class="brand">HeadStrong</div>
-    <h1>Skills Guide<br><em>for Parents</em></h1>
-    <p class="cover-lede">Practical tools for the work after the flashpoint. Small enough to try tonight. Grounded enough to trust. Humane enough to use when everyone is tired.</p>
-    <p class="cover-handwritten">You don't have to read it in order. Pick the one you need.<span class="cover-arrow">↘</span></p>
-
-    <div class="skill-index">
-      <div class="skill-index-title">Nine skills</div>
-      <div class="index-grid">
-        <a class="index-item cover-jump" href="#slide-0" data-target="0"><span class="index-num">01</span><span>Task Initiation</span></a>
-        <a class="index-item cover-jump" href="#slide-1" data-target="1"><span class="index-num">02</span><span>Movement &amp; Regulation</span></a>
-        <a class="index-item cover-jump" href="#slide-2" data-target="2"><span class="index-num">03</span><span>Attention Anchoring</span></a>
-        <a class="index-item cover-jump" href="#slide-3" data-target="3"><span class="index-num">04</span><span>Transitions &amp; Structure</span></a>
-        <a class="index-item cover-jump" href="#slide-4" data-target="4"><span class="index-num">05</span><span>Social Scripts</span></a>
-        <a class="index-item cover-jump" href="#slide-5" data-target="5"><span class="index-num">06</span><span>Reframing Self-Talk</span></a>
-        <a class="index-item cover-jump" href="#slide-6" data-target="6"><span class="index-num">07</span><span>Repair &amp; Recovery</span></a>
-        <a class="index-item cover-jump" href="#slide-7" data-target="7"><span class="index-num">08</span><span>Family Strength</span></a>
-        <a class="index-item cover-jump" href="#slide-8" data-target="8"><span class="index-num">09</span><span>The Pause</span></a>
-      </div>
-    </div>
-
-    <details class="about">
-      <summary>About this guide</summary>
-      <div class="about-body">
-        <p>Some children run fast and hot. Others drift, or find noise overwhelming, or want friends badly and keep landing wrong. These children are not broken versions of easier children. They are children whose nervous systems need different conditions to work well.</p>
-        <p>Each skill here is designed to be practised in small, repeated doses during ordinary moments — not deployed for the first time during the worst five minutes of the day. That's how the brain actually builds durable habits.</p>
-        <p>One try is a start. Twenty tries is a skill.</p>
-        <p class="micro">This guide is a companion to the Flashpoint Cards. It is educational and does not replace assessment, therapy, medical care, or individualised school support.</p>
-      </div>
-    </details>
-  </div>
-
-  <div class="cover-right" aria-hidden="true">
-    <div class="index-card-stack">
-      <div class="index-card-preview cp-1">
-        <div class="num">No. 02</div>
-        <div class="ttl">Movement &amp;<br><em>Regulation</em></div>
-        <div class="lbl">● Parent Truth</div>
-        <div class="qt">Still finished by the tenth bounce off the sofa.</div>
-      </div>
-      <div class="index-card-preview cp-2">
-        <div class="num">No. 06</div>
-        <div class="ttl">Reframing<br><em>Self-Talk</em></div>
-        <div class="lbl">● Parent Truth</div>
-        <div class="qt">No parent would ever choose those words for them.</div>
-      </div>
-      <div class="index-card-preview cp-3">
-        <div class="num">No. 09</div>
-        <div class="ttl">The<br><em>Pause</em></div>
-        <div class="lbl">● Parent Truth</div>
-        <div class="qt">You are the one who can lead it out.</div>
-      </div>
-      <div class="cover-pin"></div>
-    </div>
-  </div>
-</section>
-
-<main class="carousel-shell" aria-label="Skills guide carousel">
-  <div class="carousel-header">
-    <p class="hand">One card at a time. That's the point.</p>
-  </div>
-
-  <div class="side-nav prev"><button class="nav-btn" id="prevSlide" type="button" aria-label="Previous skill">‹</button></div>
-  <div class="side-nav next"><button class="nav-btn" id="nextSlide" type="button" aria-label="Next skill">›</button></div>
-
-  <section class="slides" id="slides">
-
-    <!-- 01 Task Initiation -->
-    <article class="slide" id="slide-0" aria-label="Task Initiation"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">01</div>
-        <div class="card-brand">Skill One</div>
-        <h2 class="card-title">Task<br><em>Initiation</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is exhausting to stay calm when the worksheet is right there and somehow still nothing is happening.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Task initiation is the ability to begin something that feels effortful, uncertain, repetitive, or emotionally loaded. Many neurodiverse children do not refuse homework because they lack intelligence or because they enjoy making the evening worse for everyone in the kitchen. They may be stuck at the starting point because planning, sequencing, emotional regulation, and working memory are all being asked to come online at once.</p>
-          <p class="section-body">The aim is to make the first action so clear and so small that the child's brain can begin before shame, panic, or argument takes over.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Do not start with "Finish your homework." Sit beside your child, lower the demand, and make the first step visible. You might say, "We are not doing the whole thing yet. We are only opening the worksheet and finding question one." Once that first action is done, pause briefly and name it: "You started. That was the hard part." Then offer the next tiny step.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Choose one task only. Put the rest of the homework pile aside so the child is not looking at the entire mountain.</li>
-            <li>Make the first step physical and visible — opening the book, pointing to question one, reading one sentence, or writing the date.</li>
-            <li>Stay nearby for the first three minutes without correcting handwriting, posture, speed, or attitude unless safety is involved.</li>
-            <li>After the first step, reflect success calmly: "Your brain found the starting point."</li>
-            <li>Offer the next step in the same small format. Continue until the child has enough momentum to work more independently.</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"We are only finding the first step. Nothing else yet."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"I can see your brain is stuck. I will sit with you while it gets going."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"We are not skipping it, but we are making it smaller."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Breaking a task into concrete first actions reduces working memory demand and lowers emotional threat. Co-regulation also matters because children often organise themselves more effectively when a calm adult is physically nearby. These strategies are consistent with behavioural parent training, executive function scaffolding, and evidence-informed approaches used for ADHD and related developmental differences.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 02 Movement & Regulation -->
-    <article class="slide" id="slide-1" aria-label="Movement and Regulation"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">02</div>
-        <div class="card-brand">Skill Two</div>
-        <h2 class="card-title">Movement &amp;<br><em>Regulation</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>You can understand why your child needs movement and still feel completely finished by the tenth bounce off the sofa.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Movement is not always the opposite of attention. For many children with ADHD, sensory processing differences, or high arousal levels, movement helps the nervous system organise itself. The child who is pacing, tapping, chewing, or wobbling may not be ignoring you. They may be trying to stay alert enough to listen.</p>
-          <p class="section-body">The skill is not to allow chaos. The skill is to separate helpful movement from unsafe movement, and to give the body appropriate ways to regulate before the situation becomes a full family circus.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Before asking for homework, dinner-table sitting, or a difficult conversation, give the body movement on purpose. Say, "Your body needs a reset before we start. Choose wall pushes, twenty jumps, or carrying the laundry basket." Keep it short, concrete, and predictable. Movement works best when it is offered before the child is already over the edge.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Pick two or three safe movement options your child can use at home — wall pushes, jumping, animal walks, stretching, or carrying something heavy.</li>
-            <li>Use the same phrase each time: "Movement first, then we try the task." Predictability reduces negotiation.</li>
-            <li>Set a clear limit — two minutes or twenty jumps — so the movement has a beginning and end.</li>
-            <li>After movement, move straight into the next tiny task before the child drifts into something else.</li>
-            <li>If the movement becomes unsafe, name the boundary without shaming the need: "Your body can move. It cannot crash into people."</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Your body needs movement before your brain can focus."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"This is not you being naughty. Your body is trying to organise itself."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"Movement is allowed. Hurting people or breaking things is not."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Evidence from ADHD and occupational therapy-informed practice supports the use of movement, proprioceptive input, and environmental adaptations to improve regulation and task engagement for some children. This does not replace individual occupational therapy where sensory issues are significant, but it gives parents a safe and practical starting point.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 03 Attention Anchoring -->
-    <article class="slide" id="slide-2" aria-label="Attention Anchoring"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">03</div>
-        <div class="card-brand">Skill Three</div>
-        <h2 class="card-title">Attention<br><em>Anchoring</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is hard not to take it personally when you have said the same instruction five times and your child looks genuinely surprised every time.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Attention anchoring helps children whose focus drifts, instructions disappear, or belongings seem to enter a small private black hole somewhere between the classroom and the school gate. The point is not to tell the child to "pay attention" more often. The point is to make attention easier to hold by using external cues, shorter instructions, predictable routines, and connection before correction.</p>
-          <p class="section-body">Children with attention differences often face this paradox both ways. Their focus drifts during a maths explanation — but that same brain can lock onto a game for two solid hours with no awareness that anyone has called their name four times from the kitchen. Both are regulation difficulties pulling in opposite directions.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Choose one repeating routine, such as getting ready for school, starting homework, or packing the bag. Write three steps only on a card or whiteboard. Use the same words every time, such as "Shoes, bottle, bag." Stand near your child, point to the list, and ask them to check off each step rather than relying on repeated verbal reminders.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">When your child is locked in</div>
-          <div class="try-tonight"><p>Don't call from across the room. Walk into the space, come down to their level, and make gentle physical contact before you speak. If you can, give one warning before the hyperfocus starts — "twenty minutes, then we stop" — not only when time is already up. When it is time to finish, offer a clear next step immediately: "After you save, we go straight to snack." The transition is easier when there is somewhere to land.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Pick one routine that causes daily friction. Do not try to fix every routine in the house at once.</li>
-            <li>Reduce it to three to five visible steps and write them in the order they need to happen.</li>
-            <li>Place the list where the task happens, not somewhere decorative and useless.</li>
-            <li>Use fewer words when prompting. Point to the list and say, "Check the next step."</li>
-            <li>Review what worked after the routine, not during the meltdown. Adjust the list if one step is too vague.</li>
-            <li>If your child is locked in, enter the physical space before you speak. A voice from another room will not reach a brain that is fully absorbed. One tap, one calm instruction, one clear next step.</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Let's let the list hold the steps so your brain does not have to."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"Forgetting does not mean you do not care. It means we need a better system."</p></div>
-            <div class="script"><div class="script-tone">Note</div><p>When locked in, the firm approach does not apply. Enter the space, stay calm, one sentence.</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Visual cues, routines, checklists, and reduced verbal load are widely used executive function supports. They reduce demands on working memory and help children shift from adult-dependent prompting toward environmental cues they can eventually use more independently.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 04 Transitions & Structure -->
-    <article class="slide" id="slide-3" aria-label="Transitions and Structure"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">04</div>
-        <div class="card-brand">Skill Four</div>
-        <h2 class="card-title">Transitions &amp;<br><em>Structure</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is hard to stay patient when a tiny change has somehow become the main event of the evening.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Transitions are not simply a matter of cooperation. They require the brain to stop one state, accept a new expectation, regulate disappointment, shift attention, and begin the next action. For children with anxiety, sensory vulnerabilities, or nervous systems that need more time to shift gears, that is a lot to ask in one sudden sentence shouted from the doorway.</p>
-          <p class="section-body">Building structure and predictability into transitions gives the child more warning, more clarity, and fewer unnecessary surprises, so change becomes more manageable rather than repeatedly feeling like a threat.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Choose one difficult transition and use a three-step warning system. For example, before leaving the playground, say, "Ten minutes left," then "Five minutes left," then "Two more turns and we go." Use the same sequence each time. When it is time to leave, avoid explaining endlessly. Repeat the final boundary calmly and move into action.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Identify one transition that regularly causes distress — leaving the house, ending screen time, bedtime, or school pickup.</li>
-            <li>Create a predictable warning sequence using time, turns, or tasks. Choose the version your child understands best.</li>
-            <li>Use a visual timer if time is too abstract. Name what happens when it ends before the activity starts — not after. "When the timer runs out, shoes go on."</li>
-            <li>At the final warning, offer a simple next action: "Shoes on now" or "Walk to the gate now."</li>
-            <li>After the transition, briefly acknowledge effort: "That change was hard, and you moved through it."</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Your brain works better when it knows what is coming. Let's decide what will happen next."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"I know leaving is hard when you were not ready. I will help you through the change."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"The timer has ended. We are going now, and I will stay with you."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Visual schedules, countdowns, first-then language, and predictable routines are well-established supports for children who struggle with cognitive flexibility, anxiety, and transitions. These strategies reduce uncertainty and support regulation before behaviour escalates.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 05 Social Scripts -->
-    <article class="slide" id="slide-4" aria-label="Social Scripts"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">05</div>
-        <div class="card-brand">Skill Five</div>
-        <h2 class="card-title">Social Scripts &amp;<br><em>Perspective Taking</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>Watching your child want connection and repeatedly miss it can hurt in a very quiet, very parental way.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Some children want friendship very badly and still keep landing awkwardly. They talk over others, miss subtle cues, do not know how to join a game, or cannot tell when a conversation has already ended for everyone else involved. The pain is often not that they do not care. It is that the social world is full of invisible rules other children seem to learn without being directly taught.</p>
-          <p class="section-body">Some children miss the cues entirely. Others read the room and still can't slow down enough to act on what they notice. Both land awkwardly. Both feel the gap. The strategies here work for either, because the goal is the same: making the invisible rules more visible.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Use one recent social moment, but do not start with correction. Begin with, "Do you want comfort, help figuring it out, or both?" If your child is open to help, replay only one small part of the interaction. Ask what they noticed, what the other child might have felt, and what sentence they could try next time. Practise one starter together: "Can I join in?" / "What are you playing?" / "I have an idea — want to hear it?"</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Wait until your child is calm. Social learning rarely works while they are embarrassed or flooded.</li>
-            <li>Choose one moment only. Do not analyse the whole friendship history like a courtroom inquiry.</li>
-            <li>Ask what happened from your child's point of view before offering your interpretation.</li>
-            <li>Gently add perspective: "I wonder if Sam thought you were not interested when you walked away."</li>
-            <li>Practise one specific sentence for next time, such as "Can I join?" or "Do you want to keep playing or do something else?"</li>
-            <li>If your child tends to interrupt, focus on one repair sentence: "I think I cut you off — what were you saying?" Practise it at home until it comes easily.</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Let's replay one part, not to blame you, but to understand it better."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"Friendship has hidden rules. We can practise them together."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"Your feelings matter, and other people's feelings matter too."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Social communication support works best when it is explicit, low-pressure, and rehearsed during calm rather than reviewed in shame after a social failure. If your child's social difficulties are significant or causing real distress, ask your school counsellor or a developmental psychologist whether a structured social skills programme might help.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 06 Reframing Self-Talk -->
-    <article class="slide" id="slide-5" aria-label="Reframing Self-Talk"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">06</div>
-        <div class="card-brand">Skill Six</div>
-        <h2 class="card-title">Reframing<br><em>Self-Talk</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is frightening to hear your child talk about themselves in a way no parent would ever choose for them.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">When a child says "I'm stupid" or "I ruin everything," the sentence can land like a punch. Most parents instinctively rush in with reassurance, but children in shame often cannot absorb broad praise that contradicts how true the thought feels in that moment. Reframing self-talk is not about forcing positivity. It is about helping the child build a more accurate story.</p>
-          <p class="section-body">The goal is to hold two truths together: some things are genuinely hard, and hard does not mean hopeless.</p>
-          <p class="section-body">It is also worth knowing that children build their internal voice partly from what they hear most often. A child who is corrected far more than they are noticed — at home, at school, across the whole day — will start to narrate themselves in the language of their mistakes.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>When your child says something harsh about themselves, do not immediately argue. First acknowledge the feeling, then separate the struggle from identity. You might say, "That sounds like a really painful thought. I can see maths felt awful today. But finding maths hard is not the same as being stupid."</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <div class="not-this">
-            <div class="not-this-label">Not this</div>
-            <p>Rushing in with "No you're not, you're so smart!" The child already knows how the thought feels in that moment. Arguing with it before acknowledging it just means they stop listening — and possibly start hiding the thought from you next time.</p>
-          </div>
-          <ol class="steps">
-            <li>Listen for global labels such as "stupid," "lazy," "bad," "annoying," or "useless."</li>
-            <li>Validate the feeling without agreeing with the label: "It makes sense that you feel awful after that."</li>
-            <li>Name the specific difficulty: "The hard part was starting the writing task."</li>
-            <li>Add one piece of evidence that widens the picture: "You kept trying even after you got upset."</li>
-            <li>Repeat this pattern over time. Identity changes through many accurate repetitions, not one perfect speech.</li>
-            <li>Pay attention to the balance across a full day. For every two corrections, look for one specific genuine positive — not "good job," something real.</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"That is a painful thought. I want to understand it before we challenge it."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"Your struggles are real. Your strengths are real too."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"I will not let one hard moment become your whole story."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>This approach draws on cognitive behavioural principles, which help children identify unhelpful thoughts, examine evidence, and develop more balanced interpretations. For neurodiverse children, reframing must remain honest. False praise is usually less effective than specific, believable evidence of effort, skill, kindness, or growth.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 07 Repair & Recovery -->
-    <article class="slide" id="slide-6" aria-label="Repair and Recovery"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">07</div>
-        <div class="card-brand">Skill Seven</div>
-        <h2 class="card-title">Repair &amp;<br><em>Recovery</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is possible to want your child to take responsibility and also hate seeing them crushed by shame.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Children who are corrected frequently can begin to experience all feedback as evidence of a fundamental problem with who they are, not just what they did. Repair and recovery skills help them separate the two: <em>what happened</em> is not the same as <em>who I am.</em> Self-advocacy gives them language to explain what helps, rather than relying forever on adults to translate their needs.</p>
-          <p class="section-body">This skill matters because children who understand their needs are generally better able to seek support, repair mistakes, and stay connected to their own worth.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>After a difficult moment, separate the behaviour from the child. Say, "What happened was not okay, and you are not a bad kid. We are going to repair this and figure out what support you needed earlier." This keeps accountability intact without turning the whole conversation into a character verdict.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <div class="not-this">
-            <div class="not-this-label">Not this</div>
-            <p>"You always do this" or "Why can't you just control yourself?" These turn the repair conversation into a character verdict — and don't leave your child anywhere useful to go. Name the behaviour. Not the child.</p>
-          </div>
-          <ol class="steps">
-            <li>Name the behaviour clearly and calmly: "You shouted at your sister." Avoid global labels such as rude, bad, or impossible.</li>
-            <li>Name belonging just as clearly: "You are still loved and still part of this family."</li>
-            <li>Guide repair: "What can we do to make this right?" Offer choices if your child is stuck.</li>
-            <li>Identify the unmet need or trigger: "Were you overloaded, embarrassed, rushed, or needing help?"</li>
-            <li>Practise one self-advocacy sentence for next time: "I need a break," "Please say it one step at a time," or "The noise is too much."</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"This is a behaviour we need to fix, not proof that you are bad."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"You can make a mistake and still belong here."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"Support is allowed. Avoiding repair is not."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Behavioural and social-emotional interventions commonly emphasise clear expectations, repair, emotional literacy, and skill replacement rather than shame. Self-advocacy is also a recognised protective skill for neurodiverse children because it supports help-seeking, autonomy, and appropriate accommodation use over time.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 08 Family Strength -->
-    <article class="slide" id="slide-7" aria-label="Family Strength Narrative"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">08</div>
-        <div class="card-brand">Skill Eight</div>
-        <h2 class="card-title">Family Strength<br><em>Narrative</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>Almost every parent compares their children sometimes. The important thing is not letting the comparison become the family language.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Every family has an unspoken story about what counts as success, intelligence, effort, and being "easy" to parent. Neurodiverse children often notice very early when they seem harder to manage than a sibling, slower to finish work, more frequently corrected, or less naturally suited to school expectations.</p>
-          <p class="section-body">A family strength narrative helps protect identity by making the family story broader, kinder, and more accurate. It does not pretend challenges are not real. It makes sure challenges are not the only thing being named.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>At dinner or bedtime, name one strength for each child that has nothing to do with grades, obedience, or speed. Keep it specific. Say, "You noticed your brother was upset and checked on him," or "You had a creative idea for solving that problem." This begins shifting the family spotlight from performance alone to the fuller child.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <ol class="steps">
-            <li>Notice the words your family uses most often. If one child is always "the organised one" and another is always "the difficult one," the story needs widening.</li>
-            <li>Name strengths that are observable and specific — persistence, humour, curiosity, fairness, creativity, empathy, or courage.</li>
-            <li>Acknowledge effort separately from outcome, especially when a child works hard for average results.</li>
-            <li>Talk about different brains as needing different tools, not as better or worse versions of one another.</li>
-            <li>Spend regular one-to-one time with each child so support for one child does not become invisibility for another.</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Different brains are good at different things and need different tools."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"You are not the hard child. You are a child having a hard time."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"In this family, we do not use one person's strength to shame another."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body"><p>Resilience research consistently highlights the importance of belonging, strengths recognition, supportive relationships, and identity development. For neurodiverse children, explicit strength-based language can counterbalance repeated correction and help build a more stable, accurate self-concept.</p></div>
-        </details>
-      </div>
-    </div></article>
-
-    <!-- 09 The Pause -->
-    <article class="slide" id="slide-8" aria-label="Impulse Regulation"><div class="card">
-      <div class="card-grain"></div>
-      <div class="card-header">
-        <div class="card-stamp">09</div>
-        <div class="card-brand">Skill Nine</div>
-        <h2 class="card-title">Impulse Regulation &amp;<br><em>The Pause</em></h2>
-      </div>
-      <div class="card-body">
-        <div class="parent-truth">
-          <div class="parent-truth-label">Parent Truth</div>
-          <p>It is very hard to stay regulated when a shoe has just flown past your head. Your regulation still comes first — not because you caused this, but because you are the one who can lead it out.</p>
-        </div>
-
-        <div class="section"><div class="section-label">What this helps with</div>
-          <p class="section-body">Impulse regulation is the ability to create space between a feeling and an action. For many neurodiverse children, that space is very small. The anger arrives and the hand moves. The thought appears and the words come out. The body runs before the thinking brain has properly arrived at the meeting.</p>
-          <p class="section-body">The goal is not instant self-control. The goal is to help the child recognise earlier body signals, practise a predictable pause, and use a safer action before the impulse becomes behaviour.</p>
-        </div>
-
-        <div class="pre-step">
-          <div class="pre-step-title">Before you intervene</div>
-          <p>A calm adult is the first intervention. You cannot co-regulate a child in meltdown mode from inside your own meltdown.</p>
-          <p>When you feel your own reaction rising, before you say anything:</p>
-          <ol>
-            <li>Drop your shoulders. Lower your voice one level.</li>
-            <li>Move slowly. A slow-moving adult reads as safe.</li>
-            <li>Say less. One sentence. Same words, same tone, repeated once.</li>
-          </ol>
-          <p>You do not need to be perfectly calm. You need to be calm enough. That is the whole job in that moment.</p>
-        </div>
-
-        <div class="section"><div class="section-label">Try this tonight</div>
-          <div class="try-tonight"><p>Choose a calm moment and create a "pause plan" together. Ask, "What does your body feel like right before you explode?" Then choose one reset action your child can practise, such as squeezing a cushion, stepping away, drinking cold water, or asking for two minutes. Practise it when nobody is upset so the brain can find it later.</p></div>
-        </div>
-
-        <div class="section"><div class="section-label">How to do it</div>
-          <div class="not-this">
-            <div class="not-this-label">Not this</div>
-            <p>Explaining consequences or reasoning through the behaviour while your child is in meltdown mode. The thinking brain has genuinely left the building. It will be back — wait for it before you have the conversation.</p>
-          </div>
-          <ol class="steps">
-            <li>Map the early body signs with your child — hot cheeks, tight fists, fast heartbeat, buzzing energy, or feeling trapped.</li>
-            <li>Choose one pause signal. This can be a phrase such as "pause please," a hand signal, or a card kept somewhere visible.</li>
-            <li>Choose one safe reset action. Keep it simple and physically available in the moment.</li>
-            <li>Practise the sequence daily for one minute when calm: notice the signal, say the phrase, do the reset, return.</li>
-            <li>After a real incident, review only when regulated. Ask, "Where could the pause have happened earlier?"</li>
-          </ol>
-        </div>
-
-        <div class="section"><div class="section-label">What to say</div>
-          <div class="scripts">
-            <div class="script"><div class="script-tone">Calm</div><p>"Your body is giving warning signs. Let's catch them earlier."</p></div>
-            <div class="script"><div class="script-tone">Warm</div><p>"I know the feeling comes fast. We are practising the tiny space before action."</p></div>
-            <div class="script"><div class="script-tone">Firm</div><p>"Big feelings are allowed. Hands and words still need to be safe."</p></div>
-          </div>
-        </div>
-
-        <details class="brain"><summary>Why this works <span>the science, briefly</span></summary>
-          <div class="brain-body">
-            <p>Impulse regulation interventions commonly involve emotional literacy, early cue recognition, replacement behaviours, rehearsal during calm moments, reinforcement, and adult co-regulation. These strategies are consistent with behavioural parent training, CBT-informed regulation work, and social-emotional learning.</p>
-            <div class="signpost"><strong>A note:</strong> Home strategies are helpful, but recurrent aggression, persistent self-harm statements, or unsafe behaviour should be discussed with a qualified psychologist, paediatrician, or relevant mental health professional.</div>
-          </div>
-        </details>
-      </div>
-    </div></article>
-
-  </section>
-
-  <nav class="jump-row" aria-label="Jump to skill">
-    <a class="jump-dot active" href="#slide-0" data-target="0">1</a>
-    <a class="jump-dot" href="#slide-1" data-target="1">2</a>
-    <a class="jump-dot" href="#slide-2" data-target="2">3</a>
-    <a class="jump-dot" href="#slide-3" data-target="3">4</a>
-    <a class="jump-dot" href="#slide-4" data-target="4">5</a>
-    <a class="jump-dot" href="#slide-5" data-target="5">6</a>
-    <a class="jump-dot" href="#slide-6" data-target="6">7</a>
-    <a class="jump-dot" href="#slide-7" data-target="7">8</a>
-    <a class="jump-dot" href="#slide-8" data-target="8">9</a>
+<!-- ============================================================
+  SKILLS GUIDE — Phase 1 skeleton
+  Layout, nav, expand/collapse JS, chapter structure.
+  No skill content yet. All .sg-skill-body sections are
+  placeholder stubs to verify the container works correctly.
+  ============================================================ -->
+
+
+<!-- Mobile top tab bar (hidden on desktop via CSS) -->
+<div class="sg-tab-bar" id="sg-tab-bar" aria-label="Chapter navigation">
+  <nav class="sg-tab-bar-inner">
+    <a href="#chapter-1" class="sg-tab active" data-chapter="1" id="tab-1">
+      <span class="sg-tab-num">Part One</span>
+      <span class="sg-tab-label">Understanding</span>
+    </a>
+    <a href="#chapter-2" class="sg-tab" data-chapter="2" id="tab-2">
+      <span class="sg-tab-num">Part Two</span>
+      <span class="sg-tab-label">Home Environment</span>
+    </a>
+    <a href="#chapter-3" class="sg-tab" data-chapter="3" id="tab-3">
+      <span class="sg-tab-num">Part Three</span>
+      <span class="sg-tab-label">Skills to Build</span>
+    </a>
   </nav>
-</main>
+</div>
 
-<section class="closing">
-  <div class="closing-inner">
-    <h2>The skill is the<br><em>practice.</em></h2>
-    <p>These strategies work best when they are practised in small, repeated ways during ordinary moments — not introduced for the first time during the hardest five minutes of the day.</p>
-    <p>You will not get every moment right. Neither will your child. That is not the measure. The measure is whether, over time, they feel known, supported, and capable of more than yesterday. Keep going. The trying is the work — and you are already doing it.</p>
-    <div class="you-got-this">You've got this.</div>
-    <div><a href="resources.html" class="cta-btn">Find support in Singapore →</a></div>
-    <p class="footer-note">This resource is not a clinical tool and does not constitute medical or psychological advice. If you are concerned about your child's development, safety, learning, or wellbeing, please consult a qualified professional.<br><br>HeadStrong &nbsp;·&nbsp; Singapore &nbsp;·&nbsp; 2026</p>
-  </div>
-</section>
 
+<!-- Page grid -->
+<div class="sg-page">
+
+  <!-- ─── Desktop left rail ─────────────────────────────────── -->
+  <aside class="sg-rail" aria-label="Skills navigation">
+    <div class="sg-rail-brand">Not The Kid &mdash; Skills Guide</div>
+
+    <nav>
+      <ul class="sg-rail-nav">
+
+        <li>
+          <a href="#chapter-1" class="sg-rail-item active" data-chapter="1" id="rail-1">
+            <span class="sg-rail-item-num">Part One</span>
+            <span class="sg-rail-item-label">Understanding</span>
+          </a>
+        </li>
+
+        <li><div class="sg-rail-divider"></div></li>
+
+        <li>
+          <a href="#chapter-2" class="sg-rail-item" data-chapter="2" id="rail-2">
+            <span class="sg-rail-item-num">Part Two</span>
+            <span class="sg-rail-item-label">Home Environment</span>
+          </a>
+        </li>
+
+        <li><div class="sg-rail-divider"></div></li>
+
+        <li>
+          <a href="#chapter-3" class="sg-rail-item" data-chapter="3" id="rail-3">
+            <span class="sg-rail-item-num">Part Three</span>
+            <span class="sg-rail-item-label">Skills to Build</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <a href="index.html" class="sg-rail-back">HeadStrong home</a>
+  </aside>
+
+
+  <!-- ─── Main content ──────────────────────────────────────── -->
+  <main class="sg-main">
+
+    <!-- Cover -->
+    <section class="sg-cover">
+      <p class="sg-cover-kicker">HeadStrong / Not The Kid</p>
+
+      <h1>Skills Guide<br><em>for Parents</em></h1>
+
+      <p class="sg-cover-tagline">Three parts. Seventeen skills. One small step at a time.</p>
+
+      <!-- Two-column row: lede left, routing right -->
+      <div class="sg-cover-row">
+
+        <p class="sg-cover-lede">
+          This guide is not a parenting manual. It is a reference. Come back to it
+          when something is hard. Skip to the part you need. Use what fits.
+        </p>
+
+        <!-- Crisis routing -->
+        <div class="sg-where">
+          <p class="sg-where-label">Where are you right now?</p>
+          <ul class="sg-where-options">
+            <li>
+              <a href="#skill-1" class="sg-where-option sg-where-crisis">
+                Something just happened
+              </a>
+            </li>
+            <li>
+              <a href="#chapter-1" class="sg-where-option">
+                I want to understand my child better
+              </a>
+            </li>
+            <li>
+              <a href="#chapter-3" class="sg-where-option">
+                I want practical strategies
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /sg-cover-row -->
+
+    </section>
+    <!-- /Cover -->
+
+
+    <!-- ======================================================
+      CHAPTER ONE — Understanding What You're Actually Seeing
+      Accent: Sage
+    ====================================================== -->
+
+    <section id="chapter-1" data-chapter="1">
+
+      <div class="sg-chapter">
+        <p class="sg-chapter-marker">Part One</p>
+        <h2>Understanding<br><em>What You're Actually Seeing</em></h2>
+        <p class="sg-chapter-desc">
+          Before strategies. Before scripts. Before any of that. These three skills
+          are about what is actually happening, and why your child behaves the way
+          they do at home. Understanding is not an excuse. It is the starting point.
+        </p>
+      </div>
+
+      <div class="sg-skill-list">
+
+        <!-- Skill 1 -->
+        <details class="sg-skill" id="skill-1" data-chapter="1">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">1</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">The Depleted Child</span>
+              <span class="sg-skill-desc">Why home is where the mask comes off — and why that is a good sign, not a bad one</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>She holds it together all day. Then she walks through the door and you're the one who gets it. You wonder what you're doing wrong. You're not doing anything wrong. You're the safe place.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>Holding it together at school is effortful. Not lazy-effort. Real cognitive effort. Your child spends the day managing noise, transitions, sensory input, social expectations, and the constant work of tracking what is coming next. Many children who are wired differently put significant energy into appearing regulated in environments where falling apart is not an option.</p>
+            <p>Home is where the mask comes off. The explosion you get at 6pm is not a sign that school was fine and home is the problem. It is a sign that school was hard and home is safe enough to feel it. The two things look identical from the outside. They are not.</p>
+            <p>The compounding effect matters. A depleted child plus resumed demands plus a raised voice produces a situation where no one has any capacity left. Not the child, and usually not the parent either. The landing space is not a reward. It is the condition that makes everything after it possible.</p>
+
+            <p class="sg-section-label">A note on timing in Singapore</p>
+            <p>Primary school ends at 1.30pm. Many children go directly to student care or tuition. The collapse may not happen at home until 6 or 7pm. Some children partially regulate at student care and arrive home already re-flooded. The timing varies. The cost of a full day of performing regulation does not. Whatever time your child walks through the door, they have been doing a job all day. Treat arrival accordingly.</p>
+
+            <p class="sg-section-label">The landing space</p>
+            <p>Fifteen to thirty minutes. No demands. No questions about school. No screens if they ramp your child up rather than down. Food if they are hungry. A known, predictable window where nothing is asked of them.</p>
+            <p>This is not permission to skip homework. It is what makes homework possible. The landing space reduces the deficit before you ask them to spend more. That is not soft parenting. It is sequencing.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>When your child arrives, say nothing about school, homework, or the afternoon. Offer something small: food, a quiet space, five minutes. Set a timer you do not tell them about. When it goes off, start the routine. You are not avoiding the evening. You are giving it a better starting point.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Self-regulation draws on cognitive resources that are finite. Research on the effort costs of sustained self-regulation suggests that performing regulated behaviour over a full school day tends to deplete the resources available for further regulation — this is particularly well-documented in children whose regulatory systems are still developing (Baumeister et al., on ego depletion, provides a useful framing, though the direct replication evidence is mixed; treat it as a model, not a mechanism).</p>
+                <p>The masking literature offers a more specific lens. Research in autistic populations (Hull et al., 2017; Pearson et al., 2021) documents the effort cost of "camouflaging" — adapting presentation to meet social expectations in environments not built for you. This literature has been developed primarily with autistic adults and adolescents. Its application to younger children with ADHD profiles is clinically recognised but less formally studied. The core idea is robust regardless: performing regulation for others is more costly than simply being regulated.</p>
+                <p>The post-school collapse is not behaviour. It is the cost surfacing. Understanding this changes what you are responding to.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-4" class="sg-xref-tag">4 — Movement</a>
+              <a href="#skill-6" class="sg-xref-tag">6 — Transitions and Structure</a>
+              <a href="#skill-8" class="sg-xref-tag">8 — Sleep</a>
+              <a href="#skill-9" class="sg-xref-tag">9 — Task Initiation</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 2 -->
+        <details class="sg-skill" id="skill-2" data-chapter="1">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">2</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Shame and What It Looks Like</span>
+              <span class="sg-skill-desc">The shutdown, the blank face, the "I don't care" — recognising shame before you try anything else</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>He said "I don't care" and walked off. He cared so much he couldn't stay in the room.</p>
+            </div>
+
+            <p class="sg-section-label">What shame looks like in children</p>
+            <p>Children who carry a lot of shame rarely look ashamed. They look defiant. Blank. Furiously indifferent. They laugh at the wrong moment. They attack before you can correct them. They disappear.</p>
+            <p>Shame in children who cannot name it tends to present as: shutdown and flat affect, explosive anger when corrected, refusal to try, "I don't care" when they clearly do, laughter that lands wrong, or rigid insistence that everything is fine. None of these look like shame from the outside. They are.</p>
+            <p>The number of corrections a child has already received that day shapes how much shame is already in the room by the time you reach them. A child who has been corrected six times before homework starts is not in the same state as a child who has been corrected once. This matters for how you open the conversation.</p>
+
+            <p class="sg-section-label">Shame-awareness, not shame-avoidance</p>
+            <p>The goal is not to never correct your child. Corrections are part of learning. The goal is to notice when shame is running the room and adjust how you enter it. A correction delivered into an already-shamed child tends to produce the defensive response, not the behaviour change. You get the shutdown or the argument. You do not get learning.</p>
+            <p>One question worth asking before you correct: how many times has this already been named today? If the answer is more than twice, consider whether this correction can wait, or whether it needs to come differently.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>If your child shuts down or says something that reads as not caring, try naming what you think they might actually be feeling rather than the behaviour. "I think you're really frustrated with yourself right now." Then stop. You do not need to fix it. You need them to feel seen before anything else can happen.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Brené Brown's research on shame and vulnerability has been influential in clinical and educational contexts. Her distinction between shame ("I am bad") and guilt ("I did something bad") is well-supported as a framework for understanding why some children generalise corrections to their identity rather than to the behaviour. Children with ADHD profiles are particularly prone to this, partly because they receive significantly more correction over a childhood than neurotypical peers (Barkley, 2012; Dodson, clinical writing on shame and ADHD).</p>
+                <p>Carol Dweck's fixed versus growth mindset research is relevant here: shame tends to be the mechanism by which a fixed mindset embeds. When a correction feels like evidence of a permanent flaw rather than a changeable behaviour, the child stops attempting. Stopping attempting is not laziness. It is protection.</p>
+                <p>Differential note: shutdown, blank affect, and explosive responses to correction can look similar across several different profiles. What helps tends to differ depending on the profile. This guide does not diagnose. If these patterns are frequent and severe, a formal assessment helps identify what is actually driving the response.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-12" class="sg-xref-tag">12 — Reframing Self-Talk</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+              <a href="#skill-15" class="sg-xref-tag">15 — Family Strength Narrative</a>
+              <a href="#skill-16" class="sg-xref-tag">16 — The Pause</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 3 -->
+        <details class="sg-skill" id="skill-3" data-chapter="1">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">3</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Emotional Intensity</span>
+              <span class="sg-skill-desc">Big feelings, fast feelings — and why the response is genuine, not a performance</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>You changed dinner plans and she acted like the world ended. It felt like the world ended. For her, right then, it did.</p>
+            </div>
+
+            <p class="sg-section-label">Big feelings, fast feelings</p>
+            <p>Some children do not experience emotions on a dial. They experience them as a switch. Correction feels like rejection. Disappointment feels like catastrophe. A changed plan feels like a threat. Not sometimes — reliably, and at a speed that catches everyone off guard, including the child.</p>
+            <p>This is not drama. It is not manipulation. The response is genuine. The nervous system of some children processes emotional information at a different speed and intensity than you would predict from looking at the trigger. The gap between the cause and the reaction feels disproportionate from outside. From inside, it is not.</p>
+            <p>Parents are not being played. The feeling is real. What you are seeing is a child whose emotional experience arrived before their thinking brain could catch up. What happens next is determined partly by what you do with that information.</p>
+
+            <p class="sg-section-label">What helps and what does not</p>
+            <p>Telling a child in a big feeling that the feeling is unreasonable does not reduce the feeling. It tends to add shame to it. You end up with big feelings plus shame, which is harder to move through than big feelings alone.</p>
+            <p>Matching intensity with intensity also tends to escalate. If the volume goes up from your side, it usually goes up from theirs too.</p>
+            <p>What tends to help is: name what you think the feeling is, lower your own volume, and wait. You do not need to solve it. You need to be present while it moves through.</p>
+
+            <p class="sg-section-label">And still</p>
+            <p>Acknowledging that the feeling is real does not mean accepting every expression of it. You can say "I can see this is really hard for you" and still hold the limit. Both things are true at once. You can acknowledge that the feeling is real and still say: and we are not doing that. The feeling is valid. The behaviour that follows from it is still your business to shape.</p>
+            <p>That distinction is worth practising. It takes longer to land than a correction. It also actually works.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>Next time the reaction seems out of proportion to the trigger, try saying: "I can see that felt really big just now." That is all. Do not problem-solve yet. Do not correct the response yet. Let them know you saw the feeling before you do anything else. Then, when the volume drops, re-engage.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Emotional intensity in children, particularly in those with ADHD or anxiety profiles, is associated with differences in how emotional information is processed and regulated. For many of these children, emotional responses tend to arrive quickly and feel difficult to modulate — particularly in the moment. This is not a character flaw. It is a feature of how their nervous system responds to emotionally significant information.</p>
+                <p>The clinical literature uses a range of terms here. One of them — rejection sensitive dysphoria, sometimes abbreviated RSD — describes a pattern in which perceived rejection or failure produces a very intense emotional response. This term is used in clinical practice, particularly in ADHD contexts. It has not yet been formally operationalised as a diagnostic construct in the research literature, and its boundaries are still being studied. If you encounter it, treat it as a useful descriptor rather than a diagnosis.</p>
+                <p>Differential note: emotional intensity that looks similar on the surface can have different underlying drivers across different profiles — sensory overwhelm, anxiety, demand avoidance, or attachment patterns, among others. This matters for what helps. Where intensity is frequent and significantly affecting daily life, a formal assessment adds precision to the picture.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-10" class="sg-xref-tag">10 — Impulse Regulation</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+              <a href="#skill-16" class="sg-xref-tag">16 — The Pause</a>
+            </div>
+
+      <!-- Part One CTA -->
+      <div class="sg-chapter-cta" data-chapter="1">
+        <p class="sg-chapter-cta-label">Before you move on</p>
+        <p>
+          What did you read that made you think differently about your child?
+          Sit with that for a moment. Part Two is about the home environment,
+          and it is here when you are ready.
+        </p>
+        <a href="#chapter-2" class="cta-btn-ghost">Continue to Part Two</a>
+      </div>
+
+    </section>
+    <!-- /Chapter One -->
+
+
+    <!-- ======================================================
+      CHAPTER TWO — The Home Environment
+      Accent: Rust
+    ====================================================== -->
+
+    <section id="chapter-2" data-chapter="2">
+
+      <div class="sg-chapter">
+        <p class="sg-chapter-marker">Part Two</p>
+        <h2>The Home<br><em>Environment</em></h2>
+        <p class="sg-chapter-desc">
+          Five skills about what happens at home every day. Movement, attention,
+          transitions, unstructured time, and sleep. Not strategies yet. Conditions.
+          The conditions under which everything else becomes possible.
+        </p>
+      </div>
+
+      <!-- Parent regulation interstitial — not a skill, no number -->
+      <div class="sg-interstitial" id="parent-regulation">
+        <p class="sg-interstitial-label">A note before Part Two</p>
+        <p>
+          Everything in this section is easier to read than to do. Most of it
+          requires a version of you that is not flooded, not exhausted, and not
+          already three arguments deep into a Wednesday evening.
+        </p>
+        <p>
+          That version of you is not always available. That is not a failure.
+          <strong>It is a Wednesday.</strong>
+        </p>
+        <p>
+          One breath before you respond. Longer out than in. It will not fix the
+          evening. It gives you half a second, and half a second is sometimes enough.
+        </p>
+        <p>
+          You do not have to be calm. <strong>You have to be calm enough.</strong>
+        </p>
+      </div>
+
+      <div class="sg-skill-list">
+
+        <!-- Skill 4 -->
+        <details class="sg-skill" id="skill-4" data-chapter="2">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">4</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Movement and Regulation</span>
+              <span class="sg-skill-desc">Why the body is the first tool, not the last resort</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>I told him to calm down and sit still. He couldn't. I thought he was being defiant. He was just in his body and his body wasn't done yet.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>Some children regulate through their bodies before they can regulate through their minds. This is not immaturity. It is not a choice. For many children — particularly those whose nervous systems are more reactive or still developing — movement is how the system resets.</p>
+            <p>Sitting still and thinking clearly are two things that feel like they should go together. For some children, they don't. Not yet. The movement is not the problem. It is often the solution, arriving in the wrong order.</p>
+
+            <p class="sg-section-label">What this looks like at home</p>
+            <p>Before homework. Before a hard conversation. After school. These are the moments when movement earns its place. Not as a reward. Not as something to negotiate. As a condition.</p>
+            <p>Ten minutes outside. A walk to the corner and back. Kicking a ball. Jumping. None of this needs to be organised or goal-directed. It just needs to happen.</p>
+            <p>If your child paces, rocks, fidgets, or bounces a leg, these are often self-regulation strategies in action. Not signs of inattention. Signs that the body is doing something the mind needs.</p>
+            <p>Understanding this does not mean movement replaces expectations. A ten-minute run before homework is not a negotiation for no homework. It is what makes homework more achievable. The demand stays. The conditions get better.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>The next time your child comes home visibly wound up — or visibly flat — give them movement before you give them a task. Not twenty minutes. Ten is often enough. Notice what happens after.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Physical activity and its relationship to attention and arousal is well-researched. Studies in general child populations show consistent links between exercise and readiness to learn (Hillman et al., 2008). Research in children with attention differences is growing and broadly consistent — Pontifex et al. (2013) is a frequently cited study on exercise and attentional performance in this group.</p>
+                <p>The idea that movement helps with body awareness and self-regulation draws on sensory integration theory developed by occupational therapist A. Jean Ayres (1972). The framework has strong clinical use. The underlying neurological mechanisms are still an area of active research, so claims here are kept conservative.</p>
+                <p>What is consistent across the evidence: movement tends to help. How much, in which children, under which conditions, varies. Forcing stillness into an already-activated nervous system rarely produces calm. That part is well-supported.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-7" class="sg-xref-tag">7 — Boredom and Play</a>
+              <a href="#skill-8" class="sg-xref-tag">8 — Sleep</a>
+              <a href="#skill-11" class="sg-xref-tag">11 — Interoception</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 5 -->
+        <details class="sg-skill" id="skill-5" data-chapter="2">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">5</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Attention Anchoring</span>
+              <span class="sg-skill-desc">How to give attention something to hold onto — including the brain's need for rest</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>He sat down to do one worksheet. Forty-five minutes later he had sharpened every pencil in the house, reorganised his eraser collection, and read three pages of a book that wasn't the assignment. The worksheet had one question answered.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>Attention is not a tap you turn on. For many children it is more like a signal that needs a clear frequency — something specific to lock onto, or it drifts.</p>
+            <p>The problem is usually not that the child cannot focus. It is that focus needs a container: a defined start point, a visible end point, and a task small enough to feel completable. Without those, the attention goes looking for something easier to grip.</p>
+
+            <p class="sg-section-label">Give the work a container</p>
+            <p>Large, open-ended tasks are where attention goes to die. "Do your homework" is an instruction. It is not a container. "Do questions one to three, then we stop" is a container.</p>
+            <p>The container does not need to be elaborate. It needs to have edges. What are we doing? When does it start? When does it end? What happens after?</p>
+            <p>Timers help many children — a visual timer in particular, where they can see time moving rather than just hear it counting. But timers are a tool, not a rule. Some children find a ticking timer more activating than regulating. Watch what your child does, not what the internet says children should do.</p>
+
+            <p class="sg-section-label">Focused and diffuse — both are real work</p>
+            <p>There are two modes the brain uses when learning. Focused mode is active, deliberate concentration — working the problem in front of you. Diffuse mode is what happens when the brain is not consciously working on something: walking, daydreaming, staring at the ceiling. This is when connections consolidate, when understanding shifts from shaky to solid.</p>
+            <p>Both are necessary. Neither is optional.</p>
+            <p>What this means for your child: the break after homework is not laziness. It is consolidation. Forcing immediate return to focused effort after a sustained stretch often produces diminishing returns — the kind where your child sits for another thirty minutes and retains almost nothing.</p>
+            <p>A child who focuses hard for twenty minutes and then stops is often doing better work than a child who sits at the desk for two hours. Understanding this does not mean attention is optional. The goal is smarter structure. Shorter focused blocks. Real breaks between them. Clear containers. The work still happens. It just happens in conditions that make it more likely to stick.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>Pick one homework task. Break it into chunks with clear end points. Set a visual timer for the first chunk — fifteen minutes is a reasonable start. When it ends, stop. Real break, not five more minutes. Notice whether the second chunk goes faster than the first.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>The focused and diffuse learning modes described here come from Barbara Oakley's synthesis of learning science (Oakley, <em>A Mind for Numbers</em>, 2014). The neuroscience underneath draws on research into the default mode network — the brain network active during rest and associated with memory consolidation and creative connection-making (Raichle et al., 2001).</p>
+                <p>Attention variability in children with attention differences is well-documented. The pattern of strong engagement when conditions are right and rapid drift when they are not is consistent across the research literature (Barkley, 2012).</p>
+                <p>Visual timers are widely used in clinical and educational practice and have strong practitioner support. The formal research base for timers specifically is more limited — which is why the individual difference caveat is included. Some children find them helpful. Some find them activating. Observation beats prescription here.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-6" class="sg-xref-tag">6 — Transitions and Structure</a>
+              <a href="#skill-9" class="sg-xref-tag">9 — Task Initiation</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 6 -->
+        <details class="sg-skill" id="skill-6" data-chapter="2">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">6</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Transitions and Structure</span>
+              <span class="sg-skill-desc">Predictability is not mollycoddling — it is how a regulated child gets to homework</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>Every evening is a battle just to get started. He knows what's coming. He's done it a hundred times. I don't understand why it's still this hard.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>Transitions are cognitively expensive. Moving from one activity to another requires the brain to disengage from something it is doing, hold the new expectation in mind, and begin a new task — often before the first thing felt finished. For children whose capacity to manage competing demands is still developing, or whose working memory is taxed, this process can take significantly more effort than it looks from the outside.</p>
+            <p>The evening battle is not usually about defiance. It is usually about the cost of shifting gears, multiplied across a day that was full of exactly that.</p>
+
+            <p class="sg-section-label">Why structure helps</p>
+            <p>Predictability reduces the cognitive load of transitions. When a child knows what comes next — not because you reminded them, but because it always comes next — the gear-shift requires less effort. The routine does the work.</p>
+            <p>This is not about rigidity. It is about reducing the number of decisions and surprises a nervous system already running close to capacity has to process. A reliable sequence — home, movement, snack, homework, dinner, screen, bath, sleep — is not a prison. It is a scaffold.</p>
+            <p>The fights often happen at transition points. Look at where in the evening your child most reliably derails. That is usually where the structure is loosest, or where one part of the routine ended but the next one hasn't started clearly enough.</p>
+
+            <p class="sg-section-label">Warnings help more than reminders</p>
+            <p>"Five more minutes, then homework" lands better than "homework now." Not because it is softer, but because it gives the brain a moment to disengage. The warning is not permission to negotiate. It is a heads-up that a transition is coming.</p>
+            <p>Some children do better with a visual or physical signal rather than a verbal one — a timer, a specific song, turning off a light. The format matters less than the consistency.</p>
+            <p>A predictable structure exists to get the child to the demand, not to avoid it. Homework still happens. Bedtime still happens. The structure makes it more likely they arrive regulated, rather than already in a fight. Understanding why transitions are hard is the beginning of the work. The routine is the work.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>Map out tonight's sequence before it starts. Write it down where your child can see it. At each transition point, give a five-minute warning. Keep your voice neutral. The warning is information, not an opening for renegotiation.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Executive function and transition difficulty are well-documented in developmental neuroscience. Adele Diamond's 2013 review of executive function development is a key reference — it covers the research on cognitive flexibility, working memory, and inhibitory control across childhood. The relationship between predictability and reduced cognitive load draws on working memory research (Baddeley) and self-regulation studies (Blair and Razza, 2007).</p>
+                <p>Routine as a regulatory support is a core element of Ross Greene's collaborative problem-solving model and of Positive Behavioural Support frameworks used in many Singapore schools. The evidence base for structured evening routines in reducing homework conflict is largely observational and practice-based rather than from controlled trials — but the mechanism is sound and the practitioner consensus is strong.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-5" class="sg-xref-tag">5 — Attention Anchoring</a>
+              <a href="#skill-8" class="sg-xref-tag">8 — Sleep</a>
+              <a href="#skill-9" class="sg-xref-tag">9 — Task Initiation</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 7 -->
+        <details class="sg-skill" id="skill-7" data-chapter="2">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">7</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Boredom, Play, and the Unscheduled Hour</span>
+              <span class="sg-skill-desc">Why doing nothing is neurologically essential, and why Singapore makes this hard</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>Every hour of his day is accounted for. School, student care, tuition, enrichment. He's exhausted and I'm exhausted. But I'm also terrified of what happens if I stop.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>In Singapore, an unscheduled hour can feel like a risk. The enrichment schedule, the tuition slot, the carefully chosen CCA — these are not failures of parenting. They are rational responses to a genuinely competitive environment. The fear is real.</p>
+            <p>But a child whose every hour is structured is a child whose brain has no time to do something neurologically essential: wander.</p>
+            <p>Free play and unstructured time are not a break from learning. They are a category of learning that cannot be replaced by structured activity. Children who have regular unstructured time tend to show stronger creative problem-solving, greater emotional regulation, and better capacity to manage frustration. The research on this is consistent and has been building for decades.</p>
+
+            <p class="sg-section-label">What boredom actually does</p>
+            <p>Boredom is the precondition for a certain kind of thinking. When the brain has no external input to process, it shifts into a mode associated with self-reflection, future planning, and creative connection-making. This is not the brain doing nothing. It is doing something you cannot see from the outside.</p>
+            <p>A child who is always stimulated never practises sitting with discomfort and finding their own way out of it. That is a skill they will need, often, for the rest of their lives.</p>
+
+            <p class="sg-section-label">Play is not the same as screen time</p>
+            <p>This is the part no one wants to hear. Passive screen consumption does not activate the same systems as unstructured physical or imaginative play. It is not a substitute. It may provide genuine rest for some children — but it tends to occupy the brain rather than free it.</p>
+            <p>Unstructured time means no goal, no adult-directed outcome, no scheduled enrichment. It can include screens if the child is genuinely choosing and directing the activity. It cannot be the default every time.</p>
+
+            <p class="sg-section-label">The Singapore reality</p>
+            <p>Primary school ends at 1.30pm. For many children, student care follows until 6 or 7pm. Then homework. Then dinner. There is, genuinely, not much space left. This is not a character failing. It is a structural problem.</p>
+            <p>Even fifteen to twenty minutes of genuinely unstructured time — outside if possible, without a device — is more neurologically useful than it sounds. The goal is not a leisurely afternoon. It is a deliberate gap. Protecting one gap in the week is not the same as cancelling everything. The gap just needs protecting with the same intentionality you bring to everything else.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>Identify one slot — even thirty minutes — that you are willing to leave genuinely unscheduled. No instruction on what to do with it. If your child says they are bored, say: "I know. See what you come up with." Sit with the discomfort of that. It usually resolves faster than you expect.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>The research on play and child development is substantial. Whitebread et al. (2012) is a key review of evidence on the role of play in cognitive and emotional development. Hirsh-Pasek and Golinkoff's work makes an accessible and well-evidenced case for the developmental value of unstructured play over structured enrichment (<em>Einstein Never Used Flashcards</em>, 2003). The APA's more recent synthesis on play and children is consistent with these findings.</p>
+                <p>The brain state active during unstructured time is the default mode network — associated with self-reflection, memory consolidation, and creative thinking (Raichle et al., 2001; Andrews-Hanna, 2012). This is the neurological basis for Barbara Oakley's diffuse mode concept (2014): the brain at apparent rest is doing consolidation work that focused mode cannot do.</p>
+                <p>The evidence on screen time and play quality is nuanced and fast-moving. The claim here is conservative: passive consumption is not equivalent to unstructured play. That part has consistent support. Specific screen time thresholds vary by study and age group — treat guidelines as starting points, not rules.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-4" class="sg-xref-tag">4 — Movement and Regulation</a>
+              <a href="#skill-8" class="sg-xref-tag">8 — Sleep</a>
+              <a href="#skill-11" class="sg-xref-tag">11 — Interoception</a>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- Skill 8 -->
+        <details class="sg-skill" id="skill-8" data-chapter="2">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">8</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Sleep as a Regulation System</span>
+              <span class="sg-skill-desc">A child who cannot sleep is not defying you — their brain is running hot when it should be winding down</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <div class="parent-truth-label">Parent Truth</div>
+              <p>It is 10.30pm. She has school tomorrow. She is not asleep. She is not trying to be difficult. She is lying there, eyes open, mind going. I am completely out of patience and I don't know what to do.</p>
+            </div>
+
+            <p class="sg-section-label">What is actually happening</p>
+            <p>Sleep difficulty in children with attention and regulation differences is common. Very common. This is not a coincidence.</p>
+            <p>The same systems that make emotional and behavioural regulation difficult during the day also affect the brain's ability to downregulate for sleep. The transition to sleep requires the brain to disengage from activity, reduce arousal, and tolerate a kind of nothingness that some children find genuinely uncomfortable. For children with high-arousal nervous systems, this process can take longer and feel harder than the standard "put them to bed and close the door" approach tends to allow.</p>
+            <p>The difficulty is not wilfulness. The system is still running.</p>
+
+            <p class="sg-section-label">Why it matters beyond tiredness</p>
+            <p>Sleep is not just rest. It is when the brain consolidates learning, processes emotion, and clears the metabolic byproducts that accumulate during waking hours. A consistently under-slept child is a child in a more dysregulated state the next day — more reactive, less able to tolerate frustration, less able to sustain attention.</p>
+            <p>The evening battle, the morning meltdown, the after-school explosion — sleep debt compounds all of them. Not every difficult behaviour has a sleep component. More do than parents tend to consider.</p>
+
+            <p class="sg-section-label">What helps</p>
+            <p>Consistent sleep and wake times matter more than most families realise. The body clock is a genuine biological system, and irregular timing disrupts it regardless of total sleep hours.</p>
+            <p>Screen light in the hour before bed suppresses melatonin production and tends to delay sleep onset. This is a real effect, not parenting mythology. It is also, in practice, very hard to enforce. Start with consistency of timing before you tackle screens.</p>
+            <p>A wind-down routine serves the same function as the transition warnings in Skill 6 — it signals to the brain that the shift is coming. Dimmer light, lower noise, less stimulation. It does not have to be elaborate. It has to be consistent.</p>
+
+            <p class="sg-section-label">When to refer</p>
+            <p>Some children have sleep difficulties that go beyond routine and environment. If your child regularly takes more than an hour to fall asleep, wakes repeatedly, or shows signs of sleep-disordered breathing — snoring, gasping, restless sleeping — speak with a paediatrician. There are treatable physiological causes for sleep difficulty that are worth ruling out before concluding the problem is purely behavioural. KKH and NUH both have paediatric sleep pathways worth knowing about.</p>
+            <p>Knowing why sleep is hard does not change the fact that the child needs it, and so do you. The goal is to make the conditions better — not to accept that sleep is simply out of reach.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>Pick one change only. Either: set a consistent lights-out time and keep it for two weeks regardless of whether sleep comes quickly. Or: start a wind-down routine thirty minutes before lights-out — dim lights, low noise, no screens. Do not try both at once. One change, consistently applied, is more useful than a complete overhaul that lasts three days.</p>
+            </div>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">A note on your child's brain</summary>
+              <div class="sg-brain-body">
+                <p>Delayed sleep onset is one of the most consistently documented features in children with attention differences (Barkley, 2012). The difficulty is neurological, not motivational — the same regulatory systems involved in daytime behaviour also govern the transition to sleep.</p>
+                <p>Melatonin suppression from blue light exposure before bed is well-evidenced (Hale and Guan, 2015, is a useful review). The effect is real, though individual sensitivity varies. Sleep and emotional regulation: Ronald Dahl's 1996 paper remains a foundational reference on why sleep deprivation disproportionately affects emotional reactivity in children. Matthew Walker's <em>Why We Sleep</em> (2017) is an accessible synthesis — some specific claims in that book have been contested by researchers, but the core evidence on sleep and cognitive and emotional function is robust.</p>
+                <p>For Singapore families: KKH and NUH both have paediatric sleep services. A GP referral is the starting point if sleep difficulties are persistent and significant.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-4" class="sg-xref-tag">4 — Movement</a>
+              <a href="#skill-7" class="sg-xref-tag">7 — Boredom and Play</a>
+            </div>
+
+          </div>
+        </details>
+
+      </div><!-- /sg-skill-list ch2 -->
+
+      <!-- Part Two CTA -->
+      <div class="sg-chapter-cta" data-chapter="2">
+        <p class="sg-chapter-cta-label">Pick one thing to change this week</p>
+        <p>
+          Which of these is hardest in your home right now? Start there.
+          Part Three is built skills — things you and your child practise
+          together, in small steps, over time. It is ready when you are.
+        </p>
+        <a href="#chapter-3" class="cta-btn-ghost">Continue to Part Three</a>
+      </div>
+
+    </section>
+    <!-- /Chapter Two -->
+
+
+    <!-- ======================================================
+      CHAPTER THREE — Skills to Build Together
+      Accent: Warning amber
+    ====================================================== -->
+
+    <section id="chapter-3" data-chapter="3">
+
+      <div class="sg-chapter">
+        <p class="sg-chapter-marker">Part Three</p>
+        <h2>Skills to Build<br><em>Together</em></h2>
+        <p class="sg-chapter-desc">
+          Nine skills. These are not quick fixes. They are things you practise.
+          Understanding why something is hard is the starting point, not the
+          destination. The goal is not to remove the demand. The goal is to make
+          meeting it more achievable.
+        </p>
+      </div>
+
+      <div class="sg-skill-list">
+
+        <!-- Skill 9 -->
+        <details class="sg-skill" id="skill-9" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">9</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Task Initiation</span>
+              <span class="sg-skill-desc">Starting is the hard part — not laziness, not defiance</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"It's been forty minutes. We've said 'start your homework' fifteen times. She's still sharpening pencils. You are not failing. But something needs to change."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>Task initiation — the act of starting something — is one of the most demanding executive functions. It requires holding the goal in mind, shifting attention from the current state, managing the discomfort of not yet knowing how it will go, and generating enough internal momentum to begin. For children whose executive function is still developing, or who are already depleted, this is a genuinely difficult sequence. Not a choice. A bottleneck.</p>
+            <p>The pencil sharpening is not avoidance for its own sake. It is the brain buying time at a transition point it cannot yet cross unaided.</p>
+
+            <span class="sg-section-label">The warm-up effect</span>
+            <p>The brain is not a light switch. It needs a warm-up. When you open homework with the hardest task first, you are asking a cold engine to pull full load. It usually stalls.</p>
+            <p>Start with the task they can definitely do. One page of reading. The spelling words they already know. Five minutes of something achievable. Use that small win to build toward the harder work. This is not lowering expectations. It is sequencing. The destination is the same. The path in is easier.</p>
+            <p>A brief note: raising your voice at task initiation does not speed things up. It increases arousal without directing it anywhere useful. For a child already managing significant regulatory load, it adds another demand to a system that is already full. That is a mechanism, not a judgement.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try tonight</p>
+              <p>Before homework, give two minutes of physical movement. Jumping jacks, a quick walk to the kitchen, anything that shifts physical state. Then start with the easiest task on the list. Call it the warm-up: "We're starting with the easy one. Then we move to the harder one." Keep the harder one on the table. The easy task is the door in, not the whole room.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>You are not doing this for them. You are doing it with them, until they can do it without you. Over months, most children begin to internalise the warm-up sequence. They learn to start small because they have experienced what starting small feels like. Recovery from a stalled start gets faster. The forty-minute standoff becomes ten. Then five.</p>
+            <p>That is the skill developing. It is not linear. It still counts.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Task initiation draws on prefrontal regions involved in working memory, attentional shifting, and goal-directed behaviour. Research by Barkley and colleagues consistently shows that children with ADHD profiles demonstrate significant difficulty with these specific executive functions — not with intelligence or desire, but with the neural machinery that converts intention into action.</p>
+                <p>The warm-up approach draws on the concept of behavioural momentum, formalised by Nevin (1988) and later applied to clinical populations. High-probability tasks completed first appear to increase the likelihood that the following, lower-probability task will be attempted. The direct evidence in 7–12 year olds with ADHD is extrapolated from adjacent research rather than studied head-on — worth flagging if you discuss it with a clinician.</p>
+                <p>On raised voice and stress: research on stress and cognition consistently shows that high arousal states narrow attentional focus and reduce cognitive flexibility. This does not mean the brain switches off — it means it tends to prioritise threat detection over effortful planning. In practical terms, the child is now managing two things: the task and the emotional state of the adult. That is a harder problem, not an easier one.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-5" class="sg-xref-tag">5 — Attention Anchoring</a>
+              <a href="#skill-6" class="sg-xref-tag">6 — Transitions and Structure</a>
+              <a href="#skill-11" class="sg-xref-tag">11 — Interoception</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 10 -->
+        <details class="sg-skill" id="skill-10" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">10</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Impulse Regulation and Words Before Hands</span>
+              <span class="sg-skill-desc">The gap between feeling and action — how to help a child find it</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"He knows he is not supposed to hit. He has been told this hundreds of times. He knows. And he still did it. You are not raising a child who doesn't understand rules. You are raising a child who cannot yet act on what he knows, fast enough, when it counts."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>Impulse regulation is the ability to pause between feeling and action. That gap — the one where the thinking brain can catch up with the body — is not something children are born with. It develops over time, through consistent experience and increasing prefrontal maturity. For some children, that gap is narrower, or takes longer to develop.</p>
+            <p>This is not about knowing the rule. Most children who hit, shout, grab, or bolt know the rule. The problem is that the rule lives in a part of the brain that has not caught up with the part that is already moving.</p>
+
+            <span class="sg-section-label">The gap is the skill</span>
+            <p>You cannot grow the gap by telling the child to "think before you act." They are trying to. The gap grows through repeated low-stakes practice: naming feelings before they get big, identifying the physical sensation that comes before the action, having a prepared response ready so there is something to do with the impulse besides act on it.</p>
+            <p>The prepared response matters. "Stop and breathe" is not specific enough. "Put your hands flat on your legs and count to three" is. The more concrete and physical the strategy, the more likely a flooded child can actually access it.</p>
+            <p>In the moment, your job is not to teach. It is to contain and de-escalate. The teaching happens afterwards, in a calm moment, when the child can actually access what you are saying. A conversation about better choices during the escalation lands nowhere.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>During a calm moment, not a correction, choose one physical impulse strategy together. Hands flat on legs. Feet pressed to the floor. Three slow breaths. Let the child choose which one feels right to them. Practise it when nothing is wrong. Then when something is, they have already rehearsed it once.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The gap gets wider. That is all. Recovery time shortens. The escalation that used to go from zero to incident in ten seconds starts showing a two-second pause — enough for a different choice to be possible. The incidents become less frequent before they become less intense. Celebrate the pause, even when what follows the pause is still not great.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Inhibitory control — the capacity to suppress an automatic response — is one of the three core executive functions identified in neuropsychological research (Diamond, 2013). It relies heavily on prefrontal development and is one of the last systems to mature, continuing into early adulthood. Children with ADHD profiles tend to show measurably reduced inhibitory control compared to age-matched peers (Barkley, 1997, remains a foundational reference here).</p>
+                <p>Under high emotional arousal, the capacity for flexible, inhibited responding tends to narrow further. Emotional processing tends to dominate over reflective thinking when arousal is high. This is well-evidenced in general neuroscience and tends to be more pronounced in children whose regulatory systems are still developing. It is not a character flaw. It is the developmental reality, and it changes with time and the right conditions.</p>
+                <p>Concrete, physically-anchored strategies tend to be more accessible than abstract ones under stress. This is consistent with what we know about working memory: when capacity is consumed by emotional regulation, highly practised physical routines are more likely to remain available.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-11" class="sg-xref-tag">11 — Interoception</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+              <a href="#skill-16" class="sg-xref-tag">16 — The Pause</a>
+            </div>
+        <details class="sg-skill" id="skill-11" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">11</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Interoception and Body Awareness</span>
+              <span class="sg-skill-desc">How to help a child notice what their body is telling them before it is too late</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"He didn't know he was hungry until he was in tears. He didn't know he was furious until the chair was on the floor. He's not being dramatic. He literally couldn't feel it coming."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>Interoception is the brain's ability to sense what is happening inside the body: hunger, tiredness, the rising heat of anger, the tight chest of anxiety. For many children, this awareness is something they develop naturally and unconsciously. For others — particularly those with sensory processing differences, ADHD, or autism — it is much harder to access.</p>
+            <p>When interoceptive awareness is reduced, a child may not notice that they are hungry until they are already dysregulated. They may not register that their body is approaching overload until they are already in meltdown. The early warning signal is quiet, or absent entirely. By the time they feel it, they are already past the point where most regulation strategies can help.</p>
+            <p>This is why skills like "take a deep breath when you feel angry" often do not work. The child does not feel the anger building. They only feel it when it is already here.</p>
+
+            <span class="sg-section-label">Building the signal</span>
+            <p>Interoception is not fixed. It can be developed, but the work happens in calm moments, not crisis ones. Body check-ins at low-stakes points in the day — before lunch, during a transition, at bedtime — give children repeated practice at noticing internal states when there is no pressure and no consequence attached.</p>
+            <p>Start with concrete, physical sensations: hungry, thirsty, tired, needing the toilet. These are the easiest to name and verify. Once those are reliable, move to emotional precursors: the heat in the face before anger, the tight stomach before anxiety, the flattening feeling before shutdown. This is a vocabulary a child has to build explicitly if their system does not build it automatically.</p>
+            <p>You are not teaching the child to always name their feelings before they act. You are giving them slightly more signal, slightly earlier. That is enough to make a meaningful difference.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>Once a day, at a predictable calm moment, run a simple body check-in. Not a quiz. Not a lesson. Three questions: "How is your stomach feeling right now? How about your head? How tired are your legs?" Let the child answer in whatever language works for them. The goal is not accuracy — it is the habit of checking. That habit is the skill.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The window gets wider. A child who previously had no warning before explosion may start to notice a shift five minutes before. That five minutes is enough for a snack, a movement break, a change of space. You will not always catch it. You will catch it more often than before. That is the progression — not perfect self-regulation, but slightly more notice.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Interoception research has grown substantially in the past decade. Garfinkel et al. (2016) is a key paper distinguishing interoceptive accuracy (how accurately the brain reads body signals) from interoceptive awareness (whether the person knows how accurate they are). Both can be addressed through practice. The foundational work on sensory integration from Ayres (1972 onwards) established the clinical importance of body-based awareness in child development, primarily in occupational therapy contexts.</p>
+                <p>The practical interoception work most directly applicable here has been developed by Kelly Mahler, primarily with autistic children — worth flagging that the transfer to ADHD presentations is plausible but less directly evidenced. The underlying principle (building the signal through deliberate, low-stakes practice) is consistent with general neuroscience on interoceptive training.</p>
+                <p>Language and emotion regulation: the act of labelling an emotional or physical state uses language regions that are associated with slightly reduced activation in the emotional processing system — the "affect labelling" effect documented by Lieberman et al. (2007). It is not a switch. It is a modest but real shift. Naming the feeling is not just a coping strategy. It may be a mild neurological one.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-4" class="sg-xref-tag">4 — Movement</a>
+              <a href="#skill-9" class="sg-xref-tag">9 — Task Initiation</a>
+              <a href="#skill-10" class="sg-xref-tag">10 — Impulse Regulation</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 12 -->
+        <details class="sg-skill" id="skill-12" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">12</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Reframing Self-Talk and Strength Narrative</span>
+              <span class="sg-skill-desc">When a child has already decided they are the problem, and how to start shifting that</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"He said he was stupid. Not as a bid for reassurance. He said it flatly, like a fact he had already accepted. He has been told enough times that he is wrong about things that he has started to believe it's just who he is."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>A child who has experienced years of correction, failure, and comparison has a running internal commentary. It is often not kind. "I can't do this." "I always mess everything up." "I'm the stupid one." These are not cries for help — they are beliefs. They formed slowly, out of evidence that felt real at the time. You cannot argue a belief out of existence. You can, over time, introduce competing evidence.</p>
+            <p>The Dweck growth mindset framework is relevant here, but it is worth naming what it is not. It is not telling a child they can do anything if they try hard enough. That is not accurate and children know it. What the research actually supports is that a child's belief about the nature of their ability — fixed vs. capable of growth — shapes how they respond to difficulty. A child who believes they are "just bad at maths" will stop trying in a way that a child who believes "I haven't got this yet" will not. Same level of difficulty. Very different response.</p>
+
+            <span class="sg-section-label">The two-step approach</span>
+            <p>Step one: do not argue with the statement. "That's not true, you're very smart" lands as dismissal, not reassurance. The child has evidence. You are telling them their evidence is wrong. They will not believe you.</p>
+            <p>Step two: introduce a different question. "I hear that it feels that way. I'm wondering when the last time was that something hard got easier." Not a counter-argument. A crack in the certainty. A question small enough to actually consider.</p>
+            <p>The reframe is not an event. It is a pattern. Done once, it does little. Done consistently, over months, it begins to create a different internal story. One where difficulty is a stage, not a verdict.</p>
+
+            <span class="sg-section-label">Strengths are not consolation prizes</span>
+            <p>Naming what a child does well is not the same as deflecting from what they find hard. Both conversations can exist. The child who knows they are good at one thing has a foothold. That foothold matters more than it seems — not because one strength cancels many difficulties, but because it is evidence against the flat conclusion that they cannot do anything right.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>When your child makes a self-critical statement, try this response: acknowledge, then turn. "I can hear that it felt that way. I've noticed something, though — can I tell you?" Then name one specific, recent, true thing they did that contradicts the belief. Specific matters. "You're actually great" is too broad. "You explained that Minecraft thing to your brother for twenty minutes without getting frustrated. That is patience. That is a skill." Specific, true, and enough.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>Self-critical statements become less absolute. "I'm stupid" starts becoming "I can't do this yet" — not always, not quickly, but with increasing frequency. The child begins to introduce the question themselves before you do. That is the shift. It is slow. It is real.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Dweck's research on implicit theories of intelligence (mindset theory) has been extensively replicated and extended since the foundational papers in the 1990s. A 2022 meta-analysis by Macnamara and Burgoyne found that growth mindset interventions have modest but real effects on academic outcomes — not transformative, but genuinely there. The effect is most pronounced when the intervention changes the child's attributional style (what they believe caused the outcome) rather than just offering encouragement.</p>
+                <p>Shame and self-concept: Brené Brown's research on shame resilience is not neuroscience, but it is well-evidenced qualitative and psychological research on the distinction between shame ("I am bad") and guilt ("I did something bad"). Only one of those is associated with positive behavioural change. Children who receive repeated shame-based corrections — "What were you thinking?" "You should know better" — tend to develop fixed-failure self-concepts faster than children who receive process-based feedback.</p>
+                <p>The two are not unrelated. A child with a shame-based self-concept is more resistant to growth mindset interventions, because the belief is not just cognitive — it is identity-level. This is why the skill here is a long one, and why it needs the Shame skill (Skill 2) as a foundation.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-13" class="sg-xref-tag">13 — Flexible Thinking</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+              <a href="#skill-15" class="sg-xref-tag">15 — Family Strength Narrative</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 13 -->
+        <details class="sg-skill" id="skill-13" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">13</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Flexible Thinking</span>
+              <span class="sg-skill-desc">The black-and-white mind — and the one question that opens a door</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"She said she never gets anything right. You wanted to list every counter-example. That would have made it worse. The skill is not the argument. It's the question."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>Some children process the world in binary categories. Fair or unfair. Always or never. Completely ruined or completely fine. This is not stubbornness. It is a cognitive style that handles certainty better than ambiguity. Middle ground feels unstable. The binary is at least clear.</p>
+            <p>For a child like this, a small setback becomes catastrophic because any setback is evidence of a larger, total failure. A changed plan is not just inconvenient — it invalidates the whole day. A partial success does not count, because it was not complete.</p>
+            <p>You cannot argue this child out of binary thinking. Every counter-example you offer will be dismissed or qualified. The thinking is not primarily logical — it is protective. The absolute statement holds off an even more uncomfortable ambiguity: "maybe I am partly okay, and partly not, and I don't know how to hold both of those at once."</p>
+
+            <span class="sg-section-label">The one question that opens the door</span>
+            <p>Do not argue. Do not list exceptions. Do not correct the absolute statement with a more accurate one. Instead, get curious. A single, genuine question, asked without challenge in the voice: "I notice you said always. Is there any time — even one time — where it went differently?"</p>
+            <p>That is it. You are not trying to resolve the belief in one conversation. You are introducing a small doubt. A crack in the absolute. Most children, when asked calmly, will eventually find one exception. That exception is not the answer. It is the beginning of the question.</p>
+            <p>Repeat across weeks. The goal is not to convince. The goal is to make "maybe it is more complicated than I thought" feel less threatening. That takes time, not argument.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>The next time you hear an absolute ("I never," "it always," "everyone"), try this: "You said always. I'm wondering if there was one time it was different." If they say no, say "Okay. Maybe." Leave it there. You are not trying to win the point. You are trying to lower the temperature on the certainty. That is a different project.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The absolutes become less frequent. Recovery from disappointment shortens — a ruined afternoon starts becoming a bad morning, then a hard hour. The child begins to introduce "maybe" themselves, occasionally, in lower-stakes moments. That is flexible thinking starting to develop. It is almost always quieter than you expect it to be.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Cognitive inflexibility — difficulty shifting between mental frameworks — is a well-documented feature in a range of developmental profiles, including ADHD and autism (Zelazo and Müller, 2002; Corbett et al., 2009). The neural systems involved overlap considerably with those governing emotional regulation — which is part of why cognitive rigidity tends to be more pronounced when the child is also emotionally aroused.</p>
+                <p>Ross Greene's collaborative problem-solving approach (The Explosive Child, 2010) is built on the premise that inflexible-explosive children lack the cognitive flexibility skills to respond adaptively when their expectations are not met — not that they lack motivation or character. This reframe is both kinder and more effective. The approach has evidence from clinical and educational settings, though large-scale RCT data is limited.</p>
+                <p>Dweck's growth mindset research is directly applicable here as a flexibility intervention applied to self-concept: the shift from "I am a person who fails" to "I am a person who has not yet got this" is, in cognitive terms, a shift from binary to dimensional self-concept. That shift is possible, but gradual, and it requires consistent, calm, repeated exposure to competing evidence — not argument.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-12" class="sg-xref-tag">12 — Reframing Self-Talk</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 14 -->
+        <details class="sg-skill" id="skill-14" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">14</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Repair and Recovery</span>
+              <span class="sg-skill-desc">What happens after the rupture — and why what you do next matters more than what just happened</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"You shouted. It got worse. You know you shouldn't have. Now you are both in separate rooms, the evening is ruined, and you have no idea how to come back from it. This is the skill that comes after that."</p>
+            </div>
+
+            <span class="sg-section-label">What repair actually is</span>
+            <p>Rupture is not the failure. Repair is the skill. Every relationship has ruptures. The ones that feel safest are not the ones where nothing goes wrong — they are the ones where both people know that when it does go wrong, it gets repaired. That is the model you are building with your child, one repair at a time.</p>
+            <p>Repair is not a performance apology. It is not "I'm sorry you felt that way" (which is not an apology). It is not a negotiation to re-establish peace. It is an honest acknowledgement, made when both of you are calm, that something happened that should not have, and that the relationship is more important than being right about it.</p>
+
+            <span class="sg-section-label">What apology looks like from a parent</span>
+            <p>A genuine parental apology has three parts. One: what happened. "I raised my voice and that was too much." Two: acknowledgement of impact. "That would have felt scary and unfair." Three: what you will try to do differently. "Next time I feel that frustrated, I am going to try to take a break before I speak."</p>
+            <p>You do not need to explain why you got that frustrated. The child does not need the backstory of your day to receive the apology. Keep it clean. The explanation can come later, if at all.</p>
+            <p>Modelling repair is one of the most powerful things a parent can do. You are demonstrating that adults get it wrong, and adults fix it. That is exactly what you are asking the child to do.</p>
+
+            <span class="sg-section-label">A note on shouting</span>
+            <p>When a parent raises their voice, the child's capacity for flexible thinking and cooperation narrows — not because they have chosen to stop cooperating, but because they are now managing two things at once: the original demand and the emotional state of the adult. The compliance may appear to increase briefly (the child goes quiet, backs down). What has actually happened is that the child has shifted into a self-protective mode, not a learning one.</p>
+            <p>Children with ADHD already receive a disproportionately high number of negative corrections compared to their neurotypical peers. The shame load in the room when a parent shouts is significant. The repair conversation is doing real work: it is restoring safety, reducing shame, and demonstrating that the relationship is not conditional on good behaviour.</p>
+
+            <span class="sg-section-label">Making it right</span>
+            <p>Sometimes repair involves making something right. A broken rule, a harsh word, a consequence that was unfair in retrospect. When restoration is possible, it is worth doing. When it is not fully possible — the evening is already gone, the feeling cannot be un-felt — "trying to make it right" is still the goal. Partial restoration, offered sincerely, counts.</p>
+
+            <span class="sg-section-label">Returning after rupture</span>
+            <p>Not every repair has words. A hug, a shared task, a returned-to favourite game — connection re-established in whatever language works for the child. Some children need words. Some need time first, then words. Some need action. Know your child. The re-entry matters more than the medium.</p>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The time between rupture and repair shortens. Not because there are fewer ruptures — there may not be fewer, for a while — but because both of you get better at returning. The child begins to initiate repairs themselves, occasionally, in smaller conflicts. They have seen the model enough times. That is the skill transferring.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>Siegel and Bryson (The Whole-Brain Child, 2012; No-Drama Discipline, 2014) have popularised the concept of "rupture and repair" in a parenting context. The underlying neuroscience is from attachment theory and interpersonal neurobiology: the quality of early relational experience shapes the developing stress response system. Consistent repair teaches the child's nervous system that the relationship can survive difficulty. That is a genuinely regulatory lesson.</p>
+                <p>On shouting and neural state: research on stress and cognition consistently shows that high arousal states narrow cognitive flexibility and increase reactive responding (Arnsten, 2009, is a useful reference on the effects of stress on prefrontal function). The child in a high-arousal state is not accessing the same cognitive resources they have at baseline. The teaching that is intended in a correction delivered at volume is very unlikely to land. The correction is not wasted — but the learning mostly happens after, in calm.</p>
+                <p>Barkley (2012) documents that children with ADHD receive significantly higher rates of negative feedback and correction than their neurotypical peers, across both home and school settings. This is not because the behaviour is uniquely bad — it is because the profile involves more frequent rule violations and incomplete tasks. The cumulative shame load of this correction history is clinically significant, and repair is one mechanism for addressing it.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-15" class="sg-xref-tag">15 — Family Strength Narrative</a>
+              <a href="#skill-16" class="sg-xref-tag">16 — The Pause</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 15 -->
+        <details class="sg-skill" id="skill-15" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">15</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">Family Strength Narrative</span>
+              <span class="sg-skill-desc">How a family talks about itself shapes what a child believes they are capable of</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"She said 'our family is the kind of family that never wins.' You wanted to argue the point. The point was not the problem. The story she has about who you are together — that was the problem."</p>
+            </div>
+
+            <span class="sg-section-label">What's happening</span>
+            <p>Every family has a narrative — a running internal story about who they are, what they are good at, how they handle hard things. Children absorb this narrative long before they can articulate it. A family that talks about its difficulties as permanent ("we're just not academic people") and its strengths as invisible or accidental produces a different child from a family that names what it does well, together, consistently.</p>
+            <p>For families raising a child who struggles — with school, with friendships, with big feelings — the family narrative can drift toward difficulty as identity. This is understandable. The difficult things are the ones that require constant management. But if the story the child hears most often is the story of what is hard, that is the story that becomes who they believe they are.</p>
+
+            <span class="sg-section-label">Noticing and naming</span>
+            <p>The family strength narrative does not require a workshop or a whiteboard. It is built in small, repeated moments: naming what went well, specifically and truthfully. Not "you did great today" — that is vague enough to feel hollow. "You came back to the table after that difficult moment and finished. That is not easy. That is something you did."</p>
+            <p>It is also about what you say about your family when the child can hear you. On the phone to a friend. To your partner across the dinner table. These conversations are absorbed and filed.</p>
+            <p>This includes naming the child's profile as a strength where it genuinely is one — not as a consolation prize, but as an accurate observation. Intensity, creativity, lateral thinking, deep interests, relentless curiosity: these show up alongside the difficulties. They are real. They deserve to be named with the same frequency as the challenges.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>At dinner, or at bedtime, try one round of "one thing that went well today." Not just for the child — for you too. A specific thing, not a general positive. Lead with yours first, so it does not feel like a test. The goal is a habit, not a perfect answer. The habit is the thing.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The child begins to volunteer the family strength narrative themselves. You will hear it in how they describe your family to others, or in what they reach for when things go wrong. "We figure it out." "We come back from stuff." That is the narrative landing. It does not make the hard things easier. It makes the child's story about themselves more accurate — and more survivable.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>The concept of family narrative and child development has been studied through the lens of narrative identity — the idea that coherent self-stories, built partly in conversation with significant others, support resilience and emotional regulation (McAdams, 2001; Fivush, 2011). Fivush's research in particular shows that family storytelling about past difficult events — with a clear narrative arc of "we faced this and got through it" — is associated with greater child resilience.</p>
+                <p>This is not about creating an unrealistically positive family story. The research suggests the most protective narratives are coherent, not relentlessly positive — they include difficulty, and they include recovery. A family that can say "that was hard, and here is what we did" is giving the child a template for facing their own difficulties.</p>
+                <p>The Dweck connection: family-level growth mindset is transferable. A family narrative that treats struggles as stages, not definitions, scaffolds the same attributional flexibility that individual growth mindset interventions target. Both reinforce the other.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-12" class="sg-xref-tag">12 — Reframing Self-Talk</a>
+              <a href="#skill-17" class="sg-xref-tag">17 — What You Do After</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 16 -->
+        <details class="sg-skill" id="skill-16" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">16</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">The Pause</span>
+              <span class="sg-skill-desc">The most underrated parenting skill — and why it is harder than it sounds</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"She said something completely unreasonable. You had a response ready. You felt the momentum of the argument pulling you forward. You said it anyway. It escalated. You already knew it would. The pause was available. You just didn't take it."</p>
+            </div>
+
+            <span class="sg-section-label">What this skill actually is</span>
+            <p>The pause is the gap between stimulus and response. It is not silence. It is not backing down. It is a deliberate decision not to fire immediately — buying yourself the half-second you need for a different response to become available.</p>
+            <p>It sounds straightforward. It is genuinely difficult. It requires overriding a strong pull: the pull to respond to a challenge, to enforce a rule, to not let something go by. That pull is not wrong. The timing of the response is what matters.</p>
+            <p>Most parent-child escalations that get out of hand do so not because either person wanted it that way, but because both responded to the previous statement within seconds, each escalating slightly, until a thing that started small has become very large. The pause interrupts that chain. You cannot pause once the chain is already running at speed. You have to pause early, or not at all.</p>
+
+            <span class="sg-section-label">What to do with the pause</span>
+            <p>The pause is not waiting for something better to occur to you in real-time. It is executing a pre-decided response that buys you time. A few options that work:</p>
+            <p>"I hear you. Give me a moment." Then a breath. Then respond.</p>
+            <p>"That's a big feeling. I'm going to get a glass of water. I'll be back in two minutes." Then actually go. Then come back.</p>
+            <p>"I need to think about that before I answer." Then think. Then answer.</p>
+            <p>None of these is capitulation. All of them are strategic. You are not abandoning the boundary. You are choosing when and how to hold it.</p>
+
+            <span class="sg-section-label">Why it is harder than it sounds</span>
+            <p>You are also a person with a regulatory system under pressure. You are also depleted, sometimes. You are also dealing with the compounding effects of being spoken to rudely by a small person you love very much who should know better, for the fourth time today.</p>
+            <p>The pause is harder when you are flooded. Which is exactly when it is most needed. This is not a paradox — it is just a difficult skill, and it requires its own practice, separate from the child's.</p>
+            <p>One breath, longer out than in. That is the minimum version of the pause. It is available even when nothing else is.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>Decide, in advance, on one physical pause signal that will be yours. A hand on the counter. A slow breath. Saying "one moment" in a neutral voice. Rehearse it when you are calm, so it is available when you are not. The pause is a practised reflex, not an improvised one. Practised reflexes are accessible under pressure. Improvised ones are not.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>Escalations that previously ran to conclusion start stopping earlier. The child, who has also seen hundreds of escalations, begins to read the pause as a signal. Not immediately, and not consistently. But over time, the pause teaches them something too: that the moment does not have to keep going in the same direction. That is a lesson that lands in the body before it lands in the mind.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>The pause has roots in dialectical behaviour therapy (Linehan, 1993) and in the general regulatory literature on distress tolerance. The concept of the "pause before responding" is also central to non-violent communication (Rosenberg) and to the Gottman Institute's work on conflict in relationships. The common thread is the same: giving the pre-frontal systems time to re-engage before the response is issued.</p>
+                <p>Under conditions of high emotional arousal, emotional processing tends to dominate over reflective thinking. This is well-evidenced in general neuroscience and is not unique to children. Adults under stress also show narrowed cognitive flexibility and reduced inhibitory control. The parent who says "I just couldn't stop myself" is not lying. They are describing their regulatory system under load.</p>
+                <p>Physical regulation strategies — slow breathing with extended exhalation, in particular — have good evidence for activating the parasympathetic nervous system and reducing physiological arousal relatively rapidly (Zaccaro et al., 2018, is a useful review). Not a cure. A modest shift. A shift that is enough, sometimes, to change what comes next.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-10" class="sg-xref-tag">10 — Impulse Regulation</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+            </div>
+          </div>
+        </details>
+
+        <!-- Skill 17 -->
+        <details class="sg-skill" id="skill-17" data-chapter="3">
+          <summary class="sg-skill-trigger">
+            <span class="sg-skill-num-col">
+              <span class="sg-skill-num">17</span>
+            </span>
+            <span class="sg-skill-meta">
+              <span class="sg-skill-title">What You Do After Matters</span>
+              <span class="sg-skill-desc">How your child learns from the pattern that follows a hard moment — not just from the moment itself</span>
+            </span>
+            <span class="sg-skill-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="sg-skill-body">
+
+            <div class="parent-truth">
+              <p>"Every time she screamed, you gave in, because the alternative felt unbearable. She has not learned that screaming doesn't work. She has learned that she needs to scream harder. That is not her fault. It is not your fault either. It is just what happened. And it can change."</p>
+            </div>
+
+            <span class="sg-section-label">What this skill is</span>
+            <p>Behaviour does not only live in the moment. It lives in the pattern of what happens after the moment. A child who escalates and finds that escalation reliably removes the demand has learned something — not consciously, not deliberately, but through repetition. The lesson is efficient. It works. The behaviour becomes more likely over time, not less.</p>
+            <p>This is not about blame. Understanding why your child struggles does not change this mechanism. The nervous system is real. The learning history is also real. Both are operating simultaneously.</p>
+            <p>This skill is last in this guide deliberately. Everything in Parts One and Two is the foundation for hearing it clearly. Without the context of depletion, shame, emotional intensity, and the relational work of repair — this principle lands as "be tougher." That is not what it is.</p>
+
+            <span class="sg-section-label">The accommodation trap</span>
+            <p>When a child escalates and the demand disappears, the immediate distress ends. That is a relief — for the child and for the parent. The evening recovers. The relationship repairs. But if this pattern repeats consistently, the child learns that escalation is an effective strategy. The behaviour does not shrink. It grows.</p>
+            <p>Most parents who have fallen into accommodation patterns did not choose them. They arrived through exhaustion, through love, through not knowing what else to do when the alternative was thirty more minutes of misery. Each accommodation felt like kindness. The cumulative effect is a child with fewer skills and increasingly rigid expectations of what the world will do for them.</p>
+            <p>That is worth naming without judgement, because the first step is recognising the pattern, not blaming yourself for it. The pattern can change. But it requires consistency that feels, at first, like making things worse.</p>
+
+            <span class="sg-section-label">Two parent patterns that are worth knowing</span>
+            <p>The first is the meltdown-avoidance pattern. A parent who has learned, through years of repetition, that removing the demand stops the immediate pain. The avoidance is not conscious. It has become reflexive. It feels like sensitivity. From the outside, it looks like a child who has learned that enough distress produces accommodation.</p>
+            <p>The second is more subtle. It often comes from a diagnosis, or from reading about a child's profile. "He's like this, so I can't really expect..." The words are compassionate. They come from love. But the research is fairly consistent: children with ADHD and autism develop skills best when expectations are calibrated to their profile, not removed. High support and high expectations are not contradictions. A child who is never expected to manage frustration never has the opportunity to build that capacity. That is not kindness. It is an accidental ceiling.</p>
+            <p>Both patterns are understandable. Both can shift.</p>
+
+            <span class="sg-section-label">What this skill is not</span>
+            <p>It is not a case for harshness. Not a case for ignoring the child's profile. Not a case for rigid rule enforcement divorced from context. The profile changes how you scaffold toward the expectation. It does not change whether you hold one.</p>
+            <p>The goal is never compliance for its own sake. The goal is skill development. "We are doing this not because I said so, but because you are learning to."</p>
+
+            <span class="sg-section-label">When the escalation starts</span>
+            <p>You will feel the pull. The demand is reasonable. The child is not coping with it. The path of least resistance is right there.</p>
+            <p>When that happens, try this instead of removing the demand: reduce the support to the minimum that makes it achievable.</p>
+            <p>"You don't have to do all of it. Start with the first part. I'll stay here."</p>
+            <p>The demand is still present. The distance between the child and completing it just got shorter. That is scaffolding, not giving in. Over time, the scaffolding reduces. The expectation does not.</p>
+            <p>This also gives you something to do with your hands in the moment, which matters. "Remove the demand" is a passive decision. "Stay here and help them start" is an active one. Active is easier to execute under pressure.</p>
+
+            <span class="sg-section-label">What reinforcement actually looks like</span>
+            <p>Most parents think of reinforcement as reward charts and sticker tables. It is not. It is noticing what went right, specifically, immediately, and out loud.</p>
+            <p>The formula is: what they did + when they did it + why it counts.</p>
+            <p>"You came back to the table after that hard moment. That was five minutes ago and you did it without being asked again. That is the skill. That is what I am watching for."</p>
+            <p>Not: "Good job today." Too broad to land anywhere. Not: "See, you can do it when you try." Praise with a sting in the tail.</p>
+            <p>Specific. Timely. Behaviour-focused. The child who hears their actual behaviour named — not their character, not a comparison, not a general verdict — starts to build a more accurate picture of what they are capable of. That picture is what changes behaviour over time.</p>
+
+            <span class="sg-section-label">Consistency is regulating</span>
+            <p>Consistent follow-through — even when it is hard, even when the child protests — is not punitive. It is regulating. Predictable outcomes help neurodiverse children understand their world. Inconsistency is its own source of anxiety. The child who sometimes gets what they want by escalating and sometimes does not is in a more uncertain environment, not a kinder one.</p>
+
+            <span class="sg-section-label">Extinction bursts: the thing that trips everyone up</span>
+            <p>When a behaviour that has previously worked stops working, it typically gets worse before it gets better. The child escalates harder, louder, longer — because the strategy that used to work is not working and they do not yet have a different one. This is called an extinction burst. It is entirely normal. It is also the moment when most parents conclude that the new approach is not working and return to accommodation.</p>
+            <p>Returning to accommodation at this moment teaches the child that more escalation is the answer. It makes the next extinction burst harder to get through.</p>
+            <p>You need to know this in advance. Not to steel yourself against your child's distress — but so you do not mistake the burst for evidence of failure. It is evidence that the old pattern is losing its grip. Keep going.</p>
+
+            <span class="sg-section-label">The collaborative approach</span>
+            <p>Ross Greene's collaborative problem-solving model is worth knowing here. It is not "consequences or nothing." It is a framework for building the skill through joint problem-solving — identifying the obstacle, finding a solution that works for both of you, trying it, adjusting it. The behaviour changes because the child has developed the capacity to manage it, not only because the parent held firm.</p>
+            <p>Both are needed. The boundary provides the structure. The collaborative work builds the skill. They are not the same thing, and neither one alone is sufficient.</p>
+
+            <span class="sg-section-label">This skill is the through-line</span>
+            <p>Understanding your child's profile and holding expectations for their growth are the same project. Not competing ones. Every skill in this guide has pointed here. Understanding why something is hard is the beginning of the work, not a reason to stop working.</p>
+
+            <div class="sg-try-tonight">
+              <p class="sg-try-label">Try this week</p>
+              <p>Pick one demand that you have been consistently removing when it escalates. Not the hardest one. A medium one. Something that matters but is not currently a battleground.</p>
+              <p>This week, hold it. Not by force — by staying present and reducing the support rather than the expectation. "I know this is hard. I am going to sit here while you do the first part."</p>
+              <p>Don't change anything else. One demand, held consistently, for one week. Expect it to get worse before it steadies — day three and four are often the hardest. That is the pattern working, not breaking.</p>
+              <p>If it goes badly, that is information. Bring it to someone who can help you calibrate — a psychologist, an OT, a support group. This guide takes you as far as a guide can take you.</p>
+            </div>
+
+            <span class="sg-section-label">What changes as this skill develops</span>
+            <p>The accommodation pattern becomes visible to you before you have already acted on it. You start to notice the pull, which means you have a moment of choice that was not there before. Consistency becomes easier as the child begins to predict outcomes more accurately — the uncertainty that drives a lot of the escalation starts to reduce. Recovery time after difficult demands shortens. Not in weeks. Over months. The direction of travel is what matters.</p>
+
+            <details class="sg-brain">
+              <summary class="sg-brain-trigger">The brain science</summary>
+              <div class="sg-brain-body">
+                <p>The mechanism described here is operant conditioning — specifically, the way reinforcement history shapes the frequency of behaviour. This is foundational behavioural science, established through Skinner and extended extensively in applied contexts. The underlying principle is not controversial. The clinical application of it varies — Applied Behaviour Analysis (ABA) uses these principles as a core methodology, though ABA as a clinical intervention is contested in some neurodiverse communities, and is not what is being recommended here. The learning principle is distinct from the intervention approach.</p>
+                <p>Extinction bursts are documented throughout the behaviour change literature. Cooper, Heron, and Heward's Applied Behaviour Analysis (3rd ed.) is the standard reference. The practical implication — that behaviour gets worse before it gets better when reinforcement is removed — is one of the most reliable and least-discussed findings in parent-facing psychology.</p>
+                <p>Barkley (2012) documents that children with ADHD tend to require more immediate, more salient, and more frequent reinforcement than their neurotypical peers — not less. This is counterintuitive to some parents who feel they have already tried praise and it has not worked. The issue is often not the type of reinforcement but its immediacy and specificity. A general "good job" at the end of the day is not the same as a specific, timely observation during the behaviour.</p>
+                <p>The evidence on high expectations combined with high support in neurodevelopmental conditions is consistent: outcomes are better when calibrated expectations are held, not removed. This is documented in autism outcomes research (Kasari et al., 2010 is one relevant study) and in the ADHD parenting literature. The "He's like this so I can't expect..." position, however compassionate in intent, is not supported by the evidence.</p>
+              </div>
+            </details>
+
+            <div class="sg-xref">
+              <span class="sg-xref-label">Connects to</span>
+              <a href="#skill-1" class="sg-xref-tag">1 — The Depleted Child</a>
+              <a href="#skill-2" class="sg-xref-tag">2 — Shame</a>
+              <a href="#skill-3" class="sg-xref-tag">3 — Emotional Intensity</a>
+              <a href="#skill-9" class="sg-xref-tag">9 — Task Initiation</a>
+              <a href="#skill-13" class="sg-xref-tag">13 — Flexible Thinking</a>
+              <a href="#skill-14" class="sg-xref-tag">14 — Repair and Recovery</a>
+            </div>
+          </div>
+        </details>
+
+      </div><!-- /sg-skill-list ch3 -->
+
+      <!-- Part Three CTA -->
+      <div class="sg-chapter-cta" data-chapter="3">
+        <p class="sg-chapter-cta-label">End of the Skills Guide</p>
+        <p>You have read a lot. That is not nothing. Most parents of children like yours are managing day to day without any of this framework. You now have language, context, and a few things to try.</p>
+        <p>None of it works all at once. None of it works in a straight line. Regression is normal. A week where everything goes backwards is not evidence that the work has stopped. It is evidence that you are in it.</p>
+        <p>The measure is not perfection. The measure is: is the direction of travel, over months, pointing somewhere better? For most families who do this work consistently, it is.</p>
+        <p>Understanding your child's profile and holding expectations for their growth are not competing projects. They are the same one.</p>
+        <div class="sg-chapter-cta-actions">
+          <a href="moments.html" class="cta-btn-ghost">Flashpoint Cards &rarr;</a>
+          <a href="resources.html" class="cta-btn-ghost">Singapore Resources &rarr;</a>
+        </div>
+      </div>
+
+    </section>
+    <!-- /Chapter Three -->
+
+  </main>
+  <!-- /sg-main -->
+
+</div>
+<!-- /sg-page -->
+
+
+<!-- ============================================================
+  JavaScript — expand/collapse and sticky nav
+  One skill open per chapter at a time.
+  Sticky nav highlights active chapter on scroll.
+  Cross-reference taps open target skill.
+  ============================================================ -->
 <script>
-  const slidesEl = document.getElementById('slides');
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  const dots = Array.from(document.querySelectorAll('.jump-dot'));
-  const coverJumps = Array.from(document.querySelectorAll('.cover-jump'));
-  let current = 0;
-  let isScrolling = false;
+(function () {
+  'use strict';
 
-  function goToSlide(index, opts = {}) {
-    index = Math.max(0, Math.min(index, slides.length - 1));
-    if (index === current && !isScrolling && !opts.scrollToTop) return;
-    current = index;
-    isScrolling = true;
-    const slide = slides[current];
-    // Instant horizontal snap when navigation was explicit — only the
-    // vertical scroll animates, so the eye has one motion to follow.
-    slidesEl.scrollTo({
-      left: slide.offsetLeft,
-      behavior: opts.scrollToTop ? 'auto' : 'smooth'
+  /* ─── Expand/collapse: one open per chapter ─────────────────
+     When a <details> opens, close any other open <details>
+     within the same chapter section.                          */
+
+  document.querySelectorAll('.sg-skill').forEach(function (det) {
+    det.addEventListener('toggle', function () {
+      if (!det.open) return;
+
+      var chapter = det.closest('[data-chapter]');
+      if (!chapter) return;
+
+      chapter.querySelectorAll('.sg-skill[open]').forEach(function (other) {
+        if (other !== det) other.removeAttribute('open');
+      });
     });
-    if (opts.scrollToTop) {
-      const card = slide.querySelector('.card');
-      if (card) {
-        const top = window.scrollY + card.getBoundingClientRect().top - 24;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  });
+
+
+  /* ─── Deep-link: open skill and scroll on cross-ref tap ────
+     When an anchor pointing to a skill ID is clicked,
+     open that skill's <details> then scroll to it.           */
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#skill-"], a[href^="#parent-regulation"]');
+    if (!a) return;
+
+    var target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+
+    // If the target is a skill <details>, open it
+    if (target.tagName === 'DETAILS') {
+      // First, close other open skills in the same chapter
+      var chapter = target.closest('[data-chapter]');
+      if (chapter) {
+        chapter.querySelectorAll('.sg-skill[open]').forEach(function (other) {
+          if (other !== target) other.removeAttribute('open');
+        });
+      }
+      target.open = true;
+    }
+
+    // Let the browser scroll, but account for sticky nav height
+    var barHeight = 0;
+    var tabBar = document.getElementById('sg-tab-bar');
+    if (tabBar && getComputedStyle(tabBar).display !== 'none') {
+      barHeight = tabBar.offsetHeight;
+    }
+
+    // Small delay so the details opens and height is recalculated
+    setTimeout(function () {
+      var rect = target.getBoundingClientRect();
+      var scrollTop = window.scrollY + rect.top - barHeight - 16;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }, 20);
+
+    e.preventDefault();
+  });
+
+
+  /* ─── Sticky nav: active chapter on scroll ──────────────────
+     Watches chapter section tops. Updates rail items and
+     tab bar tabs as the user scrolls past each chapter.      */
+
+  var chapters = [
+    { id: 'chapter-1', num: '1' },
+    { id: 'chapter-2', num: '2' },
+    { id: 'chapter-3', num: '3' }
+  ];
+
+  function getTabBarHeight () {
+    var bar = document.getElementById('sg-tab-bar');
+    if (bar && getComputedStyle(bar).display !== 'none') return bar.offsetHeight;
+    return 0;
+  }
+
+  function updateActiveChapter () {
+    var scrollY = window.scrollY;
+    var offset  = getTabBarHeight() + 48;
+    var active  = chapters[0].num;
+
+    for (var i = 0; i < chapters.length; i++) {
+      var el = document.getElementById(chapters[i].id);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top + scrollY - offset <= scrollY) {
+        active = chapters[i].num;
       }
     }
-    updateDots();
-    setTimeout(() => { isScrolling = false; }, 600);
+
+    // Rail
+    document.querySelectorAll('.sg-rail-item').forEach(function (item) {
+      item.classList.toggle('active', item.dataset.chapter === active);
+    });
+
+    // Tab bar
+    document.querySelectorAll('.sg-tab').forEach(function (tab) {
+      tab.classList.toggle('active', tab.dataset.chapter === active);
+    });
   }
-  function updateDots() { dots.forEach((dot, i) => dot.classList.toggle('active', i === current)); }
 
-  document.getElementById('prevSlide').addEventListener('click', () => goToSlide(current - 1, { scrollToTop: true }));
-  document.getElementById('nextSlide').addEventListener('click', () => goToSlide(current + 1, { scrollToTop: true }));
-  dots.forEach(dot => dot.addEventListener('click', event => {
-    event.preventDefault();
-    goToSlide(Number(dot.dataset.target), { scrollToTop: true });
-  }));
-  coverJumps.forEach(btn => btn.addEventListener('click', event => {
-    event.preventDefault();
-    document.querySelector('.carousel-shell').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => goToSlide(Number(btn.dataset.target)), 350);
-  }));
+  window.addEventListener('scroll', updateActiveChapter, { passive: true });
+  updateActiveChapter();
 
-  let scrollTimer;
-  slidesEl.addEventListener('scroll', () => {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => {
-      const containerCenter = slidesEl.scrollLeft + slidesEl.offsetWidth / 2;
-      let closest = 0, closestDist = Infinity;
-      slides.forEach((slide, i) => {
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        const dist = Math.abs(containerCenter - slideCenter);
-        if (dist < closestDist) { closestDist = dist; closest = i; }
-      });
-      current = closest;
-      updateDots();
-    }, 80);
-  });
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') goToSlide(current + 1, { scrollToTop: true });
-    if (e.key === 'ArrowLeft') goToSlide(current - 1, { scrollToTop: true });
-  });
+  /* ─── Crisis route: "Something just happened" ───────────────
+     Opens Skill 1 on arrival if hash is #skill-1.           */
 
-  // Show side-floating arrows only while a card is the dominant thing
-  // on screen — never on the cover or the closing.
-  const sideNavs = document.querySelectorAll('.side-nav');
-  const cover = document.querySelector('.cover');
-  const closing = document.querySelector('.closing');
-  function updateArrowVisibility() {
-    if (!cover || !closing) return;
-    const vh = window.innerHeight;
-    const y = window.scrollY;
-    const coverBottom = cover.offsetTop + cover.offsetHeight;
-    const closingTop = closing.offsetTop;
-    // Show only when the viewport is fully past the cover, and the
-    // closing hasn't risen into view yet.
-    const show = y + 60 > coverBottom && y + vh < closingTop + 60;
-    sideNavs.forEach(n => n.classList.toggle('visible', show));
+  if (window.location.hash === '#skill-1') {
+    var s1 = document.getElementById('skill-1');
+    if (s1) s1.open = true;
   }
-  updateArrowVisibility();
-  window.addEventListener('scroll', updateArrowVisibility, { passive: true });
-  window.addEventListener('resize', updateArrowVisibility);
 
-  updateDots();
+}());
 </script>
+
 </body>
 </html>

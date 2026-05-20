@@ -364,23 +364,10 @@ details.brain[open] summary::after { content: '–'; }
   padding-top: 22px; border-top: 1px dashed rgba(42,34,41,.2); line-height: 1.7;
 }
 
-/* ── Mobile dots ─────────────────────────────────────────────── */
-.mobile-dots {
-  display: none; justify-content: center; gap: 8px;
-  padding: 4px 28px 0; max-width: 980px; margin: 0 auto;
-}
-.mdot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--bone-deep); border: none; cursor: pointer;
-  padding: 0; transition: background .15s, transform .15s;
-}
-.mdot.active { background: var(--rust); transform: scale(1.25); }
-
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 880px) {
   .page-header { padding: 20px 24px 0; }
   .side-nav { display: none; }
-  .mobile-dots { display: flex; }
   .slide { padding: 10px 16px 30px; }
   .card-header, .card-body { padding-left: 56px; padding-right: 24px; }
   .route-grid { grid-template-columns: 1fr; }
@@ -410,8 +397,6 @@ details.brain[open] summary::after { content: '–'; }
   <div class="carousel-header">
     <p class="hand">Swipe or use the arrows to move through the guide.</p>
   </div>
-
-  <div class="mobile-dots" id="mobileDots" aria-label="Card navigation"></div>
 
   <section class="slides" id="slides">
 
@@ -661,26 +646,7 @@ details.brain[open] summary::after { content: '–'; }
   const slides    = Array.from(document.querySelectorAll('.slide'));
   const sideNavs  = document.querySelectorAll('.side-nav');
   const closing   = document.querySelector('.closing');
-  const dotsEl    = document.getElementById('mobileDots');
   let current = 0, isScrolling = false;
-
-  // Build mobile dots
-  if (dotsEl) {
-    slides.forEach((_, i) => {
-      const d = document.createElement('button');
-      d.className = 'mdot' + (i === 0 ? ' active' : '');
-      d.setAttribute('aria-label', 'Go to card ' + (i + 1));
-      d.dataset.target = i;
-      dotsEl.appendChild(d);
-    });
-  }
-
-  function updateDots() {
-    if (!dotsEl) return;
-    dotsEl.querySelectorAll('.mdot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
-  }
 
   function goToSlide(index, opts = {}) {
     index = Math.max(0, Math.min(index, slides.length - 1));
@@ -692,7 +658,6 @@ details.brain[open] summary::after { content: '–'; }
       window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     }
     if (opts.updateHash !== false) history.replaceState(null, '', '#slide-' + current);
-    updateDots();
     setTimeout(() => { isScrolling = false; }, 600);
   }
 
@@ -709,14 +674,10 @@ details.brain[open] summary::after { content: '–'; }
   document.getElementById('prevSlide').onclick = () => goToSlide(current - 1, { scrollToTop: true });
   document.getElementById('nextSlide').onclick = () => goToSlide(current + 1, { scrollToTop: true });
 
-  if (dotsEl) {
-    dotsEl.addEventListener('click', e => {
-      const d = e.target.closest('.mdot');
-      if (!d) return;
-      e.preventDefault();
-      goToSlide(Number(d.dataset.target), { scrollToTop: true });
-    });
-  }
+  dots.forEach(d => d.addEventListener('click', e => {
+    e.preventDefault();
+    goToSlide(Number(d.dataset.target), { scrollToTop: true });
+  }));
 
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') goToSlide(current + 1, { scrollToTop: true });
@@ -727,7 +688,6 @@ details.brain[open] summary::after { content: '–'; }
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         current = slides.indexOf(entry.target);
-        updateDots();
       }
     });
   }, { root: slidesEl, threshold: 0.55 });
@@ -740,15 +700,16 @@ details.brain[open] summary::after { content: '–'; }
     if (!match) return;
     const idx = Number(match[1]);
     if (Number.isNaN(idx)) return;
+    // Scroll carousel into view first, then jump to slide
     document.querySelector('.carousel-shell').scrollIntoView({ behavior: 'auto' });
     setTimeout(() => goToSlide(idx, { updateHash: false }), 80);
   }
 
   updateArrows();
-  updateDots();
   addEventListener('scroll', updateArrows, { passive: true });
   addEventListener('resize', updateArrows);
   window.addEventListener('hashchange', openHashSlide);
+  // Run on load — handles direct URL with hash
   window.addEventListener('load', openHashSlide);
   openHashSlide();
 </script>

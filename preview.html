@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mia and the Half-Finished Game</title>
+<style>
+  :root {
+    --bg: #FAF8F5;
+    --bg-card: #FFFFFF;
+    --bg-subtle: #F4F1EC;
+    --bg-script: #F0EDE7;
+    --accent: #7A9E87;
+    --accent-dark: #4A7A5A;
+    --accent-light: #EAF0EC;
+    --accent-mid: #C2D4C8;
+    --text-primary: #2C2C2A;
+    --text-secondary: #5C5A55;
+    --text-tertiary: #9A9690;
+    --rule: #DDD9D2;
+    --warning-bg: #FBF3EE;
+    --warning-accent: #C4855A;
+    --school-bg: #EEF2F8;
+    --school-accent: #5A7BA8;
+    --shadow: 0 18px 50px rgba(44, 44, 42, 0.08);
+    --radius: 22px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top right, var(--accent-light), transparent 34%), var(--bg);
+    color: var(--text-primary);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.65;
+  }
+
+  button, select {
+    font-family: inherit;
+  }
+
+  .app {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 34px 18px 56px;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .brand {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+
+  .safety-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--accent-mid);
+    background: rgba(255,255,255,0.68);
+    color: var(--accent-dark);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .cover {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 42px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+
+  .cover:before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: var(--accent-light);
+  }
+
+  .cover-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  h1 em, h2 em {
+    color: var(--accent-dark);
+    font-style: italic;
+  }
+
+  .subtitle {
+    margin: 0 0 26px;
+    color: var(--text-secondary);
+    font-size: 19px;
+    max-width: 630px;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .tag {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    background: #fff;
+  }
+
+  .start-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 22px;
+  }
+
+  .btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 18px;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(74, 122, 90, 0.18);
+    background: var(--accent-dark);
+  }
+
+  .btn.secondary {
+    background: var(--bg-script);
+    color: var(--text-primary);
+  }
+
+  .btn.secondary:hover {
+    background: var(--rule);
+    box-shadow: none;
+  }
+
+  .btn.small {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+  .progress-wrap {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    height: 12px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--accent), var(--accent-mid));
+    transition: width 0.35s ease;
+  }
+
+  .story-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: none;
+  }
+
+  .story-card.active { display: block; }
+
+  .card-topline {
+    height: 5px;
+    background: linear-gradient(to right, var(--accent), var(--accent-mid), transparent);
+  }
+
+  .card-content {
+    padding: 34px;
+  }
+
+  .scene-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    margin: 0 0 20px;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 300;
+    line-height: 1.06;
+  }
+
+  .story-text {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin: 0 0 18px;
+  }
+
+  .problem-box, .feeling-box, .insight-box, .parent-box, .safety-box {
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 18px 0;
+  }
+
+  .problem-box {
+    background: var(--warning-bg);
+    border-left: 4px solid var(--warning-accent);
+  }
+
+  .feeling-box {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    color: var(--accent-dark);
+  }
+
+  .insight-box {
+    background: var(--bg-subtle);
+    border-left: 4px solid var(--accent-mid);
+  }
+
+  .parent-box {
+    background: var(--school-bg);
+    border-left: 4px solid var(--school-accent);
+  }
+
+  .safety-box {
+    background: #fff;
+    border: 1px solid var(--rule);
+  }
+
+  .box-label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+
+  .choices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .choice-card {
+    border: 1px solid var(--rule);
+    background: #fff;
+    text-align: left;
+    border-radius: 16px;
+    padding: 18px;
+    min-height: 170px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border 0.15s ease;
+  }
+
+  .choice-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(44, 44, 42, 0.08);
+    border-color: var(--accent-mid);
+  }
+
+  .choice-tone {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .choice-label {
+    color: var(--text-primary);
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  .pov-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 20px 0 12px;
+  }
+
+  .tab {
+    border: 1px solid var(--rule);
+    background: #fff;
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 9px 10px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .pov-panel {
+    background: var(--bg-script);
+    border-radius: 14px;
+    padding: 18px 20px;
+    min-height: 110px;
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  .cue-list {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+  }
+
+  .cue-list li { margin-bottom: 9px; }
+
+  .reflection {
+    margin-top: 22px;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+
+  .reflection-question {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: 18px;
+  }
+
+  .nav-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 26px;
+  }
+
+  .history {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .summary-card {
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 18px;
+    background: #fff;
+  }
+
+  .summary-card h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--accent-dark);
+  }
+
+  .summary-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-secondary);
+  }
+
+  .summary-card li { margin-bottom: 8px; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 760px) {
+    .cover, .card-content { padding: 26px 20px; }
+    .choices, .result-grid, .summary-grid { grid-template-columns: 1fr; }
+    .pov-tabs { grid-template-columns: repeat(2, 1fr); }
+    .topbar { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">Not The Kid — Wired Differently</div>
+    <div class="safety-pill">✓ Closed story simulation · no open chat</div>
+  </div>
+
+  <section class="cover" id="cover">
+    <div class="cover-inner">
+      <h1>Mia and the<br><em>Half-Finished Game</em></h1>
+      <p class="subtitle">An interactive social replay story about focus, interruption, walking away mid-game, and learning that social mistakes can be repaired.</p>
+      <div class="meta-row">
+        <span class="tag">Ages 8–11</span>
+        <span class="tag">ADHD profile</span>
+        <span class="tag">Perspective-taking</span>
+        <span class="tag">Social cues</span>
+        <span class="tag">Repair over shame</span>
+      </div>
+      <div class="safety-box">
+        <span class="box-label">How this prototype is ring-fenced</span>
+        Children choose from bounded story options only. There is no open prompt box, no direct messaging, no peer-to-peer chat, and no stranger interaction.
+      </div>
+      <div class="start-row">
+        <button class="btn" onclick="startStory()">Start Story</button>
+        <button class="btn secondary" onclick="showParentSummary()">View Parent Summary</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="progress-wrap hidden" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <main class="story-card" id="storyCard">
+    <div class="card-topline"></div>
+    <div class="card-content" id="storyContent"></div>
+  </main>
+</div>
+
+<script>
+const story = {
+  scenes: [
+    {
+      title: "Scene 1: The Bird Robot",
+      setting: "Classroom Drift",
+      narration: "Mia is sitting in science class. Her teacher is explaining a group project. Mia tries to listen, but sunlight is shining on the window. A bird lands outside. Then her brain starts building a giant bird robot with silver wings and laser eyes.",
+      problem: "Suddenly, the teacher says, ‘Mia? Did you hear the instructions?’ Everyone looks at her.",
+      feeling: "Mia’s face feels hot. She wants the moment to disappear.",
+      learningGoal: "Notice attention drift and practise asking for help without shame.",
+      choices: [
+        {
+          tone: "Honest",
+          label: "Say, ‘I’m sorry. I missed that. Can you say it again?’",
+          consequence: "The teacher pauses. ‘Thanks for telling me. I’ll repeat the first step.’ Mia still feels embarrassed, but now she knows what to do next.",
+          insight: "Being honest about missing instructions can feel scary, but it often prevents bigger problems later.",
+          skill: "Asking for a repeat"
+        },
+        {
+          tone: "Hide",
+          label: "Nod and pretend she understood.",
+          consequence: "Later, Mia joins her group but does not know what job she has. Ava says, ‘Mia, you’re supposed to be drawing the diagram.’ Mia feels even more lost.",
+          insight: "Pretending can protect Mia from embarrassment for a moment, but it can make the next part harder.",
+          skill: "Noticing the cost of hiding confusion"
+        },
+        {
+          tone: "Escape",
+          label: "Make a joke: ‘I was designing a bird robot.’",
+          consequence: "Some children laugh. One child rolls his eyes. Mia laughs too, but she is not sure whether they are laughing with her or at her.",
+          insight: "Humour can help with embarrassment, but it may not solve the original problem: Mia still needs the instructions.",
+          skill: "Using humour carefully"
+        }
+      ],
+      povs: {
+        "Mia": "I didn’t mean to stop listening. My brain just flew away before I noticed.",
+        "Teacher": "I need Mia to have the instructions, but I also do not want to shame her in front of everyone.",
+        "Classmate": "I wonder if Mia knows what we are supposed to do. I hope she asks, because our group needs everyone.",
+        "Observer": "Mia missed information, then had to choose between honesty, hiding, or escaping with a joke."
+      },
+      cues: [
+        "The teacher used Mia’s name. That is a cue that attention is needed now.",
+        "Everyone looking at Mia made the moment feel bigger than it was.",
+        "A warm repair phrase can shrink the moment: ‘I missed that. Can you repeat it?’"
+      ],
+      reflection: [
+        "What do you think Mia was feeling when everyone looked at her?",
+        "What might the teacher have been thinking?",
+        "Have you ever pretended to understand something because you felt embarrassed?"
+      ]
+    },
+    {
+      title: "Scene 2: The Detective Game",
+      setting: "Recess Game",
+      narration: "At recess, Ava, Ben, and Jia are starting a detective game. Mia loves detective games. She has three ideas at once: secret tunnels, invisible clues, and a dramatic chase scene.",
+      problem: "Ava starts explaining the rules. Before Ava finishes, Mia jumps in: ‘WAIT, I HAVE THE BEST IDEA!’ Ava stops talking. Ben looks at the floor. Jia says, ‘Can Ava finish?’",
+      feeling: "Mia’s idea still feels huge in her head. But now her stomach feels twisty.",
+      learningGoal: "Practise noticing interruption cues and trying a repair phrase.",
+      choices: [
+        {
+          tone: "Impulsive",
+          label: "Keep explaining the idea because it feels urgent.",
+          consequence: "Mia talks faster. Ava folds her arms. Ben gives a tiny ‘okay’ but does not add anything. The group starts the game without using Mia’s idea.",
+          insight: "When people go quiet, turn away, or answer very briefly, it might mean they need space or a turn to speak.",
+          skill: "Noticing short responses"
+        },
+        {
+          tone: "Repair",
+          label: "Pause and say, ‘Oops, sorry. Ava, you go first.’",
+          consequence: "Ava blinks, then says, ‘Okay.’ She explains the rules. After that, she asks, ‘What was your idea?’ Mia gets to share one part of it.",
+          insight: "A small repair can reopen the conversation. Mia does not have to get it perfect to stay in the game.",
+          skill: "Repairing after interruption"
+        },
+        {
+          tone: "Run Away",
+          label: "Walk away and pretend she does not care.",
+          consequence: "Mia runs to the benches and kicks a leaf. The others keep playing. Mia tells herself, ‘They didn’t want me anyway,’ but she still keeps watching them.",
+          insight: "Leaving can protect Mia from embarrassment, but it may also stop others from understanding what happened.",
+          skill: "Staying after embarrassment"
+        }
+      ],
+      povs: {
+        "Mia": "My idea felt so bright and fast. If I waited, I was scared it would disappear.",
+        "Ava": "I wanted to finish explaining. When Mia jumped in, it felt like my turn did not matter.",
+        "Ben": "I like Mia’s ideas, but sometimes the game changes before we even start.",
+        "Observer": "Mia was excited, but the group also needed turn-taking so the game could work."
+      },
+      cues: [
+        "Ava stopped talking. That is a cue that something changed.",
+        "Ben looked down. That might mean he felt awkward or unsure what to do.",
+        "Jia used words directly: ‘Can Ava finish?’ That is a clear cue to pause."
+      ],
+      reflection: [
+        "Why might Mia interrupt even when she wants friends?",
+        "How did Ava’s face or body give clues?",
+        "What repair phrase could Mia practise for next time?"
+      ]
+    },
+    {
+      title: "Scene 3: The Half-Finished Game",
+      setting: "Mid-Game Drift",
+      narration: "The detective game starts. Mia is the clue-finder. At first, she is excited. Then she notices a shiny beetle near the drain. She follows it for a few steps. Then she hears children laughing at the basketball court.",
+      problem: "When Mia turns back, Ava says, ‘Mia, where did you go? We were waiting for you.’ Ben sighs, ‘You always leave in the middle.’",
+      feeling: "Mia feels a flash of anger. She wants to shout, ‘I don’t always!’ But part of her knows this has happened before.",
+      learningGoal: "Practise staying in shared play and using a check-in before leaving.",
+      choices: [
+        {
+          tone: "Defend",
+          label: "Shout, ‘No I don’t! You’re just being mean!’",
+          consequence: "Ben stops talking. Ava says, ‘Forget it.’ The game becomes quiet and tense. Mia feels like everyone is against her.",
+          insight: "Defending quickly can make sense when Mia feels accused, but it may stop the group from solving the actual problem.",
+          skill: "Pausing before defending"
+        },
+        {
+          tone: "Check In",
+          label: "Say, ‘I got distracted. What did I miss?’",
+          consequence: "Ava still looks annoyed, but she says, ‘We found the first clue.’ Jia points to the tree. Mia returns to the game and tries again.",
+          insight: "Naming distraction honestly can help Mia rejoin instead of disappearing completely.",
+          skill: "Rejoining after drifting"
+        },
+        {
+          tone: "Plan",
+          label: "Say, ‘Can someone call my name if I wander off?’",
+          consequence: "Ben shrugs, but Jia says, ‘I can do that.’ Ava says, ‘Okay, but you have to come back when we call.’ Mia nods.",
+          insight: "Some brains need external anchors. Asking for one is not cheating. It is a strategy.",
+          skill: "Using an attention anchor"
+        }
+      ],
+      povs: {
+        "Mia": "I didn’t decide to leave. My attention just chased the next interesting thing.",
+        "Ava": "I like playing with Mia, but it is frustrating when we have to restart because she disappears.",
+        "Jia": "Maybe Mia needs a reminder. I can help, but she also has to try to come back.",
+        "Observer": "The problem is not whether Mia is good or bad. The problem is that the group needs a way to keep the game connected."
+      },
+      cues: [
+        "‘You always’ is a phrase that can trigger shame. Mia may need a pause before answering.",
+        "Ava looked annoyed but still answered. That means the game might still be repairable.",
+        "A reminder system can support attention without blaming Mia."
+      ],
+      reflection: [
+        "What made Mia leave the game?",
+        "How might the group feel when someone disappears mid-game?",
+        "What reminder could help Mia stay connected?"
+      ]
+    }
+  ]
+};
+
+let sceneIndex = 0;
+let selectedChoice = null;
+let currentPov = "Mia";
+let history = [];
+
+function startStory() {
+  document.getElementById('cover').classList.add('hidden');
+  document.getElementById('storyCard').classList.add('active');
+  document.getElementById('progressWrap').classList.remove('hidden');
+  sceneIndex = 0;
+  selectedChoice = null;
+  history = [];
+  renderScene();
+}
+
+function updateProgress() {
+  const percent = ((sceneIndex + (selectedChoice ? 1 : 0.25)) / story.scenes.length) * 100;
+  document.getElementById('progressBar').style.width = Math.min(percent, 100) + '%';
+}
+
+function renderScene() {
+  selectedChoice = null;
+  currentPov = "Mia";
+  updateProgress();
+  const scene = story.scenes[sceneIndex];
+  document.getElementById('storyContent').innerHTML = `
+    <div class="scene-label">${scene.setting}</div>
+    <h2>${scene.title.replace(': ', ':<br><em>')}</em></h2>
+    <p class="story-text">${scene.narration}</p>
+    <div class="problem-box"><span class="box-label">The moment</span>${scene.problem}</div>
+    <div class="feeling-box"><span class="box-label">Inside Mia</span>${scene.feeling}</div>
+    <div class="insight-box"><span class="box-label">Practice focus</span>${scene.learningGoal}</div>
+    <div class="choices">
+      ${scene.choices.map((choice, i) => `
+        <button class="choice-card" onclick="chooseOption(${i})">
+          <div class="choice-tone">${choice.tone}</div>
+          <div class="choice-label">${choice.label}</div>
+        </button>
+      `).join('')}
+    </div>
+    <div class="nav-row">
+      <button class="btn secondary small" onclick="backToCover()">Back to Cover</button>
+      <div class="history">Scene ${sceneIndex + 1} of ${story.scenes.length}</div>
+    </div>
+  `;
+}
+
+function chooseOption(choiceIndex) {
+  const scene = story.scenes[sceneIndex];
+  selectedChoice = scene.choices[choiceIndex];
+  history[sceneIndex] = selectedChoice;
+  currentPov = "Mia";
+  updateProgress();
+  renderResult();
+}
+
+function renderResult() {
+  const scene = story.scenes[sceneIndex];
+  const choice = selectedChoice;
+  const povButtons = Object.keys(scene.povs).map(name => `
+    <button class="tab ${name === currentPov ? 'active' : ''}" onclick="setPov('${name}')">${name}</button>
+  `).join('');
+
+  document.getElementById('storyContent').innerHTML = `
+    <div class="scene-label">Consequence Replay</div>
+    <h2>${choice.tone}:<br><em>${choice.skill}</em></h2>
+    <div class="problem-box"><span class="box-label">Mia chose</span>${choice.label}</div>
+    <p class="story-text">${choice.consequence}</p>
+    <div class="result-grid">
+      <div class="insight-box">
+        <span class="box-label">What this helps us notice</span>
+        ${choice.insight}
+      </div>
+      <div class="feeling-box">
+        <span class="box-label">Skill practised</span>
+        ${choice.skill}
+      </div>
+    </div>
+
+    <div class="reflection">
+      <div class="scene-label">POV Replay</div>
+      <div class="pov-tabs">${povButtons}</div>
+      <div class="pov-panel" id="povPanel">“${scene.povs[currentPov]}”</div>
+    </div>
+
+    <div class="reflection">
+      <div class="scene-label">Social cue overlay</div>
+      <ul class="cue-list">${scene.cues.map(cue => `<li>${cue}</li>`).join('')}</ul>
+    </div>
+
+    <div class="reflection">
+      <div class="scene-label">Reflection questions</div>
+      ${scene.reflection.map(q => `<p class="reflection-question">${q}</p>`).join('')}
+    </div>
+
+    <div class="nav-row">
+      <button class="btn secondary small" onclick="renderScene()">Replay This Scene</button>
+      <div>
+        ${sceneIndex < story.scenes.length - 1 ? `<button class="btn small" onclick="nextScene()">Next Scene</button>` : `<button class="btn small" onclick="showParentSummary()">Finish Story</button>`}
+      </div>
+    </div>
+  `;
+}
+
+function setPov(name) {
+  currentPov = name;
+  renderResult();
+}
+
+function nextScene() {
+  sceneIndex += 1;
+  renderScene();
+}
+
+function backToCover() {
+  document.getElementById('cover').classList.remove('hidden');
+  document.getElementById('storyCard').classList.remove('active');
+  document.getElementById('progressWrap').classList.add('hidden');
+}
+
+function showParentSummary() {
+  document.getElementById('cover').classList.add('hidden');
+  document.getElementById('storyCard').classList.add('active');
+  document.getElementById('progressWrap').classList.remove('hidden');
+  document.getElementById('progressBar').style.width = '100%';
+
+  const choiceSummary = history.length ? history.map((choice, i) => `<li>Scene ${i + 1}: ${choice ? choice.skill : 'not completed'}</li>`).join('') : '<li>No choices recorded yet. This summary can still be used as a parent preview.</li>';
+
+  document.getElementById('storyContent').innerHTML = `
+    <div class="scene-label">Parent / Educator Summary</div>
+    <h2>What this story<br><em>is practising</em></h2>
+    <p class="story-text">This prototype is designed as a closed, bounded social rehearsal story. It helps a child explore attention drift, interruption, walking away mid-game, and repair without using shame or open-ended chat.</p>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h3>Skills targeted</h3>
+        <ul>
+          <li>Asking for repeated instructions</li>
+          <li>Noticing short responses and body cues</li>
+          <li>Repairing after interruption</li>
+          <li>Rejoining after drifting away</li>
+          <li>Using external attention anchors</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3>Story choices made</h3>
+        <ul>${choiceSummary}</ul>
+      </div>
+      <div class="summary-card">
+        <h3>Practice phrases</h3>
+        <ul>
+          <li>“I missed that. Can you say it again?”</li>
+          <li>“Oops, I interrupted. You go first.”</li>
+          <li>“I got distracted. What did I miss?”</li>
+          <li>“Can someone call my name if I wander off?”</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h3>Offline follow-up</h3>
+        <ul>
+          <li>Practise one repair phrase during a calm moment.</li>
+          <li>Use family board games to practise staying in shared play.</li>
+          <li>Create a gentle signal for “pause and listen.”</li>
+          <li>Praise repair, not perfect behaviour.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parent-box">
+      <span class="box-label">Important framing</span>
+      Mia’s ADHD traits help explain why she struggles, but the story still builds agency. The goal is not “act normal.” The goal is to notice, repair, and stay connected.
+    </div>
+
+    <div class="safety-box">
+      <span class="box-label">Safety design</span>
+      This prototype contains no open text input, no social posting, no real user interaction, no stranger messaging, and no AI companionship. All child actions are bounded within prewritten choices.
+    </div>
+
+    <div class="nav-row">
+      <button class="btn secondary small" onclick="backToCover()">Back to Cover</button>
+      <button class="btn small" onclick="startStory()">Restart Story</button>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
